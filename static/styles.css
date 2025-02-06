@@ -1,19 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 @font-face {
     font-family: 'headerFont';
-    src: url(fonts/Rahovets.otf) 
-
+    src: url(fonts/Rahovets.otf)
 }
 
 h1 {
     font-family: 'headerFont';
-    
+    font-size: 70px;
+
 }
 
 * {
-    margin: 0;
+    margin: 5px;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Lato", sans-serif;
     background-color: #edddd4;
 }
 
@@ -28,7 +30,7 @@ h1 {
 /* header full width at top */
 .header {
     text-align: center;
-    padding: 20px; 
+    padding: 20px;
     font-size: 24px;
     width: 100%;
     color: #772e25;
@@ -37,40 +39,240 @@ h1 {
 /* main layout: sidebar + content */
 .main-layout {
     display: flex;
-    flex: 1;
     width: 100%;
 }
 
-/* nav on left */
 .sidebar {
-    width: 20%;
-   
-    color: white;
+    width: 250px;
+    /* Fixed width for the sidebar */
     padding: 20px;
-    min-height: 100vh;
 }
 
+/* nav on left */
 .sidebar ul {
     list-style: none;
+    padding: 0;
 }
 
 .sidebar ul li {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .sidebar ul li a {
-    color: blueviolet;
+    display: block;
+    padding: 15px 20px;
+    font-size: 25px;
+    font-weight: 700;
     text-decoration: none;
-    font-size: 18px;
+    color: #c44536;
+    font-family: "Lato", sans-serif;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.3s ease-in-out;
 }
 
-.sidebar ul li a:hover {
-    text-decoration: underline;
+.sidebar ul li a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #197278;
+    transition: left 0.4s ease-in-out;
+    z-index: -1;
+    border-radius: 8px;
 }
+
+.sidebar ul li a:hover::before,
+.sidebar ul li a.active::before {
+    /* Keep background on active state */
+    left: 0;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    /* Keep text color change */
+    color: white;
+}
+
+
 
 /* main content on right */
 .content {
-    flex-grow: 1; 
+    flex-grow: 0;
+    /* Prevents it from growing */
+    width: calc(100% - 250px);
+    /* Takes the remaining width minus the sidebar's width */
     padding: 20px;
+    margin-right: 30px;
+
+}
+
+/* Center the quote and image */
+.quote-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
    
+    height: 100vh; /* Full viewport height */
+}
+
+.quote-and-image {
+    text-align: center; /* Center text inside */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+    gap: 20px; /* Space between quote and image */
+}
+
+/* styling for quote */
+.quote {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    max-width: 600px;
+}
+
+/* styling for image */
+.random-image {
+    max-width: 100%; 
+    height: auto;
+    height: 450px; 
+    border-radius: 8px; /* Rounded corners */
+    border: 5px solid #197278;
+}
+
+
+/* show all styling */
+.show-all-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Style for quotes section */
+.quotes-list {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.quote-item {
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.quote {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style for images section */
+.quote-image {
+    height: 200px;
+}
+
+.quotes-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.quotes-table th, .quotes-table td {
+    padding: 10px;
+    text-align: center; 
+    vertical-align: middle; 
+}
+
+.quote-image {
+    max-width: 200px; 
+    height: auto; 
+    display: block;
+    margin: 0 auto; 
+    border-radius: 8px; /* Rounded corners */
+    border: 5px solid #197278;
+}
+ h2 {
+    text-align: center;
+   margin-bottom: 30px;
+ }
+
+
+ /* about page styling */
+ .about-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    font-family: "Lato", sans-serif;
+}
+
+.about-container h2 {
+    color: #197278;
+    font-size: 35px;
+}
+
+.about-container p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+hr {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+.angela-image {
+    display: block;
+    margin: 20px auto;
+    width: 420px;
+    height: auto;
+    border-radius: 8px; /* Rounded corners */
+    border: 5px solid #197278;
+}
+
+
+blockquote {
+    background: #c44536; /* Warm orange background */
+    border-left: 5px solid #772e25; /* Darker accent border */
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    font-style: italic;
+    font-size: 1.2em;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+blockquote::before {
+    content: "“"; /* Open quote */
+    font-size: 2em;
+    color: #772e25;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+blockquote::after {
+    content: "”"; /* Close quote */
+    font-size: 2em;
+    color: #772e25;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+
+
+/* Active Link Style */
+.sidebar a.active {
+    background-color: #197278; /* Background color for active link */
+    color: white; /* Text color for active link */
+    padding: 15px 20px; /* Ensure padding stays the same */
+    border-radius: 8px; /* Rounded corners */
 }

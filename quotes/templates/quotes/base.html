@@ -4,21 +4,30 @@
 <head>
     <title>Angela Davis Quotes</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poller+One&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
         <header class="header">
             <h1>Angela Davis Quotes</h1>
+
+
         </header>
 
         <div class="main-layout">
             <!-- Left Side (Navigation) -->
             <nav class="sidebar">
-                <ul>
-                    <li><a href="{% url 'quote' %}">Get a Quote</a></li>
-                    <li><a href="{% url 'show_all' %}">Show All Quotes</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
+                <ul class="menu-hover-fill flex flex-col items-start leading-none text-2xl uppercase space-y-4">
+                    <li><a href="{% url 'quote' %}"
+                            class="{% if '/show_all' not in request.path and '/about' not in request.path %}active{% endif %}">Get
+                            a Quote</a></li>
+                    <li><a href="{% url 'show_all' %}"
+                            class="{% if '/show_all' in request.path %}active{% endif %}">Show All Quotes</a></li>
+                    <li><a href="{% url 'about' %}" class="{% if '/about' in request.path %}active{% endif %}">About</a>
+                    </li>
                 </ul>
             </nav>
             <!-- Right Side (Main Content) -->
@@ -28,7 +37,6 @@
                 {% endblock %}
             </main>
         </div>
-
     </div>
 </body>
 

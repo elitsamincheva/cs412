@@ -1,9 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Quote Page</title>
-</head>
-<body>
-    <h1>Welcome to the Quote Page!</h1>
-</body>
-</html>
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+<h2>All Quotes and Images</h2>
+<div class="table-container">
+    <table class="quotes-table">
+        <tbody>
+            {% for quote, image in quote_image_pairs %}
+            <tr>
+                <td class="quote">{{ quote }}</td>
+                <td>
+                    <img src="{{ image }}" alt="Random image" class="quote-image">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
