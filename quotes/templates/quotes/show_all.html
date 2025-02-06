@@ -1,19 +1,22 @@
+<!-- extend the base template to inherit its structure -->
 {% extends 'quotes/base.html' %}
 
 {% block content %}
 <h2>All Quotes and Images</h2>
+
 <div class="table-container">
     <table class="quotes-table">
         <tbody>
-            {% for quote, image in quote_image_pairs %}
+            {% for quote, image in quote_image_pairs %} <!-- loop through each quote image pair -->
             <tr>
                 <td class="quote">{{ quote }}</td>
                 <td>
                     <img src="{{ image }}" alt="Random image" class="quote-image">
                 </td>
             </tr>
-            {% endfor %}
+            {% endfor %} <!-- end the loop -->
         </tbody>
     </table>
 </div>
+
 {% endblock %}

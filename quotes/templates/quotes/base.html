@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} <!-- load static files for use in the template (for css file) -->
 <html>
 
 <head>
@@ -13,12 +13,10 @@
     <div class="container">
         <header class="header">
             <h1>Angela Davis Quotes</h1>
-
-
         </header>
 
         <div class="main-layout">
-            <!-- Left Side (Navigation) -->
+            <!-- left side: navigation menu -->
             <nav class="sidebar">
                 <ul class="menu-hover-fill flex flex-col items-start leading-none text-2xl uppercase space-y-4">
                     <li><a href="{% url 'quote' %}"
@@ -30,8 +28,7 @@
                     </li>
                 </ul>
             </nav>
-            <!-- Right Side (Main Content) -->
-
+            <!-- right side: main content area where dynamic content is rendered -->
             <main class="content">
                 {% block content %}
                 {% endblock %}

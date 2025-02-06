@@ -46,7 +46,7 @@ def show_all(request):
     
     template_name = "quotes/show_all.html"
     
-    # Pair quotes and images safely (zip stops at the shorter length)
+    # pair quotes and images
     quote_image_pairs = list(zip(quotes, images))  
 
     context = {
@@ -59,21 +59,6 @@ def show_all(request):
 
 def about(request):
     """Display information about Angela Davis and the creator."""
-    famous_person = {
-        "name": "Angela Davis",
-        "bio": "Angela Davis is a political activist, scholar, and author known for her work in civil rights, prison abolition, and Black feminism. She was a prominent member of the Communist Party USA and was associated with the Black Panther Party.",
-        "notable_work": "Are Prisons Obsolete?, Women, Race & Class",
-        "birth_year": 1944,
-    }
-
-    creator_info = {
-        "name": "Elitsa Mincheva",
-        "bio": "Elitsa is a computer science student passionate about web development and data science. This web application was created as part of a project exploring Django and web frameworks.",
-    }
-
     template_name = "quotes/about.html"
-    return render(request, template_name, {"famous_person": famous_person, "creator_info": creator_info})
-
-
-
+    return render(request, template_name)
     
