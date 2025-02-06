@@ -1,0 +1,284 @@
+/* importing Lato font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+/* custom font for headers from local file */
+@font-face {
+    font-family: 'headerFont';
+    src: url(fonts/Rahovets.otf);
+}
+
+h1 {
+    font-family: 'headerFont';
+    font-size: 70px;
+    text-shadow:                /* create an outline around the header text */
+        -3px -3px 0 #c44536,  
+        3px -3px 0 #c44536,
+        -3px 3px 0 #c44536, 
+        3px 3px 0 #c44536; 
+}
+
+
+/* universal reset for all elements */
+* {
+    margin: 5px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Lato", sans-serif;
+    /* Lato font for the body text */
+    background-color: #edddd4;
+}
+
+/* container for everything */
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+/* header full width at top */
+.header {
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    width: 100%;
+    color: #772e25;
+}
+
+/* main layout: sidebar + content */
+.main-layout {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 20px;
+}
+
+/* sidebar nav styling */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* link styles for each navigation item */
+.sidebar ul li a {
+    display: block;
+    padding: 15px 20px;
+    font-size: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #772e25;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.3s ease-in-out;
+    /* color change on hover */
+}
+
+/* styling for the background effect when hovering or active */
+.sidebar ul li a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    /* initially place it off screen */
+    width: 100%;
+    height: 100%;
+    background: #197278;
+    transition: left 0.4s ease-in-out;
+    /* transition for sliding effect */
+    z-index: -1;
+    border-radius: 8px;
+}
+
+/* reveal the background when hovering or the nav item is active */
+.sidebar ul li a:hover::before,
+.sidebar ul li a.active::before {
+    left: 0;
+    /* slide the background into view */
+}
+
+/* change text color when hovering or active */
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    color: white;
+}
+
+
+/* main content on right */
+.content {
+    flex-grow: 0;
+    width: calc(100% - 250px);
+    padding: 20px;
+    margin-right: 30px;
+
+}
+
+/* center the quote and image */
+.quote-container {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.quote-and-image {
+    text-align: center;
+    /* center text inside */
+    display: flex;
+    flex-direction: column;
+    /* stack items vertically */
+    align-items: center;
+    gap: 20px;
+}
+
+/* styling for quote */
+.quote {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    max-width: 600px;
+}
+
+/* styling for image */
+.random-image {
+    max-width: 100%;
+    height: auto;
+    height: 450px;
+    border-radius: 8px;
+    border: 5px solid #197278;
+}
+
+/* show all styling */
+.show-all-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* style for quotes section */
+.quotes-list {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.quote-item {
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.quote {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* style for images section */
+.quote-image {
+    height: 200px;
+}
+
+.quotes-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.quotes-table th,
+.quotes-table td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.quote-image {
+    max-width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: 5px solid #197278;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* about page styling */
+.about-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    font-family: "Lato", sans-serif;
+}
+
+.about-container h2 {
+    color: #197278;
+    font-size: 35px;
+}
+
+.about-container p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+
+.angela-image {
+    display: block;
+    margin: 20px auto;
+    width: 420px;
+    height: auto;
+    border-radius: 8px;
+    border: 5px solid #197278;
+}
+
+
+blockquote {
+    background: #c44536;
+    border-left: 5px solid #772e25;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    font-style: italic;
+    font-size: 1.2em;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+blockquote::before {
+    content: "“";
+    font-size: 2em;
+    color: #772e25;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+blockquote::after {
+    content: "”";
+    font-size: 2em;
+    color: #772e25;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+/* active link style */
+.sidebar a.active {
+    background-color: #197278;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+}
