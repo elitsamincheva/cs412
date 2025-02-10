@@ -89,7 +89,60 @@ def order(request):
     return render(request, template_name, context)
 
 
+
+
 def confirmation(request):
     """Display the order confirmation page"""
     template_name = "restaurant/confirmation.html"
-    return render(request, template_name)
+
+    if request.method == "POST":
+        selected_items = []
+        total_price = 0
+
+        # Process selected items
+        for key in request.POST.getlist("item"): 
+            item_name, item_price = key.split("|")
+            item_price = float(item_price)
+            selected_items.append({"name": item_name, "price": item_price})
+            total_price += item_price
+
+        # Process selected toppings
+        selected_toppings = []
+        for key in request.POST:
+            if key.startswith("topping_"):
+               
+                topping_name, topping_price = request.POST[key].split("|")
+                topping_price = float(item_price)
+                selected_toppings.append({"name": topping_name, "price": topping_price})
+                total_price += topping_price
+
+
+        # Get daily special (if any)
+        daily_special_name = request.POST.get("item_special")
+        daily_special_price = float(request.POST.get("item_special_price", 0))
+
+        if daily_special_name:
+            selected_items.append({"name": daily_special_name, "price": daily_special_price})
+            total_price += daily_special_price
+
+        print(selected_toppings)
+
+        # Get customer info
+        customer_info = {
+            "name": request.POST.get("name", ""),
+            "phone": request.POST.get("phone", ""),
+            "email": request.POST.get("email", ""),
+            "special_instructions": request.POST.get("special_instructions", ""),
+        }
+
+        context = {
+            "selected_items": selected_items,
+            "selected_toppings": selected_toppings,
+            "customer_info": customer_info,
+            "total_price": total_price,
+        }
+
+        return render(request, template_name, context)
+
+    # If accessed via GET, redirect to the order page
+    return render(request, "restaurant/order.html")

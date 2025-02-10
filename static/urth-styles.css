@@ -249,3 +249,101 @@ input[type="email"] {
     object-fit: cover;
     margin-bottom: 10px;
 }
+
+
+
+/* confirmation page styling */ 
+
+
+/* confirmation page container */
+.confirmation-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff4e7; /* Soft background */
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    font-family: "Cormorant SC", serif;
+    color: #7b503a; /* Earthy brown */
+}
+
+/* Confirmation header */
+.confirmation-container h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #028342; /* Earthy green */
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Order details section */
+.confirmation-container h3 {
+    font-size: 1.6rem;
+    color: #7b503a; /* Earthy brown */
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+/* Styled unordered list for ordered items */
+.confirmation-container ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.confirmation-container ul li {
+    font-size: 1.2rem;
+    color: #7b503a;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #d9c4a1; /* Light border for item separation */
+    padding-bottom: 10px;
+}
+
+/* Special Instructions Section */
+.confirmation-container p {
+    font-size: 1.2rem;
+    color: #7b503a;
+    margin-top: 15px;
+}
+
+/* Customer Information Styling */
+.confirmation-container .customer-info p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+/* Ready Time Section */
+.confirmation-container .ready-time {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #028342;
+}
+
+
+
+/* Center only the Back to Home button */
+.back-to-home-container {
+    display: flex;
+    justify-content: center; /* Centers the button horizontally */
+    margin-top: 40px;
+}
+
+.confirmation-container .back-to-home {
+    padding: 12px 30px;
+    background-color: #028342;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    transition: 0.3s background-color;
+    text-align: center;
+}
+
+/* Hover effect */
+.confirmation-container .back-to-home:hover {
+    background-color: #026c36;
+}
+
