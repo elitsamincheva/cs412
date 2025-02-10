@@ -1,0 +1,32 @@
+{% load static %} <!-- load static files for use in the template (for css file) -->
+<html>
+
+<head>
+    <title>Urth Caffe</title>
+    <link rel="stylesheet" href="{% static 'urth-styles.css' %}">
+    <link rel="stylesheet" href="https://use.typekit.net/tub6sxd.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+SC&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="urth-header">
+        <h1>Urth Caffe</h1>
+    </header>
+
+    <nav class="urth-nav">
+        <a href="{% url 'restaurant' %}" class="nav-item">Main Page</a>
+        <a href="{% url 'order' %}" class="nav-item">Order</a>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+  
+    
+
+</body>
+
+
+</html>

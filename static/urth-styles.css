@@ -25,22 +25,22 @@ body {
     background-color: #7b503a;
     text-align: center;
     padding: 20px;
-    width: 100%; 
+    width: 100%;
     box-sizing: border-box;
     z-index: 1000;
     /* white outline on header text */
-    text-shadow: 
-        -2px -2px 0 #fff4e7,  
-         2px -2px 0 #fff4e7,  
-        -2px  2px 0 #fff4e7,  
-         2px  2px 0 #fff4e7;
+    text-shadow:
+        -2px -2px 0 #fff4e7,
+        2px -2px 0 #fff4e7,
+        -2px 2px 0 #fff4e7,
+        2px 2px 0 #fff4e7;
 }
 
 .urth-nav {
     display: flex;
     justify-content: center;
     gap: 20px;
-    background-color: #028342; 
+    background-color: #028342;
     padding: 15px 0;
     width: 100%;
 }
@@ -50,7 +50,7 @@ body {
     color: white;
     font-size: 1.5em;
     padding: 10px 30px;
-    background-color: #ed1a25; 
+    background-color: #ed1a25;
     border-radius: 50px;
     transition: 0.3s;
 }
@@ -58,3 +58,81 @@ body {
 .nav-item:hover {
     background-color: #a80f17;
 }
+
+
+
+
+.hero {
+    position: relative;
+    width: 70%;
+    margin: 0 auto;
+    /* Centering */
+    margin-top: 20px;
+}
+
+.hero-image {
+    width: 100%;
+    /* Now 70% of the parent container */
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+
+/* Info Section */
+.info {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 30px;
+    background-color: #fff4e7;
+    font-family: "Cormorant SC", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Both Location & Hours now match in size */
+.location,
+.hours {
+    width: 40%;
+    text-align: left;
+}
+
+/* Styling for Our Location */
+.location {
+    font-size: 1.4em;
+}
+
+
+
+/* Styling for Hours */
+.hours h2 {
+    font-size: 2.1em;
+}
+
+/* Hours Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 8px 0;
+    font-size: 1.2em;
+}
+
+

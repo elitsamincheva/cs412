@@ -1,26 +1,36 @@
-{% load static %} <!-- load static files for use in the template (for css file) -->
-<html>
+{% extends 'restaurant/base.html' %}
 
-<head>
-    <title>Urth Caffe</title>
-    <link rel="stylesheet" href="{% static 'urth-styles.css' %}">
-    <link rel="stylesheet" href="https://use.typekit.net/tub6sxd.css">
-</head>
+{% block content %}
 
-<body>
-    <header class="urth-header">
-        <h1>Urth Caffe</h1>
-    </header>
+<div class="hero">
+    <img src="https://popmenucloud.com/cdn-cgi/image/width%3D1200%2Cheight%3D1200%2Cfit%3Dscale-down%2Cformat%3Dauto%2Cquality%3D60/lzaqjwcu/8b83b3f2-1eb1-4fa6-9cbd-e1421bc72593.jpg"
+        alt="Urth Caffe" class="hero-image">
+    <h2 class="hero-text">Welcome to Urth Caffe</h2>
+</div>
 
-    <nav class="urth-nav">
-        <a href="{% url 'restaurant' %}" class="nav-item">Main Page</a>
-        <a href="{% url 'order' %}" class="nav-item">Order</a>
-    </nav>
 
-    <div class="container">
-        <p>Welcome to Urth Caffe! Here’s some info...</p>
+<div class="info">
+    <div class="location">
+        <h2>Our Location</h2>
+        <p><strong>Beverly Hills</strong></p>
+        <p>267 S. Beverly Dr.<br>Beverly Hills, CA 90212</p>
+        <p>(310) 205-9311</p>
+
     </div>
-</body>
 
+    <div class="hours">
+        <h2>Hours</h2>
+        <table>
+            <tr>
+                <td><strong>Sunday - Thursday:</strong></td>
+                <td>7:00 AM - 10:00 PM</td>
+            </tr>
+            <tr>
+                <td><strong>Friday - Saturday:</strong></td>
+                <td>7:00 AM - 11:00 PM</td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-</html>
+{% endblock %}
