@@ -1,0 +1,74 @@
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<section class="order-container">
+    <h2>Place Your Order</h2>
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <!-- display the menu items -->
+        <fieldset class="menu-section">
+            <legend>Menu Items</legend>
+
+            {% for item in menu_items %}
+            <div class="menu-item">
+                <label>
+                    <input type="checkbox" name="item_{{ item.value }}" value="{{ item.value }}">
+                    {{ item.name }} - ${{ item.price|floatformat:2 }}
+                </label>
+                <img src="{{ item.image }}" alt="{{ item.name }}">
+            </div>
+
+
+
+            <!-- if the item has toppings options display them -->
+            {% if item.toppings %}
+            <div class="toppings">
+                {% for topping in item.toppings %}
+                <label>
+                    <input type="checkbox" name="topping_{{ topping.value }}">
+                    {{ topping.name }} (+${{ topping.price|floatformat:2 }})
+                </label>
+                {% endfor %}
+            </div>
+
+            {% endif %}
+
+            {% endfor %}
+        </fieldset>
+
+        <!-- daily special -->
+        <fieldset class="daily-special">
+            <legend>Daily Special</legend>
+            <div class="menu-item">
+                <label>
+                    <input type="checkbox" name="item_special" value="{{ daily_special.name }}">
+                    {{ daily_special.name }} - ${{ daily_special.price|floatformat:2 }}
+                </label>
+                <img src="{{ daily_special.image }}" alt="{{ daily_special.name }}">
+            </div>
+        </fieldset>
+
+        <!-- special instructions -->
+        <fieldset class="special-instructions">
+            <legend>Special Instructions</legend>
+            <textarea name="special_instructions" placeholder="Any modifications or allergies?"></textarea>
+        </fieldset>
+
+        <!-- customer info -->
+        <fieldset class="customer-info">
+            <legend>Customer Information</legend>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </fieldset>
+
+        <button type="submit" class="submit-btn">Submit Order</button>
+    </form>
+</section>
+{% endblock %}
