@@ -1,0 +1,26 @@
+{% load static %} <!-- load static files for use in the template (for css file) -->
+<html>
+
+<head>
+    <title>Urth Caffe</title>
+    <link rel="stylesheet" href="{% static 'urth-styles.css' %}">
+    <link rel="stylesheet" href="https://use.typekit.net/tub6sxd.css">
+</head>
+
+<body>
+    <header class="urth-header">
+        <h1>Urth Caffe</h1>
+    </header>
+
+    <nav class="urth-nav">
+        <a href="{% url 'restaurant' %}" class="nav-item">Main Page</a>
+        <a href="{% url 'order' %}" class="nav-item">Order</a>
+    </nav>
+
+    <div class="container">
+        <p>Welcome to Urth Caffe! Here’s some info...</p>
+    </div>
+</body>
+
+
+</html>

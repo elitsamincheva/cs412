@@ -10,11 +10,12 @@
 h1 {
     font-family: 'headerFont';
     font-size: 70px;
-    text-shadow:                /* create an outline around the header text */
-        -3px -3px 0 #c44536,  
+    text-shadow:
+        /* create an outline around the header text */
+        -3px -3px 0 #c44536,
         3px -3px 0 #c44536,
-        -3px 3px 0 #c44536, 
-        3px 3px 0 #c44536; 
+        -3px 3px 0 #c44536,
+        3px 3px 0 #c44536;
 }
 
 
@@ -282,3 +283,5 @@ blockquote::after {
     padding: 15px 20px;
     border-radius: 8px;
 }
+
+
