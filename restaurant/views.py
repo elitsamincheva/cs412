@@ -114,10 +114,9 @@ def confirmation(request):
             if key.startswith("topping_"):
                
                 topping_name, topping_price = request.POST[key].split("|")
-                topping_price = float(item_price)
+                topping_price = float(topping_price)
                 selected_toppings.append({"name": topping_name, "price": topping_price})
                 total_price += topping_price
-
 
         # get daily special (if it is ordered that is)
         daily_special_name = request.POST.get("item_special")
