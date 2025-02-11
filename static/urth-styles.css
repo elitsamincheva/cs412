@@ -59,20 +59,15 @@ body {
     background-color: #a80f17;
 }
 
-
-
-
 .hero {
     position: relative;
     width: 70%;
     margin: 0 auto;
-    /* Centering */
     margin-top: 20px;
 }
 
 .hero-image {
     width: 100%;
-    /* Now 70% of the parent container */
     height: auto;
     display: block;
     border-radius: 10px;
@@ -92,8 +87,6 @@ body {
     border-radius: 10px;
 }
 
-
-/* Info Section */
 .info {
     display: flex;
     justify-content: space-around;
@@ -105,26 +98,20 @@ body {
     font-style: normal;
 }
 
-/* Both Location & Hours now match in size */
 .location,
 .hours {
     width: 40%;
     text-align: left;
 }
 
-/* Styling for Our Location */
 .location {
     font-size: 1.4em;
 }
 
-
-
-/* Styling for Hours */
 .hours h2 {
     font-size: 2.1em;
 }
 
-/* Hours Table */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -134,9 +121,6 @@ td {
     padding: 8px 0;
     font-size: 1.2em;
 }
-
-
-
 
 /* order page styles */
 .order-container {
@@ -241,7 +225,6 @@ input[type="email"] {
     margin-left: 15px;
 }
 
-
 .daily-special img {
     width: 220px;
 
@@ -250,42 +233,35 @@ input[type="email"] {
     margin-bottom: 10px;
 }
 
-
-
-/* confirmation page styling */ 
-
-
 /* confirmation page container */
 .confirmation-container {
     max-width: 800px;
     margin: 40px auto;
     padding: 30px;
-    background-color: #fff4e7; /* Soft background */
+    background-color: #fff4e7; 
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     font-family: "Cormorant SC", serif;
-    color: #7b503a; /* Earthy brown */
+    color: #7b503a; 
 }
 
-/* Confirmation header */
 .confirmation-container h2 {
     font-size: 2.5rem;
     text-align: center;
-    color: #028342; /* Earthy green */
+    color: #028342; 
     margin-bottom: 20px;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-/* Order details section */
+/* order details section */
 .confirmation-container h3 {
     font-size: 1.6rem;
-    color: #7b503a; /* Earthy brown */
+    color: #7b503a; 
     margin-top: 30px;
     font-weight: bold;
 }
 
-/* Styled unordered list for ordered items */
 .confirmation-container ul {
     list-style-type: none;
     padding-left: 0;
@@ -296,24 +272,21 @@ input[type="email"] {
     font-size: 1.2rem;
     color: #7b503a;
     margin-bottom: 10px;
-    border-bottom: 1px solid #d9c4a1; /* Light border for item separation */
+    border-bottom: 1px solid #d9c4a1; /* item separation */
     padding-bottom: 10px;
 }
 
-/* Special Instructions Section */
 .confirmation-container p {
     font-size: 1.2rem;
     color: #7b503a;
     margin-top: 15px;
 }
 
-/* Customer Information Styling */
 .confirmation-container .customer-info p {
     font-size: 1.1rem;
     margin-bottom: 10px;
 }
 
-/* Ready Time Section */
 .confirmation-container .ready-time {
     text-align: center;
     margin-top: 30px;
@@ -322,12 +295,9 @@ input[type="email"] {
     color: #028342;
 }
 
-
-
-/* Center only the Back to Home button */
 .back-to-home-container {
     display: flex;
-    justify-content: center; /* Centers the button horizontally */
+    justify-content: center; 
     margin-top: 40px;
 }
 
@@ -342,8 +312,18 @@ input[type="email"] {
     text-align: center;
 }
 
-/* Hover effect */
 .confirmation-container .back-to-home:hover {
     background-color: #026c36;
 }
 
+.urth-logo {
+    width: 150px; 
+    height: auto;  
+
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center; 
+ 
+}

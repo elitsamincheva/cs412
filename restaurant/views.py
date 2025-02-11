@@ -1,17 +1,19 @@
 import random
 from django.shortcuts import render
+from datetime import datetime, timedelta
+
 
 def main(request):
-    """Display information about the restaurant"""
+    """display information about the restaurant"""
     template_name = "restaurant/main.html"
     return render(request, template_name)
 
 
 def order(request):
-    """Display the order form with menu items and a randomly selected daily special"""
+    """display the order form with menu items and a randomly selected daily special"""
     template_name = "restaurant/order.html"
 
-    # menu items
+    # regular menu items
     menu_items = [
         {
             "name": "French Toast KING",
@@ -92,21 +94,21 @@ def order(request):
 
 
 def confirmation(request):
-    """Display the order confirmation page"""
+    """display the order confirmation page"""
     template_name = "restaurant/confirmation.html"
 
-    if request.method == "POST":
+    if request.POST:
         selected_items = []
         total_price = 0
 
-        # Process selected items
+        # process selected items
         for key in request.POST.getlist("item"): 
             item_name, item_price = key.split("|")
             item_price = float(item_price)
             selected_items.append({"name": item_name, "price": item_price})
             total_price += item_price
 
-        # Process selected toppings
+        # process selected extra toppings
         selected_toppings = []
         for key in request.POST:
             if key.startswith("topping_"):
@@ -117,7 +119,7 @@ def confirmation(request):
                 total_price += topping_price
 
 
-        # Get daily special (if any)
+        # get daily special (if it is ordered that is)
         daily_special_name = request.POST.get("item_special")
         daily_special_price = float(request.POST.get("item_special_price", 0))
 
@@ -125,9 +127,7 @@ def confirmation(request):
             selected_items.append({"name": daily_special_name, "price": daily_special_price})
             total_price += daily_special_price
 
-        print(selected_toppings)
-
-        # Get customer info
+        # get all the customer info
         customer_info = {
             "name": request.POST.get("name", ""),
             "phone": request.POST.get("phone", ""),
@@ -135,14 +135,20 @@ def confirmation(request):
             "special_instructions": request.POST.get("special_instructions", ""),
         }
 
+        # generating the random ready time b/t 30 and 60 min
+        minutes_until_ready = random.randint(30, 60)
+        ready_time = datetime.now() + timedelta(minutes=minutes_until_ready)
+        # formatted time
+        ready_time_formatted = ready_time.strftime("%I:%M %p")  
+
         context = {
             "selected_items": selected_items,
             "selected_toppings": selected_toppings,
             "customer_info": customer_info,
             "total_price": total_price,
+            "ready_time": ready_time_formatted,
         }
 
         return render(request, template_name, context)
 
-    # If accessed via GET, redirect to the order page
     return render(request, "restaurant/order.html")

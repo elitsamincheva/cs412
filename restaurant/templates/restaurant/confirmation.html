@@ -2,10 +2,14 @@
 
 {% block content %}
 <div class="confirmation-container">
+    <div class="logo-container">
+        <img src="https://popmenucloud.com/lzaqjwcu/b144e703-bafd-48f4-b98d-44573c908aff.png" alt="Urth Caffe logo"
+            class="urth-logo">
+    </div>
     <h2>Order Confirmation</h2>
     <p>Thank you for your order! Here are the details:</p>
 
-    <!-- Ordered Items Section -->
+    <!-- ordered items section -->
     <h3>Items Ordered</h3>
     <ul>
         {% for item in selected_items %}
@@ -14,7 +18,7 @@
     </ul>
 
     {% if selected_toppings %}
-    <!-- Toppings Section -->
+    <!-- toppings section displayed if any extra toppings are ordered -->
     <h3>Extras</h3>
     <ul>
         {% for topping in selected_toppings %}
@@ -27,13 +31,12 @@
 
 
     {% if customer_info.special_instructions %}
-    <!-- Special Instructions -->
+    <!-- special instructions displayed if any are entered -->
     <h3>Special Instructions</h3>
     <p>{{ customer_info.special_instructions }}</p>
     {% endif %}
 
-
-    <!-- Customer Info Section -->
+    <!-- customer info section -->
     <h3>Customer Information</h3>
     <div class="customer-info">
         <p><strong>Name:</strong> {{ customer_info.name }}</p>
@@ -41,11 +44,11 @@
         <p><strong>Email:</strong> {{ customer_info.email }}</p>
     </div>
 
-    <!-- Estimated Ready Time Section -->
+    <!-- estimated ready time section -->
     <h3>Estimated Ready Time</h3>
     <p class="ready-time">Your order will be ready at: {{ ready_time }}</p>
 
-    <!-- Back to Home Button -->
+    <!-- back to home button -->
     <div class="back-to-home-container">
         <a href="{% url 'restaurant' %}" class="back-to-home">Back to Home</a>
     </div>
