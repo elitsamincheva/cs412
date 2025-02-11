@@ -27,7 +27,7 @@
     </ul>
     {% endif %}
 
-    <h3>Total: ${{ total_price }}</h3>
+    <h3>Total: ${{ total_price|floatformat:2 }}</h3>
 
 
     {% if customer_info.special_instructions %}
