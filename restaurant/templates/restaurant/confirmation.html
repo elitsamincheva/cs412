@@ -1,30 +1,25 @@
-{# ------------------------------------------------------------------------------
-    # This is the confirmation page template that extends the 'restaurant/base.html' 
-    # layout template
-    #
-    # Key Features:
-    # - {% extends 'restaurant/base.html' %}: This links the page to the base layout 
-    #   defined in 'base.html'
-    # - {% block content %}: This block is filled with the order confirmation content 
-    #   specific to this page
-    #
-    # Content sections include:
-    # - Logo: displays the Urth Caffe logo from an external image URL
-    # - Order confirmation: A heading confirming the order
-    # - Ordered items: A list of items ordered, displaying their names and prices
-    # - Extras: A list of any additional toppings or extras ordered, shown only if 
-    #   applicable
-    # - Total price: The total price of the order, formatted to two decimal places
-    # - Special instructions: Any special instructions from the customer, shown if 
-    #   provided
-    # - Customer information: Displays the customer's name, phone number, and email
-    # - Estimated ready time: Shows when the order is expected to be ready
-    # - Back to home button: A link to navigate back to the main restaurant page
-    #
-    # This template is used to show the order details and confirmation after a user 
-    # completes an order on the website
-    # ------------------------------------------------------------------------------
-    # %}
+<!-- This is the confirmation page template that extends the 'restaurant/base.html' layout template
+    Key Features:
+    - {% extends 'restaurant/base.html' %}: This links the page to the base layout 
+    defined in 'base.html'
+    - {% block content %}: This block is filled with the order confirmation content
+    specific to this page
+    Content sections include:
+    - Logo: displays the Urth Caffe logo from an external image URL
+    - Order confirmation: A heading confirming the order
+    - Ordered items: A list of items ordered, displaying their names and prices
+    - Extras: A list of any additional toppings or extras ordered, shown only if 
+    applicable
+    - Total price: The total price of the order, formatted to two decimal places
+    - Special instructions: Any special instructions from the customer, shown if 
+    provided
+    - Customer information: Displays the customer's name, phone number, and email
+    - Estimated ready time: Shows when the order is expected to be ready
+    - Back to home button: A link to navigate back to the main restaurant page
+
+    This template is used to show the order details and confirmation after a user 
+    completes an order on the website
+ -->
     
 {% extends 'restaurant/base.html' %}
 

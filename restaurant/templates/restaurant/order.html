@@ -1,26 +1,23 @@
-{# ------------------------------------------------------------------------------
-    # This is the order page template for Urth Caffe, extending the 'restaurant/base.html' layout
-    #
-    # What's included:
-    # - {% extends 'restaurant/base.html' %}: Ties this page to the base layout
-    # - {% block content %}: Contains the main content of the page which will be inserted 
-    #   into the 'content' block of the base template
-    #
-    # Sections in this page:
-    # - Menu items: A section displaying all menu items with checkboxes for users to select 
-    #   their desired items. If an item has toppings, they are shown as additional options.
-    # - Daily special: A special section for a daily menu item with its price, and a checkbox 
-    #   to select it.
-    # - Special instructions: A text area for customers to provide any special instructions 
-    #   (e.g., modifications or allergy notes).
-    # - Customer info: A form for collecting customer details like name, phone number, and 
-    #   email address.
-    # - Submit button: A button to submit the order.
-    #
-    # This page is intended to allow customers to place their order by selecting menu items, 
-    # toppings, providing special instructions, and entering their contact details.
-    # ------------------------------------------------------------------------------
-    # %}
+<!-- This is the order page template for Urth Caffe, extending the 'restaurant/base.html' layout
+    What's included:
+    - extends 'restaurant/base.html': Ties this page to the base layout
+    - block content: Contains the main content of the page which will be inserted 
+    into the 'content' block of the base template
+
+    Sections in this page:
+    - Menu items: A section displaying all menu items with checkboxes for users to select 
+    their desired items. If an item has toppings, they are shown as additional options.
+    - Daily special: A special section for a daily menu item with its price, and a checkbox
+    to select it
+    - Special instructions: A text area for customers to provide any special instructions 
+    (e.g., modifications or allergy notes).
+    - Customer info: A form for collecting customer details like name, phone number, and 
+    email address
+    - Submit button: A button to submit the order.
+
+    This page is intended to allow customers to place their order by selecting menu items, 
+    toppings, providing special instructions, and entering their contact details.
+ -->
     
 {% extends 'restaurant/base.html' %}
 

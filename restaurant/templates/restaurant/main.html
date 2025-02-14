@@ -1,23 +1,16 @@
-{# ------------------------------------------------------------------------------
-    # This is the main page template for the Urth Caffe website, extending the 
-    # 'restaurant/base.html' layout
-    #
-    # What's included:
-    # - {% extends 'restaurant/base.html' %}: This ties the page to the base layout
-    # - {% block content %}: This block contains the main content of the page, which 
-    #   will be shown in place of the content block in the base template
-    #
-    # Sections on this page:
-    # - Hero Section: A large image at the top with a welcome message ("Welcome to Urth Caffe")
-    # - Location Info: Displays the restaurant’s address and phone number
-    # - Hours of Operation: Lists Urth’s operating hours for each day of the 
-    #   week
-    #
-    # This page is meant to give a welcome to users visiting the website, as well 
-    # as provide key details like location and hours.
-    # ------------------------------------------------------------------------------
-    # %}
-    
+<!-- This is the main page template for the Urth Caffe website, extending the 'restaurant/base.html' layout
+    What's included:
+    - extends 'restaurant/base.html': This ties the page to the base layout
+    - block content: This block contains the main content of the page, which 
+    will be shown in place of the content block in the base template
+
+    Sections on this page:
+    - Hero Section: A large image at the top with a welcome message ("Welcome to Urth Caffe")
+    - Location Info: Displays the restaurant’s address and phone number
+    - Hours of Operation: Lists Urth’s operating hours for each day of the week
+
+    This page is meant to give a welcome to users visiting the website, as well as provide key details like location and hours.
+ -->
 {% extends 'restaurant/base.html' %}
 
 {% block content %}

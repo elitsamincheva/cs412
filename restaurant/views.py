@@ -150,6 +150,7 @@ def confirmation(request):
 
         # generating the random ready time between 30 and 60 minutes
         minutes_until_ready = random.randint(30, 60) 
+        print(datetime.now())
         ready_time = datetime.now() + timedelta(minutes=minutes_until_ready) 
         ready_time_formatted = ready_time.strftime("%I:%M %p")  
 
