@@ -1,0 +1,25 @@
+{% load static %} <!-- load static files for use in the template (for css file) -->
+
+<html>
+
+<head>
+    <title>Mini Facebook</title>
+    <link rel="stylesheet" href="{% static 'mini-fb-styles.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="underline">Mini Facebook</h1>
+    </header>
+
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+
+
+</html>

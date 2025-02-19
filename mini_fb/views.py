@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Profile
 
 # Create your views here.
-def main(request):
-    """display information about the restaurant"""
-    template_name = "mini_fb/main.html"
-    return render(request, template_name)
+class ShowAllProfilesView(ListView):
+    '''define a view class to show all the fb profiles'''
+    model = Profile
+    template_name = "mini_fb/show_all_profiles.html"
+    context_object_name = "profiles"
