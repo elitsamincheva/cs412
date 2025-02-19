@@ -1,6 +1,9 @@
+# Model defns for Mini FB
+# - Defines the Profile model, which includes fields like first name, last name, city, and profile image URL
+# - Used to store and manage user profile data
+
 from django.db import models
 
-# Create your models here.
 class Profile(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

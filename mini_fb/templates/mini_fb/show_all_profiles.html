@@ -1,25 +1,36 @@
+<!--
+    all profiles page
+    - displays a list of profiles in a table format
+    - shows profile images if available and links to individual profile pages
+    - displays the profile name and city as well
+-->
+
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
 <div class="container">
-    <h2>Showing All Profiles</h2>
-    
+    <h2>All Profiles</h2>
+
     <table class="profile-table">
-    
+
         <tbody>
             {% for profile in profiles %}
             <tr>
                 <td>
                     {% if profile.profile_image_url %}
+                    <a href="{% url 'profile' profile.pk %}">
                         <img src="{{ profile.profile_image_url }}" alt="Profile Image">
+                    </a>
                     {% else %}
-                        <span class="no-image">No Image</span>
+                    <span class="no-image">No Image</span>
                     {% endif %}
                 </td>
-                <td class="name squiggle">{{ profile.first_name }} {{ profile.last_name }}</td>
-        
+
+                <td class="name squiggle"><a href="{% url 'profile' profile.pk %}">{{ profile.first_name }} {{
+                        profile.last_name }}</a></td>
+
                 <td>{{ profile.city }}</td>
-                
+
             </tr>
             {% endfor %}
         </tbody>

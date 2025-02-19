@@ -1,0 +1,28 @@
+<!-- 
+    Template for displaying a single user's profile page
+    - Displays profile image if available, name, city, and email
+    - Includes a back button to navigate to the list of all profiles
+ -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <!-- Back button -->
+        <a href="{% url 'show_all_profiles' %}" class="back-button">&larr; Back</a>
+
+        <div class="profile-info">
+            <div class="profile-image">
+                {% if profile.profile_image_url %}
+                <img src="{{ profile.profile_image_url }}" alt="Profile Image">
+                {% else %}
+                <span class="no-image">No Image Available</span>
+                {% endif %}
+            </div>
+            <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+            <p class="city"><strong>City:</strong> {{ profile.city }}</p>
+            <p class="email"><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
