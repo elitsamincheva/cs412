@@ -24,5 +24,19 @@
             <p class="email"><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
         </div>
     </div>
+    <!-- display status messages -->
+    <div class="status-messages">
+        <h2>Status Messages</h2>
+        {% if profile.get_status_messages %}
+        <ul>
+            {% for status in profile.get_status_messages %}
+            <p>{{ status.message }}</p>
+            <small>Posted on: {{ status.timestamp }}</small>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No status messages available.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
