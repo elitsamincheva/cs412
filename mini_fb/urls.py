@@ -5,9 +5,10 @@
 from django.urls import path
 from django.conf import settings
 from . import views
-from .views import ShowAllProfilesView, ProfileView
+from .views import ShowAllProfilesView, ProfileView, CreateProfileView
 
 urlpatterns = [
     path(r'', ShowAllProfilesView.as_view(), name="show_all_profiles"),
     path(r'profile/<int:pk>', ProfileView.as_view(), name="profile"), 
+    path(r'create_profile', CreateProfileView.as_view(), name="create_profile_form"), 
 ]

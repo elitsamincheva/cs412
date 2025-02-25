@@ -3,6 +3,7 @@
 # - Used to store and manage user profile data
 
 from django.db import models
+from django.urls import reverse
 
 class Profile(models.Model):
     first_name = models.CharField(max_length=50)
@@ -17,6 +18,11 @@ class Profile(models.Model):
     def get_status_messages(self):
         """Returns all status messages for this profile ordered by timestamp (newest first)"""
         return self.status_messages.all().order_by('-timestamp') 
+    
+    def get_absolute_url(self):
+        '''return the URl to display the profile that was just created'''
+        return reverse('profile', kwargs={'pk':self.pk})
+
 
 
 class StatusMessage(models.Model):
