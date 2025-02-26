@@ -9,7 +9,8 @@
 
 {% block content %}
 <div class="container">
-    <h2>All Profiles</h2>
+    
+
 
     <table class="profile-table">
 
@@ -26,7 +27,7 @@
                     {% endif %}
                 </td>
 
-                <td class="name squiggle"><a href="{% url 'profile' profile.pk %}">{{ profile.first_name }} {{ profile.last_name }}</a></td>
+                <td class="name squiggle"><a href="{% url 'profile' profile.pk %}">{{ profile.first_name }} {{profile.last_name }}</a></td>
 
                 <td>{{ profile.city }}</td>
 

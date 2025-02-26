@@ -22,6 +22,24 @@
             <h1 class="underline">Mini Facebook</h1>
         </a>
     </header>
+    <!-- top menu to toggle between showing all profiles and creating a new profile -->
+    <div class="container">
+        <div class="top-menu">
+            <ul>
+                <li class="{% if request.path == '/mini_fb/' %}active{% endif %}">
+                    <a href="{% url 'show_all_profiles' %}">
+                        <h2>All Profiles</h2>
+                    </a>
+                </li>
+                <li class="{% if '/create_profile' in request.path %}active{% endif %}">
+                    <a href="{% url 'create_profile_form' %}">
+                        <h2>Create Profile</h2>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
 
 
     {% block content %}

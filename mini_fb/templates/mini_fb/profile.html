@@ -24,6 +24,10 @@
             <p class="email"><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
         </div>
     </div>
+
+    <div class="create-status">
+        <a href="{% url 'create_status' profile.pk %}" class="create-status-button">Create Status Update</a>
+    </div>
     <!-- display status messages -->
     <div class="status-messages">
         <h2>Status Messages</h2>

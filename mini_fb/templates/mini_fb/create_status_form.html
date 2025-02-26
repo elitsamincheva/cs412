@@ -1,10 +1,11 @@
-<!-- create a new profile -->
+<!-- form to post a new status message to a profile -->
 
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
 <div class="form-container">
-    <h2>Create a New Profile</h2>
+    <h2>Post a Status Update</h2>
+    
     <form method="POST">
         {% csrf_token %}
 
@@ -12,9 +13,10 @@
             {{ form.as_p }}
         </div>
 
-        <button type="submit" class="submit-button">Create Profile</button>
+        <button type="submit" class="submit-button">Post Status</button>
     </form>
 
     <a href="{% url 'show_all_profiles' %}" class="back-link">Cancel</a>
 </div>
 {% endblock %}
+
