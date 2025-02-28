@@ -6,31 +6,31 @@
 -->
 
 {% extends 'mini_fb/base.html' %}
-
 {% block content %}
 <div class="container">
-    
-
-
     <table class="profile-table">
-
         <tbody>
             {% for profile in profiles %}
             <tr>
                 <td>
                     {% if profile.profile_image_url %}
+                    <!-- If a profile image exists display it as a clickable link to the profile -->
                     <a href="{% url 'profile' profile.pk %}">
                         <img src="{{ profile.profile_image_url }}" alt="Profile Image">
                     </a>
                     {% else %}
+                    <!-- Placeholder text if no profile image is available -->
                     <span class="no-image">No Image</span>
                     {% endif %}
                 </td>
-
-                <td class="name squiggle"><a href="{% url 'profile' profile.pk %}">{{ profile.first_name }} {{profile.last_name }}</a></td>
-
-                <td>{{ profile.city }}</td>
-
+                <td class="name squiggle">
+                    <!-- Display profile name as a link to their individual profile page -->
+                    <a href="{% url 'profile' profile.pk %}">{{ profile.first_name }} {{profile.last_name }}</a>
+                </td>
+                <td>
+                    <!-- Display profile's city -->
+                    {{ profile.city }}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

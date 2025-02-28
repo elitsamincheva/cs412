@@ -2,43 +2,52 @@
     Template for displaying a single user's profile page
     - Displays profile image if available, name, city, and email
     - Includes a back button to navigate to the list of all profiles
+    _ lists the user's status messages and button to page to create 
+      a new status message for the user
  -->
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
 <div class="profile-container">
     <div class="profile-card">
-        <!-- Back button -->
+        <!-- Back button to return to the profiles list -->
         <a href="{% url 'show_all_profiles' %}" class="back-button">&larr; Back</a>
 
         <div class="profile-info">
             <div class="profile-image">
+                <!-- Display profile image if available -->
                 {% if profile.profile_image_url %}
                 <img src="{{ profile.profile_image_url }}" alt="Profile Image">
                 {% else %}
+                <!-- Placeholder text when no profile image is available -->
                 <span class="no-image">No Image Available</span>
                 {% endif %}
             </div>
+            <!-- Display user's name -->
             <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+            <!-- Display user's city -->
             <p class="city"><strong>City:</strong> {{ profile.city }}</p>
+            <!-- Display user's email with a clickable mail link -->
             <p class="email"><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
         </div>
     </div>
-
+    <!-- button to create a new status message for the profile -->
     <div class="create-status">
         <a href="{% url 'create_status' profile.pk %}" class="create-status-button">Create Status Update</a>
     </div>
-    <!-- display status messages -->
+    <!-- section to display user's status messages -->
     <div class="status-messages">
         <h2>Status Messages</h2>
         {% if profile.get_status_messages %}
         <ul>
             {% for status in profile.get_status_messages %}
+            <!-- display each status message and timestamp -->
             <p>{{ status.message }}</p>
             <small>Posted on: {{ status.timestamp }}</small>
             {% endfor %}
         </ul>
         {% else %}
+        <!-- message that is displayed when no status updates are available -->
         <p>No status messages available.</p>
         {% endif %}
     </div>

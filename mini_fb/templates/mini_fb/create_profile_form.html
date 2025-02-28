@@ -1,20 +1,27 @@
-<!-- create a new profile -->
-
+<!-- 
+    Create Profile Page
+    - Extends the base template
+    - Displays a form for creating a new user profile
+    - Includes a cancel button to return to the profile listing page
+-->
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
 <div class="form-container">
     <h2>Create a New Profile</h2>
+    <!-- profile creation form -->
     <form method="POST">
         {% csrf_token %}
 
         <div class="form-group">
-            {{ form.as_p }}
+            <!-- render the form fields -->
+            {{ form.as_p }} 
         </div>
 
         <button type="submit" class="submit-button">Create Profile</button>
     </form>
 
+    <!-- Link to cancel and return to profile listing -->
     <a href="{% url 'show_all_profiles' %}" class="back-link">Cancel</a>
 </div>
 {% endblock %}

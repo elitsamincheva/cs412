@@ -230,7 +230,6 @@ a {
     text-decoration: underline;
 }
 
-/* Back button to go back to show all */
 .back-button {
     text-decoration: none;
     color: #F0386B;
@@ -244,7 +243,6 @@ a {
     text-decoration: none !important;
 }
 
-/* Responsive profile card */
 @media (max-width: 768px) {
     .profile-container {
         width: 90%;
@@ -264,8 +262,6 @@ a {
         font-size: 1em;
     }
 }
-
-
 
 .top-menu ul {
     display: flex;
@@ -291,7 +287,7 @@ a {
 }
 
 .top-menu li.active h2 {
-    color: white; /* ensure text is visible on blue background */
+    color: white; 
     background-color: #1500ff;
 }
 
@@ -383,8 +379,33 @@ a {
     background-color: #ffffff;
 }
 
-
-
 .status-messages {
     padding: 10px;
+}
+
+/* create status button styling */
+.create-status {
+    text-align: center; 
+}
+
+.create-status-button {
+    display: inline-block;
+    background-color: #1500ff;
+    color: white; 
+    padding: 12px 20px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-decoration: none; 
+    border-radius: 8px; 
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.create-status-button:hover {
+    background-color: #1607bc; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.create-status-button:active {
+    background-color: #0b0548; 
+    transform: scale(0.98); 
 }

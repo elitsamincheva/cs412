@@ -1,6 +1,6 @@
-# URL configuration for Mini FB
-# - Maps root URL to ShowAllProfilesView for displaying all profiles
-# - Maps profile URL with primary key (pk) to ProfileView for individual profile pages
+# URL Configuration for Mini FB
+# - Defines URL patterns for navigating between different views
+# - Maps URLs to corresponding class-based views in views.py
 
 from django.urls import path
 from django.conf import settings
@@ -8,8 +8,12 @@ from . import views
 from .views import ShowAllProfilesView, ProfileView, CreateProfileView, CreateStatusMessageView
 
 urlpatterns = [
+    # Root URL: Displays a list of all profiles
     path(r'', ShowAllProfilesView.as_view(), name="show_all_profiles"),
+    # Profile Page: Displays an individual user's profile, identified by primary key (pk)
     path(r'profile/<int:pk>', ProfileView.as_view(), name="profile"), 
+    # Create Profile: Displays form for creating a new user profile
     path(r'create_profile', CreateProfileView.as_view(), name="create_profile_form"), 
+    # Create Status: Displays form for posting a new status message for a specific profile
     path(r'profile/<int:pk>/create_status', CreateStatusMessageView.as_view(), name="create_status"), 
 ]

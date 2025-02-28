@@ -1,21 +1,28 @@
-<!-- form to post a new status message to a profile -->
-
+<!-- 
+    Post Status Update Page
+    - Extends the base template
+    - Displays a form for posting a new status message
+    - Includes a cancel button to return to the profile listing page
+-->
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
 <div class="form-container">
     <h2>Post a Status Update</h2>
     
+    <!-- status update form -->
     <form method="POST">
         {% csrf_token %}
 
         <div class="form-group">
+            <!-- render the form fields -->
             {{ form.as_p }}
         </div>
 
         <button type="submit" class="submit-button">Post Status</button>
     </form>
 
+    <!-- Link to cancel and return to profile listing -->
     <a href="{% url 'show_all_profiles' %}" class="back-link">Cancel</a>
 </div>
 {% endblock %}

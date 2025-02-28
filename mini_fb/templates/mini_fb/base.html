@@ -1,7 +1,9 @@
-<!--
-    Mini FB base template
-    - Contains a header with a link to show all profiles
-    - Content block for page specific content
+<!-- 
+    Mini FB Base Template
+    - Defines the base layout for the Mini FB
+    - Includes a header with a link to view all profiles
+    - Contains a top navigation menu for toggling between "All Profiles" and "Create Profile"
+    - Provides a block for page-specific content
 -->
 
 {% load static %} <!-- load static files for use in the template (for css file) -->
@@ -17,6 +19,7 @@
 </head>
 
 <body>
+    <!-- header section with a link to the main profile listing -->
     <header>
         <a href="{% url 'show_all_profiles' %}">
             <h1 class="underline">Mini Facebook</h1>
@@ -26,11 +29,13 @@
     <div class="container">
         <div class="top-menu">
             <ul>
+                <!-- Navigation link to display all profiles -->
                 <li class="{% if request.path == '/mini_fb/' %}active{% endif %}">
                     <a href="{% url 'show_all_profiles' %}">
                         <h2>All Profiles</h2>
                     </a>
                 </li>
+                <!-- Navigation link to create a new profile -->
                 <li class="{% if '/create_profile' in request.path %}active{% endif %}">
                     <a href="{% url 'create_profile_form' %}">
                         <h2>Create Profile</h2>
@@ -40,12 +45,10 @@
         </div>
     </div>
     
-
-
+    <!-- Placeholder for page-specific content -->
     {% block content %}
     {% endblock %}
 
 </body>
-
 
 </html>
