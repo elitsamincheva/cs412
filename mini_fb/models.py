@@ -11,7 +11,8 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=50)     # user's last name
     city = models.CharField(max_length=100)         # city of residence
     email = models.EmailField(unique=True)          # unique email for each profile
-    profile_image_url = models.URLField(blank=True, null=True)  # profile image URL
+    # profile_image_url = models.URLField(blank=True, null=True)  # profile image URL
+    image_file = models.ImageField(blank=True)
 
     def __str__(self):
         """Returns a string representation of the profile (full name)"""
@@ -33,6 +34,30 @@ class StatusMessage(models.Model):
     message = models.TextField()    # the actual status emssage content
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="status_messages")  # link the status message to the associated profile
 
+    def get_images(self):
+        '''returns all of the images associated with the status message'''
+        return Image.objects.filter(status_images__status_message=self)
+
+
     def __str__(self):
         """Returns a string representation of the status message (truncated for display)"""
         return f"Status by {self.profile.first_name} {self.profile.last_name} at {self.timestamp}: {self.message[:50]}..."
+
+
+class Image(models.Model):
+    '''model representing an uploaded image stored in the media directory'''
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="images")   # link the image to the profile
+    image_file = models.ImageField(upload_to='images/')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    caption = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Image uploaded by {self.profile.first_name} {self.profile.last_name} on {self.timestamp}" 
+    
+class StatusImage(models.Model):
+    '''model respresenting relationship between status message and image'''
+    status_message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE, related_name="status_images")
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name="status_images")
+
+    def __str__(self):
+        return f"Image {self.image.id} linked to Status {self.status_message.id}"

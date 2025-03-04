@@ -13,10 +13,10 @@
             {% for profile in profiles %}
             <tr>
                 <td>
-                    {% if profile.profile_image_url %}
+                    {% if profile.image_file %}
                     <!-- If a profile image exists display it as a clickable link to the profile -->
                     <a href="{% url 'profile' profile.pk %}">
-                        <img src="{{ profile.profile_image_url }}" alt="Profile Image">
+                        <img src="{{ profile.image_file.url }}" alt="Profile Image">
                     </a>
                     {% else %}
                     <!-- Placeholder text if no profile image is available -->

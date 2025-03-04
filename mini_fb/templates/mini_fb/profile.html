@@ -16,8 +16,8 @@
         <div class="profile-info">
             <div class="profile-image">
                 <!-- Display profile image if available -->
-                {% if profile.profile_image_url %}
-                <img src="{{ profile.profile_image_url }}" alt="Profile Image">
+                {% if profile.image_file %}
+                <img src="{{ profile.image_file.url }}" alt="Profile Image">
                 {% else %}
                 <!-- Placeholder text when no profile image is available -->
                 <span class="no-image">No Image Available</span>
@@ -41,15 +41,27 @@
         {% if profile.get_status_messages %}
         <ul>
             {% for status in profile.get_status_messages %}
-            <!-- display each status message and timestamp -->
-            <p>{{ status.message }}</p>
-            <small>Posted on: {{ status.timestamp }}</small>
+            <li>
+                <p>{{ status.message }}</p>
+                <small>Posted on: {{ status.timestamp }}</small>
+                
+                <!-- Loop through and display images related to the status -->
+                {% with status.get_images as images %}
+                    {% if images %}
+                        <div class="status-images">
+                            {% for img in images %}
+                            <img src="{{ img.image_file.url }}" alt="{{ img.caption|default:'Image' }}" width="200">
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </li>
             {% endfor %}
         </ul>
         {% else %}
-        <!-- message that is displayed when no status updates are available -->
         <p>No status messages available.</p>
         {% endif %}
     </div>
+    
 </div>
 {% endblock %}
