@@ -43,7 +43,7 @@
             {% for status in profile.get_status_messages %}
             <li>
                 <p>{{ status.message }}</p>
-                <small>Posted on: {{ status.timestamp }}</small>
+                
                 
                 <!-- Loop through and display images related to the status -->
                 {% with status.get_images as images %}
@@ -55,6 +55,7 @@
                         </div>
                     {% endif %}
                 {% endwith %}
+                <small>Posted on: {{ status.timestamp }}</small>
             </li>
             {% endfor %}
         </ul>

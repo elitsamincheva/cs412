@@ -11,12 +11,17 @@
     <h2>Post a Status Update</h2>
     
     <!-- status update form -->
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">  <!-- Add enctype -->
         {% csrf_token %}
 
         <div class="form-group">
-            <!-- render the form fields -->
             {{ form.as_p }}
+        </div>
+
+        <!-- File upload field -->
+        <div class="form-group">
+            <label for="files">Upload Image(s):</label>
+            <input type="file" name="files" multiple />
         </div>
 
         <button type="submit" class="submit-button">Post Status</button>
@@ -26,4 +31,5 @@
     <a href="{% url 'show_all_profiles' %}" class="back-link">Cancel</a>
 </div>
 {% endblock %}
+
 
