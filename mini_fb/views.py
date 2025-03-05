@@ -6,9 +6,9 @@
 
 from django.urls import reverse
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Profile, StatusMessage, Image, StatusImage
-from .forms import CreateProfileForm, CreateStatusMessageForm
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 
 # Create your views here.
 class ShowAllProfilesView(ListView):
@@ -80,3 +80,35 @@ class CreateStatusMessageView(CreateView):
         pk = self.kwargs['pk']
         # call reverse to generate the URL for this Profile
         return reverse('profile', kwargs={'pk': pk})
+    
+
+class UpdateProfileView(UpdateView):
+    """view for updating an existing profile"""
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "mini_fb/update_profile_form.html"
+
+    def get_success_url(self):
+        """redirect to the updated profile's detail page after a successful update"""
+        return reverse('profile', kwargs={'pk': self.object.pk})
+    
+class UpdateStatusMessageView(UpdateView):
+    '''view for updating the text of the status message'''
+    model = StatusMessage
+    fields = ['message']
+    template_name = "mini_fb/update_status_form.html"
+    context_object_name = "status"
+
+    def get_success_url(self):
+        '''Redirects to the user's profile page after a successful update'''
+        return reverse('profile', kwargs={'pk': self.object.profile.pk})
+
+class DeleteStatusMessageView(DeleteView):
+    '''view for deleting a status message'''
+    model = StatusMessage
+    template_name = "mini_fb/delete_status_form.html"
+    context_object_name = "status"
+
+    def get_success_url(self):
+        '''Redirects to the user's profile page after successful deletion'''
+        return reverse('profile', kwargs={'pk': self.object.profile.pk})

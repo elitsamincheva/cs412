@@ -1,0 +1,35 @@
+<!-- 
+    Template for updating a user's profile
+    - Displays a form to update the user's profile details (name, city, email, and profile image)
+    - Includes error handling to display any form validation errors
+    - Provides a submit button to save changes to the profile
+    - Includes a cancel link to return to the profile page without saving changes
+-->
+{% extends "mini_fb/base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Update Profile</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {% for field in form %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small>{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="submit-button">Save Changes</button>
+        <a href="{% url 'profile' pk=object.pk %}" class="back-link">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+

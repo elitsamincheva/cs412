@@ -1,0 +1,19 @@
+<!-- 
+    Template for updating a status message
+    - Displays a form to update an existing status message
+    - Includes a submit button to save changes to the status message
+    - Provides a cancel link to return to the user's profile page without saving changes
+-->
+{% extends "mini_fb/base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Update Status Message</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Save Changes</button>
+        <a href="{% url 'profile' pk=status.profile.pk %}" class="back-link">Cancel</a>
+    </form>
+</div>
+{% endblock %}

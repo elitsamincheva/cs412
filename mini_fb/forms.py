@@ -17,5 +17,12 @@ class CreateStatusMessageForm(forms.ModelForm):
     """Form for creating a new status message associated with a profile"""
 
     class Meta:
-        model = StatusMessage   # Specifies the model to base the form on
+        model = StatusMessage   
         fields = ['message']    # Only includes the message field, as timestamp is auto-generated
+
+class UpdateProfileForm(forms.ModelForm):
+    '''Form for updating an existing user profile, excluding first and last name'''
+    
+    class Meta:
+        model = Profile
+        fields = ['city', 'email', 'image_file']
