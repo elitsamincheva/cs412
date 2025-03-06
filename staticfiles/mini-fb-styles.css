@@ -170,6 +170,7 @@ a {
     border-radius: 12px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+   
 }
 
 /* Profile header */
@@ -206,8 +207,7 @@ a {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    /* since the back button wont go to the left... */
+    text-align: left;   /* since the back button wont go to the left... */
 }
 
 /* Profile details */
@@ -363,6 +363,7 @@ a {
     transition: 0.3s;
     width: 100%;
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .submit-button:hover {
@@ -386,10 +387,16 @@ a {
 /* create status button styling */
 .create-status {
     text-align: center; 
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+    padding-bottom: 20px;
 }
 
 .create-status-button {
-    display: inline-block;
+    flex: 1; 
+    max-width: 175px; 
+    text-align: center;
     background-color: #1500ff;
     color: white; 
     padding: 12px 20px; 
@@ -401,11 +408,112 @@ a {
 }
 
 .create-status-button:hover {
-    background-color: #1607bc; /* Darker blue on hover */
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    background-color: #1607bc;
+    transform: scale(1.05);
 }
 
 .create-status-button:active {
     background-color: #0b0548; 
     transform: scale(0.98); 
+}
+
+/* status message styling */
+.status-messages {
+    margin-top: 20px;
+}
+
+/* Style for each individual status message */
+.status-messages ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.status-messages li {
+    border: 2px solid #1500ff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.status-messages p {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left; 
+}
+
+/* Style for the timestamp */
+.status-messages small {
+    color: #555;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Container for status images - creates a grid with max 3 images per row */
+.status-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px; 
+    margin-top: 10px;
+}
+
+/* Style for images */
+.status-images img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #ccc; 
+}
+
+/* update and delete status message buttons */
+.status-actions {
+    text-align: left;
+}
+
+.edit-button, .delete-button {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.edit-button {
+    background-color: #F0386B;
+    color: white;
+    margin-top: 10px;
+}
+
+.delete-button {
+    background-color: #F0386B;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #b51d48;
+}
+
+.delete-button:hover {
+    background-color: #b51d48;
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+textarea, 
+select {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc; 
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%; 
+}
+
+.form-container p, label {
+    background-color: #ffffff;
 }
