@@ -25,6 +25,23 @@ class Profile(models.Model):
     def get_absolute_url(self):
         '''return the URl to display the profile that was just created'''
         return reverse('profile', kwargs={'pk':self.pk})
+    
+    def get_friends(self):
+        """returns a list of friends associated with this profile"""
+        # query the Friend model for records where this profile is either profile1 or profile2
+        friends = Friend.objects.filter(
+            models.Q(profile1=self) | models.Q(profile2=self)
+        )
+
+        # create a list of friends profiles by checking both profile1 and profile2
+        friends_profiles = []
+        for friend in friends:
+            if friend.profile1 != self:
+                friends_profiles.append(friend.profile1)
+            if friend.profile2 != self:
+                friends_profiles.append(friend.profile2)
+
+        return friends_profiles
 
 
 
@@ -61,3 +78,13 @@ class StatusImage(models.Model):
 
     def __str__(self):
         return f"Image {self.image.id} linked to Status {self.status_message.id}"
+
+
+class Friend(models.Model):
+    '''model representing the relationship between 2 profiles'''
+    profile1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile1")
+    profile2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile2")
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.profile1.first_name} {self.profile1.last_name} is friends with {self.profile2.first_name} {self.profile2.last_name}"
