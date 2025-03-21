@@ -5,8 +5,8 @@
 # - CreateStatusMessageView: create a new status message for a Profile, can add photos to go along with the status message
 
 from django.urls import reverse
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import Profile, StatusMessage, Image, StatusImage
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 
@@ -112,3 +112,34 @@ class DeleteStatusMessageView(DeleteView):
     def get_success_url(self):
         '''Redirects to the user's profile page after successful deletion'''
         return reverse('profile', kwargs={'pk': self.object.profile.pk})
+    
+class AddFriendView(View):
+    """this view handles the logic for adding a friend to a profile"""
+
+    def dispatch(self, request, *args, **kwargs):
+        """Retrieve profiles and add a friend then redirect to the profile page"""
+        # Get the two profile objects based on the URL parameters
+        profile = get_object_or_404(Profile, pk=kwargs['pk'])
+        other_profile = get_object_or_404(Profile, pk=kwargs['other_pk'])
+
+        # Call the add friend method from the Profile model
+        profile.add_friend(other_profile)
+
+        # Redirect to the profile page after adding the friend
+        return redirect('profile', pk=profile.pk)
+    
+
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        # Get the profile instance
+        context = super().get_context_data(**kwargs)
+        
+        # Get the friend suggestions for the current profile
+        profile = self.get_object()
+        context['friend_suggestions'] = profile.get_friend_suggestions()
+        
+        return context

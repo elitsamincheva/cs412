@@ -47,6 +47,7 @@
         <p>No friends available.</p>
         {% endif %}
     </div>
+    <a href="{% url 'friend_suggestions' profile.id %}">View Friend Suggestions</a>
 
     <!-- section to display user's status messages -->
     <div class="status-messages">

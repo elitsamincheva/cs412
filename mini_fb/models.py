@@ -4,6 +4,8 @@
 
 from django.db import models
 from django.urls import reverse
+from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 class Profile(models.Model):
     """Model representing a user profile with basic personal information"""
@@ -11,8 +13,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=50)     # user's last name
     city = models.CharField(max_length=100)         # city of residence
     email = models.EmailField(unique=True)          # unique email for each profile
-    # profile_image_url = models.URLField(blank=True, null=True)  # profile image URL
-    image_file = models.ImageField(blank=True)
+    image_file = models.ImageField(blank=True)      # profile pic image upload
 
     def __str__(self):
         """Returns a string representation of the profile (full name)"""
@@ -42,6 +43,38 @@ class Profile(models.Model):
                 friends_profiles.append(friend.profile2)
 
         return friends_profiles
+    
+    def add_friend(self, other):
+        # check if self and other are the same profile to avoid self friending
+        if self == other:
+            raise ValidationError("You can't friend yourself")
+        
+        # check if a friend relation already exists b/t self and the other profile
+        if not Friend.objects.filter(
+            (Q(profile1=self) & Q(profile2=other)) | (Q(profile1=other) & Q(profile2=self))
+        ).exists():
+            Friend.objects.create(profile1=self, profile2=other)
+        else:
+            print("they are already friends")
+
+
+    def get_friend_suggestions(self):
+        # Get a list of all profiles excluding the current one
+        all_profiles = Profile.objects.exclude(id=self.id)
+        
+        # Get the list of profiles already friends with the current profile
+        friends = self.get_friends()
+
+        # Get friends of friends by iterating over the current profile's friends
+        friends_of_friends = []
+        for friend in friends:
+            friends_of_friends.extend(friend.get_friends())
+
+        # Filter out the current profile and existing friends from the friends of friends list
+        friend_suggestions = [profile for profile in friends_of_friends if profile != self and profile not in friends]
+
+        # Return the non-friends as friend suggestions
+        return Profile.objects.filter(id__in=[profile.id for profile in friend_suggestions])
 
 
 
