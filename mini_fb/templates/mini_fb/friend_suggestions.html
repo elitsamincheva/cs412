@@ -1,21 +1,45 @@
-<!-- templates/friend_suggestions.html -->
+<!-- 
+    friend suggestions page template
+    - displays a list of friend suggestions for the current profile
+    - shows each suggested friend’s profile picture and name in a card layout
+    - allows the user to visit a suggested friend's profile or add them as a friend
+    - provides a "Back" link to return to the profile page
+-->
 
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
-  <h2>Friend Suggestions for {{ profile.first_name }} {{ profile.last_name }}</h2>
-  
-  <ul>
-    {% for suggested_friend in friend_suggestions %}
-      <li>
-        <p>{{ suggested_friend.first_name }} {{ suggested_friend.last_name }}</p>
-        <a href="{% url 'add_friend' profile.id suggested_friend.id %}">Add Friend</a>
-      </li>
-    {% empty %}
-      <p>No friend suggestions available.</p>
-    {% endfor %}
-  </ul>
+<div class="news-container">
+    <!-- button to return to the current user's profile page -->
+    <div class="back-to-prof">
+        <a href="{% url 'profile' pk=profile.pk %}" class="back-button">&larr; Back</a>
+    </div>
+    <h2>Friend Suggestions for {{ profile.first_name }} {{ profile.last_name }}</h2>
 
-  <br>
-  <a href="{% url 'profile' profile.id %}">Back to Profile</a>
+    <!-- cards of each suggested friend -->
+    <div class="friend-cards">
+        {% for suggested_friend in friend_suggestions %}
+        <div class="friend-card">
+            <a href="{{ suggested_friend.get_absolute_url }}">
+                <div class="friend-image">
+                    <img src="{{ suggested_friend.image_file.url }}"
+                        alt="{{ suggested_friend.first_name }} {{ suggested_friend.last_name }}'s profile photo">
+                </div>
+                <div class="friend-name">
+                    <p>{{ suggested_friend.first_name }} {{ suggested_friend.last_name }}</p>
+                </div>
+
+            </a>
+            <!-- button to add the suggested friend as a friend -->
+            <div class="add-friend-button">
+                <a href="{% url 'add_friend' profile.id suggested_friend.id %}">Add Friend</a>
+            </div>
+        </div>
+        {% empty %}
+        <!-- message when no friend suggestions are available -->
+        <p>No friend suggestions available.</p>
+        {% endfor %}
+    </div>
+
+</div>
 {% endblock %}

@@ -1,53 +1,78 @@
+<!-- 
+    profile page template
+    - displays a user's profile, including their personal details and status updates
+    - allows users to view and update their profile, create status updates, and view their news feed
+    - includes sections to display the user's friends and status messages
+-->
+
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
+
 <div class="profile-container">
     <div class="profile-card">
-        <!-- Back button to return to the profiles list -->
+        <!-- back button to return to the profiles list -->
         <a href="{% url 'show_all_profiles' %}" class="back-button">&larr; Back</a>
 
         <div class="profile-info">
             <div class="profile-image">
-                <!-- Display profile image if available -->
+                <!-- display profile image if available -->
                 {% if profile.image_file %}
                 <img src="{{ profile.image_file.url }}" alt="Profile Image">
                 {% else %}
-                <!-- Placeholder text when no profile image is available -->
+                <!-- placeholder text when no profile image is available -->
                 <span class="no-image">No Image Available</span>
                 {% endif %}
             </div>
-            <!-- Display user's name -->
+            <!-- display user's name -->
             <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
-            <!-- Display user's city -->
+            <!-- display user's city -->
             <p class="city"><strong>City:</strong> {{ profile.city }}</p>
-            <!-- Display user's email with a clickable mail link -->
+            <!-- display user's email with a clickable mail link -->
             <p class="email"><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
         </div>
     </div>
-    
-    <!-- button to create a new status message for the profile -->
+
+    <!-- buttons to create a status update or update the profile -->
     <div class="create-status">
         <a href="{% url 'create_status' profile.pk %}" class="create-status-button">Create Status Update</a>
         <a href="{% url 'update_profile' profile.pk %}" class="create-status-button">Update Profile</a>
+
+    </div>
+    <!--lLink to view the user's news feed -->
+    <div class="create-status">
+        <a href="{% url 'news_feed' pk=profile.pk %}" class="create-status-button">View News Feed</a>
     </div>
 
     <!-- section to display the profile's friends -->
     <div class="friends-list">
         <h2>Friends</h2>
+        <!-- link to view friend suggestions -->
+        <a href="{% url 'friend_suggestions' profile.id %}" class="create-status-button">View Friend Suggestions</a>
+
         {% if profile.get_friends %}
-        <ul>
+        <div class="friend-cards">
+            <!-- loop through and display each friend -->
             {% for friend in profile.get_friends %}
-            <li>
-                <!-- Link to friend's profile page -->
-                <a href="{{ friend.get_absolute_url }}">{{ friend.first_name }} {{ friend.last_name }}</a>
-            </li>
+            <div class="friend-card">
+                <!-- link to friend's profile page -->
+                <a href="{{ friend.get_absolute_url }}">
+                    <div class="friend-image">
+                        <img src="{{ friend.image_file.url }}"
+                            alt="{{ friend.first_name }} {{ friend.last_name }}'s profile photo">
+                    </div>
+                    <div class="friend-name">
+                        <p>{{ friend.first_name }} {{ friend.last_name }}</p>
+                    </div>
+                </a>
+            </div>
             {% endfor %}
-        </ul>
+        </div>
         {% else %}
+        <!-- message when the user has no friends -->
         <p>No friends available.</p>
         {% endif %}
     </div>
-    <a href="{% url 'friend_suggestions' profile.id %}">View Friend Suggestions</a>
 
     <!-- section to display user's status messages -->
     <div class="status-messages">
@@ -57,19 +82,19 @@
             {% for status in profile.get_status_messages %}
             <li>
                 <p>{{ status.message }}</p>
-                
-                <!-- Loop through and display images related to the status -->
+                <!-- loop through and display images related to the status -->
                 {% with status.get_images as images %}
-                    {% if images %}
-                        <div class="status-images">
-                            {% for img in images %}
-                            <img src="{{ img.image_file.url }}" alt="{{ img.caption|default:'Image' }}" width="200">
-                            {% endfor %}
-                        </div>
-                    {% endif %}
+                {% if images %}
+                <div class="status-images">
+                    {% for img in images %}
+                    <img src="{{ img.image_file.url }}" alt="{{ img.caption|default:'Image' }}" width="200">
+                    {% endfor %}
+                </div>
+                {% endif %}
                 {% endwith %}
+                <!-- display the timestamp of when the status message was posted -->
                 <small>Posted on: {{ status.timestamp }}</small>
-                <!-- Update and Delete Buttons -->
+                <!-- update and delete buttons -->
                 <div class="status-actions">
                     <a href="{% url 'update_status' status.pk %}" class="edit-button">Update</a>
                     <a href="{% url 'delete_status' status.pk %}" class="delete-button">Delete</a>
@@ -78,6 +103,7 @@
             {% endfor %}
         </ul>
         {% else %}
+        <!-- message when no status messages are available -->
         <p>No status messages available.</p>
         {% endif %}
     </div>

@@ -1,0 +1,60 @@
+<!-- 
+    news feed page template
+    - displays the news feed for a user's profile
+    - shows a list of status messages posted by the user and their friends
+    - includes profile pictures, names, message content, images, and timestamps
+    - allows the user to view all messages in the feed, including related images
+-->
+
+{% extends "mini_fb/base.html" %}
+
+{% block content %}
+<div class="news-container">
+    <!-- button to return to the current user's profile page -->
+    <div class="back-to-prof">
+        <a href="{% url 'profile' pk=profile.pk %}" class="back-button">&larr; Back</a>
+    </div>
+
+    <h1>{{ profile.first_name }}'s News Feed</h1>
+
+    <!-- loop through the StatusMessages and display them -->
+    <div class="status-messages">
+        <ul>
+            {% for message in news_feed %}
+            <li class="status-card">
+                <!-- display the profile picture and name of the person who posted the status -->
+                <div class="status-header">
+                    <img src="{{ message.profile.image_file.url }}"
+                        alt="{{ message.profile.first_name }} {{ message.profile.last_name }}"
+                        class="status-profile-pic">
+                    <span class="status-profile-name">{{ message.profile.first_name }} {{ message.profile.last_name
+                        }}</span>
+                </div>
+
+                <!-- display the message content -->
+                <p class="status-message">{{ message.message }}</p>
+
+                <!-- loop through and display images related to the status -->
+                {% with message.get_images as images %}
+                {% if images %}
+                <div class="status-images">
+                    {% for img in images %}
+                    <img src="{{ img.image_file.url }}" alt="{{ img.caption|default:'Image' }}" class="status-image">
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- timestamp of status message -->
+                <small class="status-timestamp">Posted on: {{ message.timestamp }}</small>
+
+            </li>
+            {% empty %}
+            <p>No messages to display.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+
+{% endblock %}

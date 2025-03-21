@@ -1,6 +1,15 @@
-# Models for Mini FB
-# - Defines the Profile model for user profiles
-# - Defines the StatusMessage model for status updates associated with profiles
+# Models:
+# - Profile: represents a user's profile with personal information (name, email, city, profile image) and methods for handling friends, status messages, and friend suggestions
+# - StatusMessage: represents a user's posted status with a message and timestamp, and links to related images
+# - Image: represents an uploaded image associated with a profile, linked to status messages through a relationship model
+# - StatusImage: a relationship model linking images to specific status messages
+# - Friend: represents a friendship relationship between two profiles, with methods for adding and checking friendships
+
+# Functions:
+# - add_friend: adds a friendship between two profiles, ensuring no self-friendship or duplicate relationships
+# - get_friends: retrieves a list of friends for a given profile
+# - get_friend_suggestions: suggests potential friends based on mutual connections
+# - get_news_feed: retrieves status messages for a profile and its friends, sorted by most recent
 
 from django.db import models
 from django.urls import reverse
@@ -45,6 +54,13 @@ class Profile(models.Model):
         return friends_profiles
     
     def add_friend(self, other):
+        """
+        adds a friend relationship between the current profile and another profile
+        
+        checks if the current profile is trying to friend itself and raises ValidationError in that case
+        also ensures that the friend relationship doesn't already exist between the two profiles
+        if no existing relationship is found it creates a new friendship
+        """
         # check if self and other are the same profile to avoid self friending
         if self == other:
             raise ValidationError("You can't friend yourself")
@@ -59,22 +75,40 @@ class Profile(models.Model):
 
 
     def get_friend_suggestions(self):
-        # Get a list of all profiles excluding the current one
+        """
+        returns friend suggestions as a QuerySet by finding friends of the current profile's friends who 
+        are not already friends with the current profile
+        """
+        # get a list of all profiles excluding the current one
         all_profiles = Profile.objects.exclude(id=self.id)
         
-        # Get the list of profiles already friends with the current profile
+        # get the list of profiles already friends with the current profile
         friends = self.get_friends()
 
-        # Get friends of friends by iterating over the current profile's friends
+        # get friends of friends by iterating over the current profile's friends
         friends_of_friends = []
         for friend in friends:
             friends_of_friends.extend(friend.get_friends())
 
-        # Filter out the current profile and existing friends from the friends of friends list
+        # filter out the current profile and existing friends from the friends of friends list
         friend_suggestions = [profile for profile in friends_of_friends if profile != self and profile not in friends]
 
-        # Return the non-friends as friend suggestions
+        # return the non friends as friend suggestions
         return Profile.objects.filter(id__in=[profile.id for profile in friend_suggestions])
+    
+    def get_news_feed(self):
+        """
+        returns a list of StatusMessages as a QuerySet for the current profile and all of its friends sorted by the most recent
+        """
+        # get StatusMessages for the current profile
+        profile_messages = StatusMessage.objects.filter(profile=self).order_by('-timestamp')
+
+        # get StatusMessages for all friends of the current profile
+        friends = self.get_friends()
+        friend_messages = StatusMessage.objects.filter(profile__in=friends).order_by('-timestamp')
+
+        # combine both sets of messages (profile + friends) and return them ordered by when they were created
+        return profile_messages | friend_messages
 
 
 
@@ -90,7 +124,7 @@ class StatusMessage(models.Model):
 
 
     def __str__(self):
-        """Returns a string representation of the status message (truncated for display)"""
+        """returns a string representation of the status message (truncated for display)"""
         return f"Status by {self.profile.first_name} {self.profile.last_name} at {self.timestamp}: {self.message[:50]}..."
 
 

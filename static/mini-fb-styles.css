@@ -237,6 +237,7 @@ a {
     font-size: 1.2em;
     margin-bottom: 20px;
     display: inline-block;
+
 }
 
 .back-button:hover {
@@ -516,4 +517,109 @@ select {
 
 .form-container p, label {
     background-color: #ffffff;
+}
+
+/* profile card styling */
+.friends-list {
+    text-align: center;
+    h2 {
+        padding-top: 15px;
+    }
+}
+
+.friend-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* 4 cards per row */
+    gap: 20px; 
+    padding: 20px;
+}
+
+.friend-card {
+    border: 2px solid #1500ff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    transition: transform 0.3s ease;
+}
+
+.friend-image img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    margin-top: 15px;
+}
+
+.friend-name {
+    padding: 10px;
+}
+
+.friend-name p {
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .friend-cards {
+        grid-template-columns: repeat(2, 1fr);  /* 2 cards per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .friend-cards {
+        grid-template-columns: 1fr;  /* 1 card per row on very small screens */
+    }
+}
+
+/* newfeed styling */
+.news-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+   
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+   
+}
+
+.back-to-prof {
+    text-align: left;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.status-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.status-profile-name {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #F0386B;
+}
+
+/* friend suggestions styling */
+.add-friend-button a {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #1500ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 7px;
+}
+
+.add-friend-button a:hover {
+    background-color: #1607bc;
 }

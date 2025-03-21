@@ -5,7 +5,7 @@
 from django.urls import path
 from django.conf import settings
 from . import views
-from .views import ShowAllProfilesView, ProfileView, CreateProfileView, CreateStatusMessageView, UpdateProfileView, UpdateStatusMessageView, DeleteStatusMessageView, AddFriendView, ShowFriendSuggestionsView
+from .views import *
 
 urlpatterns = [
     # Root URL: Displays a list of all profiles
@@ -22,9 +22,12 @@ urlpatterns = [
     path('status/<int:pk>/update', UpdateStatusMessageView.as_view(), name="update_status"),
     # Delete Status Message
     path('status/<int:pk>/delete', DeleteStatusMessageView.as_view(), name="delete_status"),
-    # Creat a Friend relationship between 2 profiles
+    # Create a Friend relationship between 2 profiles
     path('profile/<int:pk>/add_friend/<int:other_pk>/', AddFriendView.as_view(), name='add_friend'),
+    # View the list of friend suggestions for a profile
     path('profile/<int:pk>/friend_suggestions/', ShowFriendSuggestionsView.as_view(), name='friend_suggestions'),
+    # View the news feed of a profile and its friends
+    path('profile/<int:pk>/news_feed/', ShowNewsFeedView.as_view(), name='news_feed'),
     
 ]
 
