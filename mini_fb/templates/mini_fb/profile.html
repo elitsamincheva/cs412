@@ -32,7 +32,7 @@
             <p class="email"><strong>Email:</strong> <a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
         </div>
     </div>
-
+    {% if user.is_authenticated and user == profile.user %}
     <!-- buttons to create a status update or update the profile -->
     <div class="create-status">
         <a href="{% url 'create_status' profile.pk %}" class="create-status-button">Create Status Update</a>
@@ -43,12 +43,15 @@
     <div class="create-status">
         <a href="{% url 'news_feed' pk=profile.pk %}" class="create-status-button">View News Feed</a>
     </div>
+    {% endif %}
 
     <!-- section to display the profile's friends -->
     <div class="friends-list">
         <h2>Friends</h2>
+        {% if user.is_authenticated and user == profile.user %}
         <!-- link to view friend suggestions -->
         <a href="{% url 'friend_suggestions' profile.id %}" class="create-status-button">View Friend Suggestions</a>
+        {% endif %}
 
         {% if profile.get_friends %}
         <div class="friend-cards">
@@ -94,11 +97,13 @@
                 {% endwith %}
                 <!-- display the timestamp of when the status message was posted -->
                 <small>Posted on: {{ status.timestamp }}</small>
+                {% if user.is_authenticated and user == profile.user %}
                 <!-- update and delete buttons -->
                 <div class="status-actions">
                     <a href="{% url 'update_status' status.pk %}" class="edit-button">Update</a>
                     <a href="{% url 'delete_status' status.pk %}" class="delete-button">Delete</a>
                 </div>
+                {% endif %}
             </li>
             {% endfor %}
         </ul>
