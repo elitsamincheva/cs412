@@ -19,14 +19,17 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Profile, StatusMessage, Image, StatusImage
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 class BaseView(View):
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
             
-            # Add the logged-in user's profile to the context, if authenticated
+            # add the logged in user's profile to the context, if authenticated
             if self.request.user.is_authenticated:
-                logged_in_profile = Profile.objects.filter(user=self.request.user).first()  # Assuming Profile is related to the User model
+                logged_in_profile = Profile.objects.filter(user=self.request.user).first()  
                 context['logged_in_profile'] = logged_in_profile
 
             return context
@@ -56,13 +59,38 @@ class ProfileView(BaseView, DetailView):
     context_object_name = "profile"
 
 
-    
-
 class CreateProfileView(BaseView, CreateView):
     '''Create a new profile'''
     model = Profile
     form_class = CreateProfileForm
     template_name = "mini_fb/create_profile_form.html"
+
+    def get_context_data(self, **kwargs):
+        """add the UserCreationForm to the context"""
+        context = super().get_context_data(**kwargs)
+        context['user_creation_form'] = UserCreationForm()  # add the user creation form instance to the context
+        return context
+    
+    def form_valid(self, form):
+        """Handle saving of the user and profile together."""
+        # Reconstruct the UserCreationForm with the data from the request
+        user_creation_form = UserCreationForm(self.request.POST)
+
+        if user_creation_form.is_valid():
+            # Save the user and get the newly created User instance
+            user = user_creation_form.save()
+
+            # Attach the user to the profile instance
+            form.instance.user = user  # Set the user as the foreign key in the Profile
+
+            # Save the profile
+            form.save()
+
+            # Redirect to a success page or profile listing
+            return redirect('profile', pk=form.instance.pk)
+        else:
+            # If the UserCreationForm is not valid, render the form with errors
+            return self.render_to_response(self.get_context_data(form=form))
 
 class CreateStatusMessageView(BaseView, LoginRequiredMixin, CreateView):
     '''create a new status message and save it to the database'''

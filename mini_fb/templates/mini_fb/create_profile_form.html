@@ -13,8 +13,11 @@
     <form method="POST">
         {% csrf_token %}
 
+ 
+
         <div class="form-group">
             <!-- render the form fields -->
+            {{ user_creation_form.as_p }}
             {{ form.as_p }} 
         </div>
 
@@ -25,3 +28,8 @@
     <a href="{% url 'show_all_profiles' %}" class="back-link">Cancel</a>
 </div>
 {% endblock %}
+
+
+
+
+        
