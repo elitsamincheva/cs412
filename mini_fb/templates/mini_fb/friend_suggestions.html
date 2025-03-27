@@ -32,7 +32,7 @@
             </a>
             <!-- button to add the suggested friend as a friend -->
             <div class="add-friend-button">
-                <a href="{% url 'add_friend' profile.id suggested_friend.id %}">Add Friend</a>
+                <a href="{% url 'add_friend' suggested_friend.id %}">Add Friend</a>
             </div>
         </div>
         {% empty %}

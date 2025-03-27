@@ -35,13 +35,13 @@
     {% if user.is_authenticated and user == profile.user %}
     <!-- buttons to create a status update or update the profile -->
     <div class="create-status">
-        <a href="{% url 'create_status' profile.pk %}" class="create-status-button">Create Status Update</a>
-        <a href="{% url 'update_profile' profile.pk %}" class="create-status-button">Update Profile</a>
+        <a href="{% url 'create_status' %}" class="create-status-button">Create Status Update</a>
+        <a href="{% url 'update_profile' %}" class="create-status-button">Update Profile</a>
 
     </div>
     <!--lLink to view the user's news feed -->
     <div class="create-status">
-        <a href="{% url 'news_feed' pk=profile.pk %}" class="create-status-button">View News Feed</a>
+        <a href="{% url 'news_feed' %}" class="create-status-button">View News Feed</a>
     </div>
     {% endif %}
 
@@ -50,7 +50,7 @@
         <h2>Friends</h2>
         {% if user.is_authenticated and user == profile.user %}
         <!-- link to view friend suggestions -->
-        <a href="{% url 'friend_suggestions' profile.id %}" class="create-status-button">View Friend Suggestions</a>
+        <a href="{% url 'friend_suggestions' %}" class="create-status-button">View Friend Suggestions</a>
         {% endif %}
 
         {% if profile.get_friends %}

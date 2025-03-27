@@ -41,6 +41,15 @@
                         <h2>Create Profile</h2>
                     </a>
                 </li>
+                <!-- Nav link to go to a user's profile directly if they are logged in -->
+                {% if request.user.is_authenticated %}
+                <li>
+                    <a href="{% url 'profile' logged_in_profile.pk %}">
+                        <h2>My Profile</h2>
+                    </a>
+                </li>
+                {% endif %}
+                
                 
                 <li>
                     {% if request.user.is_authenticated %}
