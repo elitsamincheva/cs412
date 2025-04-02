@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Voter
 from django.db.models import Min, Max
 from datetime import datetime
@@ -71,3 +71,9 @@ class VoterListView(ListView):
         context['elections'] = ['v20state', 'v21town', 'v21primary', 'v22general', 'v23town']
 
         return context
+    
+
+class VoterDetailView(DetailView):
+    model = Voter
+    template_name = 'voter_analytics/voter_detail.html'  # Template for the detail view
+    context_object_name = 'voter'  # Context variable name to use in the template

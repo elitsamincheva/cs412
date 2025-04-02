@@ -1,0 +1,54 @@
+{% extends "voter_analytics/base.html" %}
+{% block content %}
+<h1>Voter Details</h1>
+
+<a href="{{ request.META.HTTP_REFERER }}" class="back-button">&#8592; Back</a>
+
+<table>
+    <tr>
+        <th>Name:</th>
+        <td>{{ voter.first_name }} {{ voter.last_name }}</td>
+    </tr>
+    <tr>
+        <th>Street Address:</th>
+        <td><a href="https://www.google.com/maps?q={{ voter.street_num }}+{{ voter.street_name }}+{{ voter.apt_num }}+{{ voter.zip_code }}" target="_blank">{{ voter.street_num }} {{ voter.street_name }}{% if voter.apt_num %} Apt. {{ voter.apt_num }}{% endif %}</a></td>
+    </tr>
+    <tr>
+        <th>Date of Birth:</th>
+        <td>{{ voter.dob }}</td>
+    </tr>
+    <tr>
+        <th>Registration Date:</th>
+        <td>{{ voter.reg_date }}</td>
+    </tr>
+    <tr>
+        <th>Party:</th>
+        <td>{{ voter.party }}</td>
+    </tr>
+    <tr>
+        <th>Voter Score:</th>
+        <td>{{ voter.voter_score }}</td>
+    </tr>
+    <tr>
+        <th>Voted in 2020 State Election:</th>
+        <td>{{ voter.v20state }}</td>
+    </tr>
+    <tr>
+        <th>Voted in 2021 Town Election:</th>
+        <td>{{ voter.v21town }}</td>
+    </tr>
+    <tr>
+        <th>Voted in 2021 Primary Election:</th>
+        <td>{{ voter.v21primary }}</td>
+    </tr>
+    <tr>
+        <th>Voted in 2022 General Election:</th>
+        <td>{{ voter.v22general }}</td>
+    </tr>
+    <tr>
+        <th>Voted in 2023 Town Election:</th>
+        <td>{{ voter.v23town }}</td>
+    </tr>
+</table>
+
+{% endblock %}
