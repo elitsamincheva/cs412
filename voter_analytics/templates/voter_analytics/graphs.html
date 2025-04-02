@@ -1,0 +1,13 @@
+{% extends "voter_analytics/base.html" %}  <!-- Ensure this extends your base template -->
+
+{% block content %}
+    <h1>Voter Data Graphs</h1>
+
+    <div>
+        <h2>Voter Distribution by Year of Birth</h2>
+        {{ birth_year_graph|safe }}
+
+    </div>
+
+    
+{% endblock %}

@@ -3,6 +3,11 @@ from django.views.generic import ListView, DetailView
 from .models import Voter
 from django.db.models import Min, Max
 from datetime import datetime
+import plotly
+import plotly.graph_objects as go
+import plotly.express as px
+from django.utils.safestring import mark_safe
+import pandas as pd
 
 class VoterListView(ListView):
     model = Voter
@@ -77,3 +82,37 @@ class VoterDetailView(DetailView):
     model = Voter
     template_name = 'voter_analytics/voter_detail.html'  # Template for the detail view
     context_object_name = 'voter'  # Context variable name to use in the template
+
+
+class GraphsView(ListView):
+    model = Voter
+    template_name = 'voter_analytics/graphs.html'
+    context_object_name = 'voters'
+
+    def get_queryset(self):
+        # Prevent returning any voter records
+        return []
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Retrieve all voter birth years
+        birth_years = Voter.objects.values_list('dob', flat=True)
+        birth_years = [dob.year for dob in birth_years if dob]  # Extract years
+
+        if birth_years:
+            # Convert to DataFrame
+            df = pd.DataFrame(birth_years, columns=['year'])
+            birth_year_counts = df['year'].value_counts().reset_index()
+            birth_year_counts.columns = ['year', 'count']
+
+            # Create bar chart with plotly.express
+            fig = px.bar(birth_year_counts, x='year', y='count', title="Voter Distribution by Year of Birth")
+
+            # Convert to HTML and pass to context
+            context['birth_year_graph'] = mark_safe(fig.to_html(full_html=False))
+        else:
+            context['birth_year_graph'] = "<p>No data available.</p>"
+
+        return context
+   
