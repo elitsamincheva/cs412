@@ -25,6 +25,8 @@ class Voter(models.Model):
 
 def load_data():
     '''Function to load data records from CSV file into Django model instances.'''
+    # delete existing records to prevent duplicates:
+    Voter.objects.all().delete()
     filename = '/Users/elitsamincheva/Downloads/newton_voters.csv'
     f = open(filename)
     f.readline() # discard headers

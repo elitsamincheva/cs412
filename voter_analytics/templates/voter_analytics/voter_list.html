@@ -1,0 +1,53 @@
+{% extends "voter_analytics/base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Voter Records</h1>
+
+<!-- Load External CSS -->
+<link rel="stylesheet" href="{% static 'css/voter_list.css' %}">
+
+<!-- Filter Form -->
+<div class="search">
+    {% include "voter_analytics/search.html" %}    
+</div>
+
+<table>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Street Address</th>
+        <th>Date of Birth</th>
+        <th>Party</th>
+        <th>Voter Score</th>
+    </tr>
+    {% for voter in voters %}
+    <tr>
+        <td>{{ voter.first_name }}</td>
+        <td>{{ voter.last_name }}</td>
+        <td>{{ voter.street_num }} {{ voter.street_name }}</td>
+        <td>{{ voter.dob }}</td>
+        <td>{{ voter.party }}</td>
+        <td>{{ voter.voter_score }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% endblock %}
