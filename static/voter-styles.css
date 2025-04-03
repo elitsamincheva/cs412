@@ -158,7 +158,6 @@ tr:hover {
     color: #F5F3EE;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -180,12 +179,11 @@ tr:hover {
     }
 }
 
-
 /* Back Button */
 .back-button {
     padding: 8px 15px;
-    background-color: #3a4c4c; /* Same as the other buttons */
-    color: #F5F3EE; /* Light text color */
+    background-color: #3a4c4c; 
+    color: #F5F3EE;
     border: none;
     border-radius: 5px;
     cursor: pointer;

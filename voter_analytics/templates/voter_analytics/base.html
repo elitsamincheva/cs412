@@ -1,3 +1,7 @@
+<!--
+    this is the base template for the voter management system. it includes the header, 
+    navigation bar, and container for dynamic content
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,12 +19,15 @@
         <h1>Voter Management System</h1>
     </header>
 
+    <!-- navigation bar with links to different pages of the voter system -->
     <nav>
         <a href="{% url 'voters' %}">Voter List</a>
         <a href="{% url 'graphs' %}">Graphs</a>
     </nav>
 
+    <!-- container for the dynamic content -->
     <div class="container">
+        <!-- content block, will be overridden by other templates -->
         {% block content %}{% endblock %}
     </div>
 

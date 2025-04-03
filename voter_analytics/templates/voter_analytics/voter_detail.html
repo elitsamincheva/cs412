@@ -1,9 +1,17 @@
+<!--
+    this template extends the 'base.html' file and displays detailed information 
+    about an individual voter. it includes their personal details, voting history, 
+    and a link to Google Maps for the street address
+-->
 {% extends "voter_analytics/base.html" %}
 {% block content %}
 <h1>Voter Details</h1>
 
+<!-- link to navigate back to the previous page -->
 <a href="{{ request.META.HTTP_REFERER }}" class="back-button">&#8592; Back</a>
 
+
+<!-- table displaying the voter's detailed information -->
 <table>
     <tr>
         <th>Name:</th>
@@ -11,6 +19,7 @@
     </tr>
     <tr>
         <th>Street Address:</th>
+        <!-- link to Google Maps with the voter's address -->
         <td><a href="https://www.google.com/maps?q={{ voter.street_num }}+{{ voter.street_name }}+{{ voter.apt_num }}+{{ voter.zip_code }}" target="_blank">{{ voter.street_num }} {{ voter.street_name }}{% if voter.apt_num %} Apt. {{ voter.apt_num }}{% endif %}</a></td>
     </tr>
     <tr>

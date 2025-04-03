@@ -1,16 +1,19 @@
+<!--
+    this template extends the 'base.html' file and renders a list of voter records
+    it includes a filter form, a table displaying voter details, and pagination controls
+-->
 {% extends "voter_analytics/base.html" %}
 {% load static %}
 
 {% block content %}
 <h1>Voter Records</h1>
 
-<link rel="stylesheet" href="{% static 'css/voter_list.css' %}">
-
-<!-- Filter Form -->
+<!-- filter form -->
 <div class="search">
     {% include "voter_analytics/search.html" %}
 </div>
 
+<!-- table displaying voter details -->
 <table>
     <tr>
         <th>Name</th>
@@ -19,8 +22,10 @@
         <th>Party</th>
         <th>Voter Score</th>
     </tr>
+    <!-- loop through each voter and display their details -->
     {% for voter in voters %}
     <tr>
+        <!-- link to individual voter's detail page -->
         <td><a href="{% url 'voter' voter.pk %}">{{ voter.first_name }} {{ voter.last_name }}</a></td>
         <td>{{ voter.street_num }} {{ voter.street_name }}</td>
         <td>{{ voter.dob }}</td>
@@ -30,17 +35,20 @@
     {% endfor %}
 </table>
 
-<!-- Pagination Controls -->
+<!-- pagination controls to navigate between pages -->
 <div class="pagination">
     {% if is_paginated %}
     {% if page_obj.has_previous %}
+    <!-- link to first page and previous page -->
     <a href="?page=1">First</a>
     <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
     {% endif %}
 
+    <!-- display current page and total number of pages -->
     Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
 
     {% if page_obj.has_next %}
+    <!-- link to next page and last page -->
     <a href="?page={{ page_obj.next_page_number }}">Next</a>
     <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
     {% endif %}
