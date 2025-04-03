@@ -6,8 +6,15 @@
     <div>
         <h2>Voter Distribution by Year of Birth</h2>
         {{ birth_year_graph|safe }}
-
     </div>
 
-    
+    <div>
+        <h2>Voter Distribution by Party Affiliation</h2>
+        {{ party_pie_chart|safe }}
+    </div>
+    <div>
+        <h2>Voter Distribution by Election Participation</h2>
+        {{ election_histogram|safe }}
+    </div>
+
 {% endblock %}

@@ -90,29 +90,84 @@ class GraphsView(ListView):
     context_object_name = 'voters'
 
     def get_queryset(self):
-        # Prevent returning any voter records
+        # Prevent returning any voter records to the template
         return []
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Retrieve all voter birth years
+        # --- Voter Distribution by Year of Birth (Bar Chart) ---
         birth_years = Voter.objects.values_list('dob', flat=True)
         birth_years = [dob.year for dob in birth_years if dob]  # Extract years
 
         if birth_years:
-            # Convert to DataFrame
-            df = pd.DataFrame(birth_years, columns=['year'])
-            birth_year_counts = df['year'].value_counts().reset_index()
+            df_years = pd.DataFrame({'year': birth_years})
+            birth_year_counts = df_years['year'].value_counts().reset_index()
             birth_year_counts.columns = ['year', 'count']
+            birth_year_counts = birth_year_counts.sort_values(by='year')  # Sort by year
 
-            # Create bar chart with plotly.express
-            fig = px.bar(birth_year_counts, x='year', y='count', title="Voter Distribution by Year of Birth")
+            fig_bar = px.bar(
+                birth_year_counts,
+                x='year', 
+                y='count', 
+                title="Voter Distribution by Year of Birth",
+                labels={'year': 'Year of Birth', 'count': 'Count'}
+            )
 
-            # Convert to HTML and pass to context
-            context['birth_year_graph'] = mark_safe(fig.to_html(full_html=False))
+            context['birth_year_graph'] = mark_safe(fig_bar.to_html(full_html=False))
         else:
             context['birth_year_graph'] = "<p>No data available.</p>"
 
+        # --- Voter Distribution by Party Affiliation (Larger Pie Chart) ---
+        parties = Voter.objects.values_list('party', flat=True)
+        parties = [p for p in parties if p]  # Remove None values
+
+        if parties:
+            df_parties = pd.DataFrame({'party': parties})
+            party_counts = df_parties['party'].value_counts().reset_index()
+            party_counts.columns = ['party', 'count']
+
+            fig_pie = px.pie(
+                party_counts,
+                names='party', 
+                values='count', 
+                title="Voter Distribution by Party Affiliation",
+                width=900,  # Increased width
+                height=700   # Increased height
+            )
+
+            context['party_pie_chart'] = mark_safe(fig_pie.to_html(full_html=False))
+        else:
+            context['party_pie_chart'] = "<p>No data available.</p>"
+
+        # --- Voter Participation in Elections (Histogram) ---
+        elections = ['v20state', 'v21town', 'v21primary', 'v22general', 'v23town']
+        election_labels = {
+            'v20state': '2020 State',
+            'v21town': '2021 Town',
+            'v21primary': '2021 Primary',
+            'v22general': '2022 General',
+            'v23town': '2023 Town'
+        }
+
+        # Count the number of voters who participated in each election
+        election_counts = {election_labels[election]: Voter.objects.filter(**{election: True}).count() for election in elections}
+
+        if any(election_counts.values()):  # Check if there's data
+            df_elections = pd.DataFrame(list(election_counts.items()), columns=['Election', 'Count'])
+
+            fig_hist = px.bar(
+                df_elections,
+                x='Election',
+                y='Count',
+                title="Voter Participation in Elections",
+                labels={'Election': 'Election', 'Count': 'Number of Voters'},
+                text_auto=True,  # Show values on bars
+                color='Election'
+            )
+
+            context['election_histogram'] = mark_safe(fig_hist.to_html(full_html=False))
+        else:
+            context['election_histogram'] = "<p>No data available.</p>"
+
         return context
-   
