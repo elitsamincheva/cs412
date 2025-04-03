@@ -1,20 +1,105 @@
-{% extends "voter_analytics/base.html" %}  <!-- Ensure this extends your base template -->
+{% extends "voter_analytics/base.html" %}
+<!-- 
+    Voter analytics filter page
+    This page allows users to filter voter data based on several criteria, including party affiliation, date of birth range, 
+    voter score, and election participation. The form submits the selected filters via GET requests to update the graphs displayed
+    on the page. The graphs provide insights into voter distribution by birth year, party affiliation, and election participation
+
+    Form Fields:
+    1. party: allows filtering by political party affiliation
+    2. minimum date of birth: allows filtering voters by their earliest birth year
+    3. maximum date of birth: allows filtering voters by their latest birth year
+    4. voter score: allows filtering based on a predefined voter score
+    5. election participation: allows filtering by participation in specific elections
+-->
 
 {% block content %}
-    <h1>Voter Data Graphs</h1>
+<form action="{% url 'graphs' %}" method="get">
+    <table>
+        <!-- Party affiliation filter -->
+        <tr>
+            <th>Party:</th>
+            <td>
+                <select name="party">
+                    <option value="">--Select Party--</option>
+                    {% for party in parties %}
+                        <option value="{{ party }}" {% if party == request.GET.party %}selected{% endif %}>{{ party }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
 
-    <div>
-        <h2>Voter Distribution by Year of Birth</h2>
-        {{ birth_year_graph|safe }}
-    </div>
+        <!-- Minimum date of birth filter -->
+        <tr>
+            <th>Minimum Date of Birth:</th>
+            <td>
+                <select name="min_dob">
+                    <option value="">--Select Year--</option>
+                    {% for year in years %}
+                        <option value="{{ year }}" {% if year == request.GET.min_dob %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
 
-    <div>
-        <h2>Voter Distribution by Party Affiliation</h2>
-        {{ party_pie_chart|safe }}
-    </div>
-    <div>
-        <h2>Voter Distribution by Election Participation</h2>
-        {{ election_histogram|safe }}
-    </div>
+        <!-- Maximum date of birth filter -->
+        <tr>
+            <th>Maximum Date of Birth:</th>
+            <td>
+                <select name="max_dob">
+                    <option value="">--Select Year--</option>
+                    {% for year in years %}
+                        <option value="{{ year }}" {% if year == request.GET.max_dob %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <!-- Voter score filter -->
+        <tr>
+            <th>Voter Score:</th>
+            <td>
+                <select name="voter_score">
+                    <option value="">--Select Score--</option>
+                    <option value="1" {% if "1" == request.GET.voter_score %}selected{% endif %}>1</option>
+                    <option value="2" {% if "2" == request.GET.voter_score %}selected{% endif %}>2</option>
+                    <option value="3" {% if "3" == request.GET.voter_score %}selected{% endif %}>3</option>
+                    <option value="4" {% if "4" == request.GET.voter_score %}selected{% endif %}>4</option>
+                    <option value="5" {% if "5" == request.GET.voter_score %}selected{% endif %}>5</option>
+                </select>
+            </td>
+        </tr>
+
+        <!-- Election participation filters -->
+        <tr>
+            <th>Election Participation:</th>
+            <td>
+                <label><input type="checkbox" name="v20state" {% if request.GET.v20state %}checked{% endif %}> Voted in 2020 State Election</label><br>
+                <label><input type="checkbox" name="v21town" {% if request.GET.v21town %}checked{% endif %}> Voted in 2021 Town Election</label><br>
+                <label><input type="checkbox" name="v21primary" {% if request.GET.v21primary %}checked{% endif %}> Voted in 2021 Primary Election</label><br>
+                <label><input type="checkbox" name="v22general" {% if request.GET.v22general %}checked{% endif %}> Voted in 2022 General Election</label><br>
+                <label><input type="checkbox" name="v23town" {% if request.GET.v23town %}checked{% endif %}> Voted in 2023 Town Election</label><br>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <button type="submit">Filter</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<!-- Display the graphs -->
+<div>
+    <h3>Voter Distribution by Year of Birth</h3>
+    <div>{{ birth_year_graph|safe }}</div>
+
+    <h3>Voter Distribution by Party Affiliation</h3>
+    <div>{{ party_pie_chart|safe }}</div>
+
+    <h3>Voter Participation in Elections</h3>
+    <div>{{ election_histogram|safe }}</div>
+</div>
 
 {% endblock %}

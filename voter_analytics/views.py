@@ -90,14 +90,67 @@ class GraphsView(ListView):
     context_object_name = 'voters'
 
     def get_queryset(self):
-        # Prevent returning any voter records to the template
-        return []
+        # Start with all voters
+        queryset = Voter.objects.all()
+
+        # Party affiliation filter
+        party_filter = self.request.GET.get("party")
+        if party_filter:
+            queryset = queryset.filter(party=party_filter)
+
+        # Minimum date of birth filter
+        min_dob_filter = self.request.GET.get("min_dob")
+        if min_dob_filter:
+            try:
+                min_dob_date = datetime.strptime(min_dob_filter, '%Y').date()
+                queryset = queryset.filter(dob__gte=min_dob_date)
+            except ValueError:
+                pass  # Invalid date format, ignore filter
+
+        # Maximum date of birth filter
+        max_dob_filter = self.request.GET.get("max_dob")
+        if max_dob_filter:
+            try:
+                max_dob_date = datetime.strptime(max_dob_filter, '%Y').date().replace(month=12, day=31)
+                queryset = queryset.filter(dob__lte=max_dob_date)
+            except ValueError:
+                pass  # Invalid date format, ignore filter
+
+        # Voter score filter
+        voter_score_filter = self.request.GET.get("voter_score")
+        if voter_score_filter:
+            queryset = queryset.filter(voter_score=voter_score_filter)
+
+        # Election participation filter
+        elections = ['v20state', 'v21town', 'v21primary', 'v22general', 'v23town']
+        for election in elections:
+            if self.request.GET.get(election):
+                queryset = queryset.filter(**{election: True})
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # Get the available party affiliations
+        parties = Voter.objects.values_list('party', flat=True).distinct()
+
+        # Get the minimum and maximum birth years from the dataset
+        min_birth_year = Voter.objects.aggregate(Min('dob'))['dob__min'].year
+        max_birth_year = Voter.objects.aggregate(Max('dob'))['dob__max'].year
+
+        years = list(range(min_birth_year, max_birth_year + 1))
+
+        elections = ['v20state', 'v21town', 'v21primary', 'v22general', 'v23town']
+
+        context['parties'] = parties
+        context['min_birth_year'] = min_birth_year
+        context['max_birth_year'] = max_birth_year
+        context['years'] = years
+        context['elections'] = elections
+
         # --- Voter Distribution by Year of Birth (Bar Chart) ---
-        birth_years = Voter.objects.values_list('dob', flat=True)
+        birth_years = self.get_queryset().values_list('dob', flat=True)
         birth_years = [dob.year for dob in birth_years if dob]  # Extract years
 
         if birth_years:
@@ -119,7 +172,7 @@ class GraphsView(ListView):
             context['birth_year_graph'] = "<p>No data available.</p>"
 
         # --- Voter Distribution by Party Affiliation (Larger Pie Chart) ---
-        parties = Voter.objects.values_list('party', flat=True)
+        parties = self.get_queryset().values_list('party', flat=True)
         parties = [p for p in parties if p]  # Remove None values
 
         if parties:
@@ -141,17 +194,7 @@ class GraphsView(ListView):
             context['party_pie_chart'] = "<p>No data available.</p>"
 
         # --- Voter Participation in Elections (Histogram) ---
-        elections = ['v20state', 'v21town', 'v21primary', 'v22general', 'v23town']
-        election_labels = {
-            'v20state': '2020 State',
-            'v21town': '2021 Town',
-            'v21primary': '2021 Primary',
-            'v22general': '2022 General',
-            'v23town': '2023 Town'
-        }
-
-        # Count the number of voters who participated in each election
-        election_counts = {election_labels[election]: Voter.objects.filter(**{election: True}).count() for election in elections}
+        election_counts = {election: self.get_queryset().filter(**{election: True}).count() for election in elections}
 
         if any(election_counts.values()):  # Check if there's data
             df_elections = pd.DataFrame(list(election_counts.items()), columns=['Election', 'Count'])
