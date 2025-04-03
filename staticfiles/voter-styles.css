@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f3ee;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #283838, #3a4c4c);
+    padding: 40px 0 60px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    clip-path: ellipse(80% 100% at center top);
+}
+
+header h1 {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #A2583B;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #7f4027;
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    color: #283838;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* Form */
+form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+select {
+    padding: 8px 12px;
+    border: 1px solid #A2583B;
+    border-radius: 5px;
+    background: white;
+    color: #283838;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select:hover {
+    border-color: #7f4027;
+}
+
+button {
+    padding: 8px 15px;
+    background-color: #A2583B;
+    color: #F5F3EE;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #7f4027;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    background-color: #A2583B;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #F5F3EE;
+}
+
+/* Hover effect on table rows */
+tr:hover {
+    background-color: #e8e6e1;
+    transition: background 0.3s ease;
+}
+
+/* Pagination */
+.pagination {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #A2583B;
+    color: #A2583B;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #A2583B;
+    color: #F5F3EE;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    button, select {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .pagination a {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+/* Back Button */
+.back-button {
+    padding: 8px 15px;
+    background-color: #3a4c4c; 
+    color: #F5F3EE;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.back-button:hover {
+    background-color: #283838; /* Darker shade on hover */
+}
