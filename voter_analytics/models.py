@@ -4,6 +4,7 @@
 # address, election participation, and voter score
 # the 'load_data' function is responsible for loading voter data from a csv file into the database
 # 'print_all_voters' prints out all voter records stored in the database.from django.db import models
+from django.db import models
 
 class Voter(models.Model):
     # personal information of the voter
