@@ -1,0 +1,21 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block title %}All Competitions{% endblock %}
+
+{% block content %}
+    <h2>All Competitions</h2>
+    
+    {% if competitions %}
+        <ul>
+            {% for competition in competitions %}
+                <li>
+                    <h3>{{ competition.name }}</h3>
+                    <p>Date: {{ competition.date }}</p>
+                    <p>Location: {{ competition.location }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No competitions available.</p>
+    {% endif %}
+{% endblock %}

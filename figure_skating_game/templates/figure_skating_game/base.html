@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Figure Skating Game{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'skating-styles.css' %}">
+
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Figure Skating Game</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'show_all_comps' %}">Competitions</a></li>
+                <li><a href="{% url 'skaters_list' %}">Skaters</a></li>
+                <li><a href="#">Programs</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        {% block content %} 
+        {% endblock %}
+    </div>
+
+   
+</body>
+</html>

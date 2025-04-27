@@ -1,0 +1,18 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block title %}All Skaters{% endblock %}
+
+{% block content %}
+    <h1 style="text-align:center;">All Skaters</h1>
+    <div class="grid-container">
+        {% for skater in skaters %}
+            <a href="{% url 'skater_detail' skater.id %}" class="skater-card-link">
+                <div class="skater-card">
+                    <img src="{{ skater.image.url }}" alt="{{ skater.name }}">
+                    <div class="skater-name">{{ skater.first_name }} {{ skater.last_name }}</div>
+                    <div>{{ skater.nationality }}</div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block title %}{{ skater.first_name }} {{ skater.last_name }}{% endblock %}
+
+{% block content %}
+  <div class="skater-detail">
+    <h2>{{ skater.first_name }} {{ skater.last_name }}</h2>
+    <img src="{{ skater.image.url }}" alt="{{ skater.name }}" style="max-width: 200px;">
+    <p><strong>Nationality:</strong> {{ skater.nationality }}</p>
+    <p><strong>Date of Birth:</strong> {{ skater.birth_date }}</p>
+    <p><strong>Hometown:</strong> {{ skater.hometown }}</p>
+    <p><strong>Skating Club:</strong> {{ skater.skating_club }}</p>
+
+    <h3>Programs</h3>
+    <ul>
+      {% for program in programs %}
+        <li>{{ program.title }} </li>
+      {% empty %}
+        <li>No programs available.</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Competition History</h3>
+    <ul>
+      {% for ep in executed_programs %}
+        <li>
+          {{ ep.competition.name }} – Score: {{ ep.total_score }}
+        </li>
+      {% empty %}
+        <li>No competitions found.</li>
+      {% endfor %}
+    </ul>
+
+    
+  </div>
+{% endblock %}

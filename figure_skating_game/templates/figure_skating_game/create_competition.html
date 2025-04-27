@@ -1,0 +1,12 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block title %}Create Competition{% endblock %}
+
+{% block content %}
+<h1>Create New Competition</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Simulate Competition</button>
+</form>
+{% endblock %}
