@@ -27,7 +27,7 @@
 
     <div class="grid-container">
         {% for skater in skaters %}
-            <a href="{% url 'skater_detail' skater.id %}" class="skater-card-link">
+            <a href="{% url 'skater_detail' skater.id %}" >
                 <div class="skater-card">
                     <img src="{{ skater.image.url }}" alt="{{ skater.name }}">
                     <div class="skater-name">{{ skater.first_name }} {{ skater.last_name }}</div>

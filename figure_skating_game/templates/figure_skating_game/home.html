@@ -42,30 +42,21 @@
 </section>
 
 <script>
-// Function to handle carousel movement (circular)
+// function to handle carousel movement (circular, no smooth scrolling)
 function scrollCarousel(direction) {
     const container = document.getElementById('skater-carousel');
     const items = container.querySelectorAll('.skater-card-link');
-    const itemWidth = items[0].offsetWidth + 20;  // Adding gap between items
-
-    // Move carousel content to simulate a circular rotation
+    
+    // if scrolling right (forward)
     if (direction === 1) {
-        // Move the first item to the end (scroll right)
-        container.appendChild(items[0]);
-    } else if (direction === -1) {
-        // Move the last item to the front (scroll left)
-        container.prepend(items[items.length - 1]);
+        const firstItem = items[0];  // first item in the carousel
+        container.appendChild(firstItem);  // move the first item to the end
     }
-
-    // Smooth scroll by the width of the items
-    container.style.transition = 'transform 0.5s ease';
-    container.style.transform = `translateX(-${itemWidth}px)`;
-
-    // Reset transition after animation to allow smooth scrolling
-    setTimeout(() => {
-        container.style.transition = 'none';
-        container.style.transform = `translateX(0)`;
-    }, 500);
+    // if scrolling left (backward)
+    else if (direction === -1) {
+        const lastItem = items[items.length - 1];  // last item in the carousel
+        container.prepend(lastItem);  // move the last item to the front
+    }
 }
 </script>
 {% endblock %}

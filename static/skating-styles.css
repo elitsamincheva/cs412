@@ -149,11 +149,9 @@ header nav a:hover {
 .pagination {
     margin-top: 30px;
     text-align: center;
-    background-color: #677484;
+  
     padding: 20px;
-    border-top: 4px solid #191E29;
-    border-bottom: 4px solid #191E29;
-    /* box-shadow: 8px 8px 0px 0px rgba(25, 30, 41, 1); */
+   
     padding-bottom: 30px;
     padding-top: 28px;
 }
@@ -201,12 +199,11 @@ header nav a:hover {
     background-color: #677484;
     padding: 20px;
     margin-bottom: 30px;
-    border: 4px solid #191E29;
+    border-top: 4px solid #191E29;
+    border-bottom: 4px solid #191E29;
     font-family: 'Pixelify Sans', sans-serif;
     letter-spacing: 4px;
-    box-shadow: 8px 8px 0px 0px rgba(25, 30, 41, 1);
 }
-
 
 /* Carousel wrapper */
 .carousel-wrapper {
@@ -216,7 +213,6 @@ header nav a:hover {
     position: relative;
     margin: 0 auto;
     max-width: 1200px;
-    overflow: hidden; /* Hide overflow for neatness */
 }
 
 /* Skater Carousel */
@@ -224,13 +220,12 @@ header nav a:hover {
     display: flex;
     gap: 20px;
     padding: 20px 0;
-    transition: transform 0.5s ease; /* Smooth transition */
 }
 
 /* Skater Card */
 .skater-card-link {
     flex: 0 0 auto;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    transition: none; /* Remove transition to make it more retro */
 }
 
 .skater-card-link .skater-card {
@@ -247,6 +242,17 @@ header nav a:hover {
     box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
 }
 
+/* Center Card Bigger */
+.skater-card-link:nth-child(2) {
+    transform: scale(1);
+    filter: brightness(100%);
+}
+
+.skater-card-link:not(:nth-child(2)) {
+    transform: scale(0.8);
+    filter: brightness(70%);
+}
+
 /* Arrow buttons */
 .carousel-arrow {
     font-size: 40px;
@@ -256,14 +262,12 @@ header nav a:hover {
     padding: 10px 15px;
     cursor: pointer;
     box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
-    transition: background-color 0.3s, transform 0.2s;
     z-index: 2;
 }
 
 .carousel-arrow:hover {
     background-color: #677484;
     color: #191E29;
-    transform: scale(1.1);
 }
 
 .left-arrow {
@@ -273,9 +277,6 @@ header nav a:hover {
 .right-arrow {
     margin-left: 10px;
 }
-
-
-
 
 /* Recent Competitions Styling */
 .recent-title {
@@ -299,5 +300,3 @@ header nav a:hover {
     max-width: 500px;
     box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
 }
-
-
