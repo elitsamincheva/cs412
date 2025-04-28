@@ -29,6 +29,7 @@
 {% if competitions %}
         <div class="recent-competitions-grid">
             {% for competition in competitions %}
+            <a href="{% url 'competition_detail' competition.id %}" >
                 <div class="competition-card">
                     <h3 class="competition-name">{{ competition.name }}</h3>
 
@@ -55,6 +56,7 @@
                         {% endwith %}
                     </div>
                 </div>
+            </a>
             {% endfor %}
         </div>
     {% else %}

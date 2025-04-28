@@ -162,3 +162,17 @@ class ShowAllPrograms(ListView):
 
     def get_queryset(self):
         return Program.objects.annotate(top_score=Max('executions__total_score'))
+    
+
+
+class CompetitionDetailView(DetailView):
+    model = Competition
+    template_name = 'figure_skating_game/competition_detail.html'
+    context_object_name = 'competition'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        competition = self.object
+        executed_programs = ExecutedProgram.objects.filter(competition=competition).order_by('-total_score')
+        context['executed_programs'] = executed_programs
+        return context

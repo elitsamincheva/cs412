@@ -5,21 +5,23 @@
     background-color: #515d6b;
     font-family: 'Pixelify Sans', sans-serif;
     font-optical-sizing: auto;
-    font-weight: 400; 
+    font-weight: 400;
     font-style: normal;
     color: #191E29;
-    margin: 0;  /* Reset margin for all elements */
-    padding: 0;  /* Reset padding for all elements */
+    margin: 0;
+    /* Reset margin for all elements */
+    padding: 0;
+    /* Reset padding for all elements */
 }
 
-a{
+a {
     text-decoration: none;
 }
 
 body {
     border: 5px solid #191E29;
-    margin: 0; 
-    padding: 0; 
+    margin: 0;
+    padding: 0;
 }
 
 /* header styling */
@@ -29,26 +31,26 @@ header {
 
 header h1 {
     text-align: center;
-    font-size: 4em; 
-    margin-top: 50px; 
+    font-size: 4em;
+    margin-top: 50px;
     margin-bottom: 50px;
 }
 
 /* nav styling */
 header nav ul {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     list-style-type: none;
     padding: 0;
     margin: 20px 0;
 }
 
 header nav ul li {
-    margin: 0 10px; 
+    margin: 0 10px;
 }
-  
+
 header nav a {
- 
+
     padding: 15px 30px;
     font-family: 'Pixelify Sans', sans-serif;
     border-style: solid;
@@ -56,7 +58,7 @@ header nav a {
     border-color: #191E29;
     font-size: 1.5em;
     color: #191E29;
-    box-shadow: 8px 8px 0px 0px rgba(25, 30, 41,1);
+    box-shadow: 8px 8px 0px 0px rgba(25, 30, 41, 1);
 }
 
 header nav a:hover {
@@ -65,9 +67,12 @@ header nav a:hover {
 
 /* Active nav button */
 .active-nav {
-    background-color: #191E29; /* Darker fill */
-    color: #677484; /* Lighter text */
-    box-shadow: inset 4px 4px 0px #2A3D45; /* Pixel-style inset look */
+    background-color: #191E29;
+    /* Darker fill */
+    color: #677484;
+    /* Lighter text */
+    box-shadow: inset 4px 4px 0px #2A3D45;
+    /* Pixel-style inset look */
 }
 
 /* Regular nav styling stays the same */
@@ -76,13 +81,16 @@ header nav a:hover {
 /* Grid container for skaters */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);  /* 3 items per row */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 items per row */
     gap: 20px;
     padding: 20px;
     margin-top: 20px;
-    
-    justify-items: center;  /* Centers grid items horizontally */
-    align-items: center;    /* Centers grid items vertically */
+
+    justify-items: center;
+    /* Centers grid items horizontally */
+    align-items: center;
+    /* Centers grid items vertically */
 }
 
 
@@ -96,15 +104,16 @@ header nav a:hover {
     margin-top: 10px;
     background-color: #2A3D45;
 }
+
 .skater-nationality {
     background-color: #2A3D45;
     color: #677484;
     font-size: 25px;
 }
 
-.all-skaters{
-    text-align:center;
- 
+.all-skaters {
+    text-align: center;
+
     padding-top: 30px;
     padding-bottom: 30px;
 }
@@ -113,34 +122,35 @@ header nav a:hover {
 /* Skater Carousel */
 .skater-carousel {
     display: flex;
-    overflow-x: auto;  /* horizontal scrolling */
+    overflow-x: auto;
+    /* horizontal scrolling */
     gap: 20px;
     padding: 20px;
-    justify-content: center;  
+    justify-content: center;
 }
 
 /* Skater Card */
 .skater-card {
-    background-color: #2A3D45; 
+    background-color: #2A3D45;
     border-style: solid;
     border-width: 4px;
     border-color: #191E29;
     overflow: hidden;
     text-align: center;
     padding: 20px;
-    width: 300px;  
-    height: 400px;  
+    width: 300px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-radius: 10px; 
-    flex-shrink: 0;  
+    border-radius: 10px;
+    flex-shrink: 0;
 }
 
 /* Skater image */
 .skater-card img {
-    width: 100%;  
-    height: 60%;  
+    width: 100%;
+    height: 60%;
     border-radius: 5px;
     object-fit: cover;
 }
@@ -164,7 +174,7 @@ header nav a:hover {
     border: 4px solid #191E29;
     text-decoration: none;
     font-size: 1.5em;
-    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41,1);
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
     transition: transform 0.2s, background-color 0.2s;
 }
 
@@ -183,7 +193,7 @@ header nav a:hover {
     margin: 0 5px;
     border: 4px solid #2A3D45;
     font-size: 1.5em;
-    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41,1);
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
 }
 
 
@@ -223,7 +233,8 @@ header nav a:hover {
 /* Skater Card */
 .skater-card-link {
     flex: 0 0 auto;
-    transition: none; /* Remove transition to make it more retro */
+    transition: none;
+    /* Remove transition to make it more retro */
 }
 
 .skater-card-link .skater-card {
@@ -242,14 +253,15 @@ header nav a:hover {
 
 /* Center Card Bigger */
 .skater-card-link.highlighted {
-    transform: scale(1.1);  /* Make the middle card bigger */
-    filter: brightness(100%);  
+    transform: scale(1.1);
+    /* Make the middle card bigger */
+    filter: brightness(100%);
 }
 
 /* Other Cards Smaller */
 .skater-card-link:not(.highlighted) {
-    transform: scale(0.8); 
-    filter: brightness(70%);  
+    transform: scale(0.8);
+    filter: brightness(70%);
 }
 
 /* Hide non visible cards */
@@ -292,7 +304,7 @@ header nav a:hover {
     gap: 20px;
     padding: 20px;
     padding-bottom: 30px;
-    
+
 }
 
 
@@ -311,13 +323,13 @@ header nav a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px; 
-    padding: 0 10px; 
+    gap: 20px;
+    padding: 0 10px;
     background-color: #2A3D45;
 }
 
 
-.competition-info-left, 
+.competition-info-left,
 .winner-section {
     flex: 0 0 auto;
 }
@@ -332,8 +344,8 @@ header nav a:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 400px; 
-    margin: 0 auto; 
+    width: 400px;
+    margin: 0 auto;
 }
 
 
@@ -364,10 +376,14 @@ header nav a:hover {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border: 4px solid #191E29; /* thick pixelated border */
-    background-color: #677484; /* retro background */
-    box-shadow: 4px 4px 0px #191E29; /* pixel shadow */
-    border-radius: 8px; /* small rounding, or remove if you want sharp pixel corners */
+    border: 4px solid #191E29;
+    /* thick pixelated border */
+    background-color: #677484;
+    /* retro background */
+    box-shadow: 4px 4px 0px #191E29;
+    /* pixel shadow */
+    border-radius: 8px;
+    /* small rounding, or remove if you want sharp pixel corners */
 }
 
 
@@ -397,6 +413,7 @@ header nav a:hover {
     text-align: center;
     margin: 30px 0;
     padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .create-competition-button {
@@ -426,13 +443,15 @@ header nav a:hover {
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #2A3D45; /* Match the retro background color */
+    background-color: #2A3D45;
+    /* Match the retro background color */
     border: 4px solid #191E29;
     border-radius: 12px;
     box-shadow: 5px 5px 0px rgba(25, 30, 41, 0.4);
     font-family: 'Pixelify Sans', sans-serif;
     color: #FFFFFF;
     background-color: #2A3D45;
+
     p {
         background-color: #2A3D45;
     }
@@ -451,13 +470,14 @@ header nav a:hover {
     object-fit: cover;
     border-radius: 5px;
     margin-right: 20px;
-    border: 4px solid #191E29; /* Pixelated border around image */
+    border: 4px solid #191E29;
+    /* Pixelated border around image */
     background-color: #2A3D45;
 }
 
 .skater-detail-name {
     font-size: 2.5rem;
-    color: #B0BEC5; 
+    color: #B0BEC5;
     background-color: #2A3D45;
 }
 
@@ -467,10 +487,10 @@ header nav a:hover {
     margin-bottom: 20px;
     background-color: #191E29;
     display: grid;
-    grid-template-columns: 1fr 1fr; 
+    grid-template-columns: 1fr 1fr;
     border: 4px solid #191E29;
-    box-shadow: 5px 5px 0px 0px rgba(90 ,101 ,114, 1);
- 
+    box-shadow: 5px 5px 0px 0px rgba(90, 101, 114, 1);
+
 }
 
 /* Info row styling */
@@ -484,12 +504,14 @@ header nav a:hover {
 
 /* Info row for left column */
 .info-row-left {
-    grid-column: 1;  /* This will place the info in the left column */
+    grid-column: 1;
+    /* This will place the info in the left column */
 }
 
 /* Info row for right column */
 .info-row-right {
-    grid-column: 2;  /* This will place the info in the right column */
+    grid-column: 2;
+    /* This will place the info in the right column */
 }
 
 
@@ -510,7 +532,8 @@ h3 {
 
 .programs-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two programs per row */
+    grid-template-columns: repeat(2, 1fr);
+    /* Two programs per row */
     gap: 15px;
     margin-bottom: 20px;
     background-color: #2A3D45;
@@ -543,8 +566,8 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px; 
-    padding: 0 10px; 
+    gap: 20px;
+    padding: 0 10px;
     background-color: #191E29;
 }
 
@@ -553,52 +576,61 @@ h3 {
     border: 4px solid #5A6572;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 5px 5px 0px 0px rgba(90 ,101 ,114, 1);
+    box-shadow: 5px 5px 0px 0px rgba(90, 101, 114, 1);
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 300px; 
-    margin: 0 auto; 
+    width: 300px;
+    margin: 0 auto;
 }
 
 .program-list-container {
-    border: 3px solid #5A6572; /* Add a border for the box */
-    padding: 10px; /* Add some padding inside the box */
+    border: 3px solid #5A6572;
+    /* Add a border for the box */
+    padding: 10px;
+    /* Add some padding inside the box */
     background-color: #191E29;
-  }
+}
 
-  .program-list {
-    list-style-type: none; /* Remove bullet points */
-    padding: 0; /* Remove default padding for the list */
-    margin: 0; /* Remove default margin for the list */
+.program-list {
+    list-style-type: none;
+    /* Remove bullet points */
+    padding: 0;
+    /* Remove default padding for the list */
+    margin: 0;
+    /* Remove default margin for the list */
     background-color: #191E29;
-  }
+}
 
-  .program-list li {
-    padding: 8px 0; /* Add vertical padding for rows */
-    border-bottom: 1px solid #eee; /* Add a subtle line between rows */
+.program-list li {
+    padding: 8px 0;
+    /* Add vertical padding for rows */
+    border-bottom: 1px solid #eee;
+    /* Add a subtle line between rows */
     background-color: #191E29;
     color: #677484;
     font-size: 20px;
-  }
+}
 
-  .program-list li:last-child {
-    border-bottom: none; /* Remove the bottom border for the last item */
-    
-  }
+.program-list li:last-child {
+    border-bottom: none;
+    /* Remove the bottom border for the last item */
+
+}
 
 
 /* program cards styling */
 /* container for the program cards in a grid layout */
 .program-cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Explicitly create 3 equal-width columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* Explicitly create 3 equal-width columns */
     gap: 20px;
     padding: 20px;
-  }
+}
 
-  /* Style for each program card */
-  .program-card {
+/* Style for each program card */
+.program-card {
     background-color: #2A3D45;
     border: 4px solid #191E29;
     border-radius: 10px;
@@ -608,39 +640,41 @@ h3 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    height: 360px; 
-  }
+    height: 360px;
+}
 
-  /* style for the program title */
-  .program-card-title {
+/* style for the program title */
+.program-card-title {
     font-size: 1.5em;
     color: #B0BEC5;
     margin-bottom: 10px;
     background-color: transparent;
-  }
+}
 
-  /* Style for the skater information */
-  .program-card-skater {
+/* Style for the skater information */
+.program-card-skater {
     font-size: 1em;
     color: #677484;
     margin-bottom: 10px;
     background-color: transparent;
-  }
+}
 
-  /* Style for the skater's photo */
-  .program-card-photo {
+/* Style for the skater's photo */
+.program-card-photo {
     width: 150px;
     height: 150px;
     object-fit: cover;
     border-radius: 5px;
     border: 3px solid #5A6572;
     margin-bottom: 10px;
-    background-color: #677484; /* Retro background for image */
-    box-shadow: 3px 3px 0px #191E29; /* Pixel shadow for image */
-  }
+    background-color: #677484;
+    /* Retro background for image */
+    box-shadow: 3px 3px 0px #191E29;
+    /* Pixel shadow for image */
+}
 
-  /* Style for the top score */
-  .program-card-score {
+/* Style for the top score */
+.program-card-score {
     font-size: 1.2em;
     color: #FFFFFF;
     background-color: #191E29;
@@ -648,10 +682,11 @@ h3 {
     border-radius: 5px;
     border: 2px solid #5A6572;
     box-shadow: 3px 3px 0px #2A3D45;
-    margin-top: auto; /* Push the score to the bottom */
-  }
+    margin-top: auto;
+    /* Push the score to the bottom */
+}
 
-  .program-card-no-image {
+.program-card-no-image {
     width: 150px;
     height: 150px;
     background-color: #515d6b;
@@ -662,4 +697,93 @@ h3 {
     border-radius: 5px;
     border: 3px solid #5A6572;
     margin-bottom: 10px;
+}
+
+
+/* competition detail styling */
+
+
+.competition-results-card {
+    background-color: #2A3D45; /* Dark background */
+    border: 4px solid #191E29; /* Dark pixel border */
+    border-radius: 10px;
+    box-shadow: 8px 8px 0px 0px rgba(25, 30, 41, 1); /* Pixelated shadow */
+    padding: 20px;
+    margin: 30px auto; /* Center horizontally with top/bottom margin */
+    max-width: 90%; /* Adjust as needed */
+    overflow-x: auto; /* Allow horizontal scrolling for very wide tables */
+  }
+
+  /* Style for the results table itself */
+  .competition-results-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #B0BEC5; /* Light text color */
+    font-size: 1em;
+  }
+
+  .competition-results-table th,
+  .competition-results-table td {
+    border: 2px solid #191E29; /* Dark pixel border for cells */
+    padding: 8px;
+    text-align: left;
+  }
+
+  .competition-results-table th {
+    background-color: #191E29; /* Dark header background */
+    color: #677484; /* Lighter header text */
+    font-weight: bold;
+  }
+
+  .executed-elements-details {
+    display: none;
+    /* Initially hide the details row */
+    background-color: #3B4A5A; /* Slightly lighter background for details */
+  }
+
+  .expand-control {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    color: #677484; /* Lighter text for the expand control */
+    background-color: #2A3D45; /* Match card background */
+    padding: 5px;
+    border: 2px solid #191E29; /* Pixel border for the control */
+    border-radius: 5px;
+  }
+
+  .element-details-container {
+    padding: 15px;
+    background-color: #4C5A6B;
+    /* A light background for the details */
+    border-top: 2px solid #191E29; /* Pixel border for the details container */
+    color: #B0BEC5;
+  }
+
+  .element-details-container h3 {
+    margin-top: 0;
+    color: #677484;
+    font-size: 1.3em;
+  }
+
+  .element-details-container table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 10px auto;
+    color: #B0BEC5;
+    font-size: 0.9em;
+  }
+
+  .element-details-container th,
+  .element-details-container td {
+    border: 2px solid #191E29;
+    padding: 6px;
+    text-align: left;
+  }
+
+  .element-details-container th {
+    background-color: #191E29;
+    color: #677484;
+    font-weight: bold;
   }

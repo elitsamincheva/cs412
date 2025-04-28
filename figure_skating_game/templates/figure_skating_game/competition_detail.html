@@ -1,0 +1,93 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block content %}
+  <h2 class="featured-title">{{ competition.name }}</h2>
+  <p>Date: {{ competition.date }}</p>
+  <p>Location: {{ competition.location }}</p>
+
+  <h2>Results</h2>
+  <div class="competition-results-card">
+  {% if competition.executed_programs.all %}
+    <table class="competition-results-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Rank</th>
+          <th>Skater</th>
+       
+          <th>Total Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for executed_program in competition.executed_programs.all %}
+          <tr class="executed-program-row">
+            <td class="expand-control">+</td>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ executed_program.program.skater.first_name }} {{ executed_program.program.skater.last_name }}</td>
+            
+            <td>{{ executed_program.total_score }}</td>
+          </tr>
+          <tr class="executed-elements-details" data-program-id="{{ executed_program.id }}">
+            <td colspan="5">
+              <div class="element-details-container">
+                <h3>Executed Elements</h3>
+                {% if executed_program.executed_elements.all %}
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Order</th>
+                        <th>Element</th>
+                        <th>GOE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for executed_element in executed_program.executed_elements.all|dictsort:'order' %}
+                        <tr>
+                          <td>{{ executed_element.order }}</td>
+                          <td>{{ executed_element.element.code }} - {{ executed_element.element.name }}</td>
+                          <td>{{ executed_element.goe }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                {% else %}
+                  <p>No elements executed in this program.</p>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No results available for this competition yet.</p>
+  {% endif %}
+</div>
+
+  
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const expandControls = document.querySelectorAll('.expand-control');
+
+      expandControls.forEach(control => {
+        // Use a flag to track if the listener is already attached
+        if (!control.dataset.listenerAttached) {
+          control.addEventListener('click', function() {
+            const programRow = this.closest('.executed-program-row');
+            const detailsRow = programRow.nextElementSibling;
+
+            if (detailsRow && detailsRow.classList.contains('executed-elements-details')) {
+              const isHidden = detailsRow.style.display === '';
+              detailsRow.style.display = isHidden ? 'table-row' : '';
+              this.textContent = isHidden ? '-' : '+';
+            }
+          });
+          // Mark the listener as attached
+          control.dataset.listenerAttached = true;
+        }
+      });
+    });
+  </script>
+
+{% endblock %}
