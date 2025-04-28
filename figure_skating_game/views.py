@@ -1,6 +1,7 @@
 import random
 
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
@@ -85,6 +86,10 @@ class CreateCompetitionView(CreateView):
         # Redirect to the results page with the competition ID
         return redirect('competition_results', competition_id=competition.id)
 
+
+
+from django.core.paginator import Paginator
+
 class SkaterDetailView(DetailView):
     model = Skater
     template_name = 'figure_skating_game/skater_detail.html'
@@ -94,14 +99,38 @@ class SkaterDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         skater = self.object
 
-        # Get programs and executed programs
-        context['programs'] = Program.objects.filter(skater=skater)
-        context['executed_programs'] = ExecutedProgram.objects.filter(program__skater=skater)
+        # get programs and executed programs
+        programs = Program.objects.filter(skater=skater)
+        executed_programs = ExecutedProgram.objects.filter(program__skater=skater)
 
-        # Get success probabilities
-        context['element_probs'] = skater.element_probs.select_related('element')
+        # paginate programs if more than 6
+        if programs.count() > 6:
+            program_paginator = Paginator(programs, 6)
+            page_program = self.request.GET.get('page_program')
+            try:
+                context['programs'] = program_paginator.get_page(page_program)
+            except PageNotAnInteger:
+                context['programs'] = program_paginator.get_page(1)
+            except EmptyPage:
+                context['programs'] = program_paginator.get_page(program_paginator.num_pages)
+        else:
+            context['programs'] = programs
 
+        # paginate executed programs if more than 6
+        if executed_programs.count() > 6:
+            competition_paginator = Paginator(executed_programs, 6)
+            page_competition = self.request.GET.get('page_competition')
+            try:
+                context['executed_programs'] = competition_paginator.get_page(page_competition)
+            except PageNotAnInteger:
+                context['executed_programs'] = competition_paginator.get_page(1)
+            except EmptyPage:
+                context['executed_programs'] = competition_paginator.get_page(competition_paginator.num_pages)
+        else:
+            context['executed_programs'] = executed_programs
         return context
+
+
 
 class HomeView(ListView):
     model = Skater

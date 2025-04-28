@@ -149,9 +149,7 @@ header nav a:hover {
 .pagination {
     margin-top: 30px;
     text-align: center;
-  
     padding: 20px;
-   
     padding-bottom: 30px;
     padding-top: 28px;
 }
@@ -243,14 +241,20 @@ header nav a:hover {
 }
 
 /* Center Card Bigger */
-.skater-card-link:nth-child(2) {
-    transform: scale(1);
-    filter: brightness(100%);
+.skater-card-link.highlighted {
+    transform: scale(1.1);  /* Make the middle card bigger */
+    filter: brightness(100%);  
 }
 
-.skater-card-link:not(:nth-child(2)) {
-    transform: scale(0.8);
-    filter: brightness(70%);
+/* Other Cards Smaller */
+.skater-card-link:not(.highlighted) {
+    transform: scale(0.8); 
+    filter: brightness(70%);  
+}
+
+/* Hide non visible cards */
+.skater-card-link {
+    display: none;
 }
 
 /* Arrow buttons */
@@ -279,24 +283,246 @@ header nav a:hover {
 }
 
 /* Recent Competitions Styling */
-.recent-title {
-    text-align: center;
-    font-size: 36px;
-    color: #191E29;
-    margin: 40px 0 20px 0;
+
+
+/* Competition section grid */
+.recent-competitions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    padding-bottom: 30px;
 }
 
-.recent-competitions {
-    list-style: none;
-    padding: 0;
+
+
+/* Competition name */
+.competition-name {
+    font-size: 24px;
+    color: #FFFFFF;
+    font-family: 'Pixelify Sans', sans-serif;
+    margin-bottom: 10px;
     text-align: center;
+    background-color: #2A3D45;
 }
 
-.recent-competitions li {
+.competition-card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; 
+    padding: 0 10px; 
+    background-color: #2A3D45;
+}
+
+
+.competition-info-left, 
+.winner-section {
+    flex: 0 0 auto;
+}
+
+
+.competition-card {
     background-color: #2A3D45;
     border: 4px solid #191E29;
     padding: 20px;
-    margin: 10px auto;
-    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 5px 5px 0px rgba(25, 30, 41, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px; 
+    margin: 0 auto; 
+}
+
+
+/* Left side: Date + Location */
+.competition-info-left {
+    text-align: center;
+    background-color: #2A3D45;
+}
+
+.competition-date,
+.competition-location {
+    font-size: 16px;
+    color: #B0BEC5;
+    margin: 5px 0;
+    background-color: #2A3D45;
+}
+
+/* Right side: Winner info */
+.winner-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #2A3D45;
+}
+
+.winner-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 4px solid #191E29; /* thick pixelated border */
+    background-color: #677484; /* retro background */
+    box-shadow: 4px 4px 0px #191E29; /* pixel shadow */
+    border-radius: 8px; /* small rounding, or remove if you want sharp pixel corners */
+}
+
+
+/* Winner info text */
+.winner-info {
+    color: #FFFFFF;
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: #2A3D45;
+}
+
+.winner-name {
+    font-size: 18px;
+    margin-bottom: 4px;
+    background-color: #2A3D45;
+}
+
+.winner-score {
+    font-size: 16px;
+    color: #B0BEC5;
+    background-color: #2A3D45;
+}
+
+
+/* Create Competition Button Styling */
+.create-competition-wrapper {
+    text-align: center;
+    margin: 30px 0;
+    padding-bottom: 20px;
+}
+
+.create-competition-button {
+    background-color: #191E29;
+    color: #677484;
+    font-size: 24px;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-family: 'Pixelify Sans', sans-serif;
+    letter-spacing: 2px;
+    border: 4px solid #191E29;
     box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.create-competition-button:hover {
+    background-color: #677484;
+    color: #191E29;
+    transform: scale(1.05);
+}
+
+
+
+/* skater detail styling */
+/* Skater detail card */
+.skater-detail-card {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #2A3D45; /* Match the retro background color */
+    border: 4px solid #191E29;
+    border-radius: 12px;
+    box-shadow: 5px 5px 0px rgba(25, 30, 41, 0.4);
+    font-family: 'Pixelify Sans', sans-serif;
+    color: #FFFFFF;
+    background-color: #2A3D45;
+    p {
+        background-color: #2A3D45;
+    }
+}
+
+.skater-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #2A3D45;
+}
+
+.skater-detail-photo {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 20px;
+    border: 4px solid #191E29; /* Pixelated border around image */
+    background-color: #2A3D45;
+}
+
+.skater-detail-name {
+    font-size: 2.5rem;
+    color: #B0BEC5; 
+    background-color: #2A3D45;
+}
+
+/* Skater detail info container */
+.skater-detail-info {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #191E29;
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    border: 4px solid #191E29;
+    box-shadow: 5px 5px 0px 0px rgba(90 ,101 ,114, 1);
+ 
+}
+
+/* Info row styling */
+.info-row {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    background-color: #191E29;
+    border-radius: 5px;
+    color: #677484;
+}
+
+/* Info row for left column */
+.info-row-left {
+    grid-column: 1;  /* This will place the info in the left column */
+}
+
+/* Info row for right column */
+.info-row-right {
+    grid-column: 2;  /* This will place the info in the right column */
+}
+
+
+.info-row p {
+    background-color: #191E29;
+    padding: 10px;
+    border-radius: 5px;
+    color: #677484;
+}
+
+h3 {
+    font-size: 1.8rem;
+    color: #677484;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    background-color: #2A3D45;
+}
+
+.programs-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two programs per row */
+    gap: 15px;
+    margin-bottom: 20px;
+    background-color: #2A3D45;
+}
+
+.program-item {
+    padding: 10px;
+    background-color: #2A3D45;
+    border: 4px solid #191E29;
+    text-align: center;
+    border-radius: 5px;
+}
+
+
+.competitions {
+    background-color: #2A3D45;
 }

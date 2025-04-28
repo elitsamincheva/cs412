@@ -3,34 +3,77 @@
 {% block title %}{{ skater.first_name }} {{ skater.last_name }}{% endblock %}
 
 {% block content %}
-  <div class="skater-detail">
-    <h2>{{ skater.first_name }} {{ skater.last_name }}</h2>
-    <img src="{{ skater.image.url }}" alt="{{ skater.name }}" style="max-width: 200px;">
-    <p><strong>Nationality:</strong> {{ skater.nationality }}</p>
-    <p><strong>Date of Birth:</strong> {{ skater.birth_date }}</p>
-    <p><strong>Hometown:</strong> {{ skater.hometown }}</p>
-    <p><strong>Skating Club:</strong> {{ skater.skating_club }}</p>
+  <div class="skater-detail-card">
+    <div class="skater-header">
+      <img src="{{ skater.image.url }}" alt="{{ skater.name }}" class="skater-detail-photo">
+      <h2 class="skater-detail-name">{{ skater.first_name }} {{ skater.last_name }}</h2>
+    </div>
+
+    <div class="skater-detail-info">
+      <div class="info-row">
+        <p>Nationality: {{ skater.nationality }}</p>
+      </div>
+      <div class="info-row">
+        <p>Date of Birth: {{ skater.birth_date }}</p>
+      </div>
+      <div class="info-row">
+        <p>Skating Club: {{ skater.skating_club }}</p>
+      </div>
+      <div class="info-row">
+        <p>Hometown: {{ skater.hometown }}</p>
+      </div>
+    </div>
 
     <h3>Programs</h3>
     <ul>
       {% for program in programs %}
-        <li>{{ program.title }} </li>
+        <li>{{ program.title }}</li>
       {% empty %}
         <li>No programs available.</li>
       {% endfor %}
     </ul>
 
+    {% if programs.has_other_pages %}
+    <div class="pagination">
+      <span class="pagination-button">
+        {% if programs.has_previous %}
+          <a href="?page_program=1">&laquo; First</a>
+          <a href="?page_program={{ programs.previous_page_number }}">Previous</a>
+        {% endif %}
+      </span>
+      <span class="pagination-button">
+        {% if programs.has_next %}
+          <a href="?page_program={{ programs.next_page_number }}">Next</a>
+          <a href="?page_program={{ programs.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+    {% endif %}
+
     <h3>Competition History</h3>
     <ul>
       {% for ep in executed_programs %}
-        <li>
-          {{ ep.competition.name }} – Score: {{ ep.total_score }}
-        </li>
+        <li>{{ ep.competition.name }} – Score: {{ ep.total_score }}</li>
       {% empty %}
         <li>No competitions found.</li>
       {% endfor %}
     </ul>
 
-    
+    {% if executed_programs.has_other_pages %}
+    <div class="pagination">
+      <span class="pagination-button">
+        {% if executed_programs.has_previous %}
+          <a href="?page_competition=1">&laquo; First</a>
+          <a href="?page_competition={{ executed_programs.previous_page_number }}">Previous</a>
+        {% endif %}
+      </span>
+      <span class="pagination-button">
+        {% if executed_programs.has_next %}
+          <a href="?page_competition={{ executed_programs.next_page_number }}">Next</a>
+          <a href="?page_competition={{ executed_programs.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+    {% endif %}
   </div>
 {% endblock %}
