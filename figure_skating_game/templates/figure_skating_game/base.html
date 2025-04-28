@@ -36,7 +36,8 @@
                             class="{% if request.resolver_match.url_name == 'skaters_list' %}active-nav{% endif %}">SKATERS</a>
                     </li>
                     <li>
-                        <a href="#" class="">PROGRAMS</a>
+                        <a href="{% url 'show_all_programs' %}"
+                            class="{% if request.resolver_match.url_name == 'show_all_programs' %}active-nav{% endif %}">PROGRAMS</a>
                     </li>
                 </ul>
             </nav>

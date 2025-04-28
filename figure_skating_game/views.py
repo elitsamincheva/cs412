@@ -88,9 +88,6 @@ class CreateCompetitionView(CreateView):
         return redirect('competition_results', competition_id=competition.id)
 
 
-
-from django.core.paginator import Paginator
-
 class SkaterDetailView(DetailView):
     model = Skater
     template_name = 'figure_skating_game/skater_detail.html'
@@ -132,7 +129,6 @@ class SkaterDetailView(DetailView):
         return context
 
 
-
 class HomeView(ListView):
     model = Skater
     template_name = 'figure_skating_game/home.html'
@@ -156,3 +152,13 @@ class HomeView(ListView):
         context['skaters'] = Skater.objects.filter(id__in=skater_ids).order_by(preserved_order)
 
         return context
+    
+
+class ShowAllPrograms(ListView):
+    model = Program
+    template_name = 'figure_skating_game/show_all_programs.html'
+    context_object_name = 'programs'
+    paginate_by = 9
+
+    def get_queryset(self):
+        return Program.objects.annotate(top_score=Max('executions__total_score'))

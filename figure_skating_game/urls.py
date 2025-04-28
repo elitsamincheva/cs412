@@ -10,5 +10,7 @@ urlpatterns = [
     path('competition/create/', CreateCompetitionView.as_view(), name='create_competition'),
     path('skater/<int:pk>/', SkaterDetailView.as_view(), name='skater_detail'),
     path('competitions', ShowAllCompetitions.as_view(), name="show_all_comps"),
+    path('programs/', ShowAllPrograms.as_view(), name="show_all_programs"),
+
 ]
 

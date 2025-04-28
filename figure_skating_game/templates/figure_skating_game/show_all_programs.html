@@ -1,0 +1,58 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block title %}All Programs{% endblock %}
+
+{% block content %}
+<h2 class="featured-title">ALL PROGRAMS</h2>
+<!-- pagination controls -->
+{% if page_obj.paginator.num_pages > 1 %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">← Prev</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+                {% if num == page_obj.number %}
+                    <span class="pagination-current">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}" class="pagination-button">{{ num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">Next →</a>
+        {% endif %}
+    </div>
+{% endif %}
+
+<!-- program cards -->
+<div class="program-cards-grid">
+    {% for program in programs %}
+    <div class="program-card">
+      <h3 class="program-card-title">{{ program.title }}</h3>
+      <p class="program-card-skater">{{ program.skater.first_name }} {{ program.skater.last_name }}</p>
+      {% if program.skater.image %}
+      <img src="{{ program.skater.image.url }}" alt="{{ program.skater.first_name }} {{ program.skater.last_name }}" class="program-card-photo">
+      {% else %}
+      <div class="program-card-no-image">No Image</div>
+      {% endif %}
+      <div class="program-card-score">
+        {% if program.top_score is not None %}
+          Top Score: {{ program.top_score|floatformat:2 }}
+        {% else %}
+          No Scores Yet
+        {% endif %}
+      </div>
+    </div>
+    {% empty %}
+    <p>No programs available.</p>
+    {% endfor %}
+  </div>
+
+  
+{% endblock %}
+
+
+

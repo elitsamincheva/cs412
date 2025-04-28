@@ -586,3 +586,80 @@ h3 {
     border-bottom: none; /* Remove the bottom border for the last item */
     
   }
+
+
+/* program cards styling */
+/* container for the program cards in a grid layout */
+.program-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Explicitly create 3 equal-width columns */
+    gap: 20px;
+    padding: 20px;
+  }
+
+  /* Style for each program card */
+  .program-card {
+    background-color: #2A3D45;
+    border: 4px solid #191E29;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px rgba(25, 30, 41, 0.4);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 360px; 
+  }
+
+  /* style for the program title */
+  .program-card-title {
+    font-size: 1.5em;
+    color: #B0BEC5;
+    margin-bottom: 10px;
+    background-color: transparent;
+  }
+
+  /* Style for the skater information */
+  .program-card-skater {
+    font-size: 1em;
+    color: #677484;
+    margin-bottom: 10px;
+    background-color: transparent;
+  }
+
+  /* Style for the skater's photo */
+  .program-card-photo {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 3px solid #5A6572;
+    margin-bottom: 10px;
+    background-color: #677484; /* Retro background for image */
+    box-shadow: 3px 3px 0px #191E29; /* Pixel shadow for image */
+  }
+
+  /* Style for the top score */
+  .program-card-score {
+    font-size: 1.2em;
+    color: #FFFFFF;
+    background-color: #191E29;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 2px solid #5A6572;
+    box-shadow: 3px 3px 0px #2A3D45;
+    margin-top: auto; /* Push the score to the bottom */
+  }
+
+  .program-card-no-image {
+    width: 150px;
+    height: 150px;
+    background-color: #515d6b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    border-radius: 5px;
+    border: 3px solid #5A6572;
+    margin-bottom: 10px;
+  }
