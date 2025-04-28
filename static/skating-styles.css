@@ -1,10 +1,77 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
+/* global styling */
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
+* {
+    background-color: #515d6b;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400; 
+    font-style: normal;
+    color: #191E29;
+    margin: 0;  /* Reset margin for all elements */
+    padding: 0;  /* Reset padding for all elements */
 }
+
+a{
+    text-decoration: none;
+}
+
+body {
+    border: 5px solid #191E29;
+    margin: 0; 
+    padding: 0; 
+}
+
+/* header styling */
+header {
+    padding-bottom: 50px;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 4em; 
+    margin-top: 50px; 
+    margin-bottom: 50px;
+}
+
+/* nav styling */
+header nav ul {
+    display: flex;
+    justify-content: center; 
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+header nav ul li {
+    margin: 0 10px; 
+}
+  
+header nav a {
+ 
+    padding: 15px 30px;
+    font-family: 'Pixelify Sans', sans-serif;
+    border-style: solid;
+    border-width: 4px;
+    border-color: #191E29;
+    font-size: 1.5em;
+    color: #191E29;
+    box-shadow: 8px 8px 0px 0px rgba(25, 30, 41,1);
+}
+
+header nav a:hover {
+    background-color: #677484;
+}
+
+/* Active nav button */
+.active-nav {
+    background-color: #191E29; /* Darker fill */
+    color: #677484; /* Lighter text */
+    box-shadow: inset 4px 4px 0px #2A3D45; /* Pixel-style inset look */
+}
+
+/* Regular nav styling stays the same */
+
 
 /* Grid container for skaters */
 .grid-container {
@@ -13,63 +80,224 @@ body {
     gap: 20px;
     padding: 20px;
     margin-top: 20px;
+    
+    justify-items: center;  /* Centers grid items horizontally */
+    align-items: center;    /* Centers grid items vertically */
 }
 
-/* Individual skater card */
+
+
+
+/* Skater name */
+.skater-name {
+    font-size: 30px;
+    font-weight: bold;
+    color: #677484;
+    margin-top: 10px;
+    background-color: #2A3D45;
+}
+.skater-nationality {
+    background-color: #2A3D45;
+    color: #677484;
+    font-size: 25px;
+}
+
+.all-skaters{
+    text-align:center;
+ 
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+
+/* Skater Carousel */
+.skater-carousel {
+    display: flex;
+    overflow-x: auto;  /* horizontal scrolling */
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;  
+}
+
+/* Skater Card */
 .skater-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #2A3D45; 
+    border-style: solid;
+    border-width: 4px;
+    border-color: #191E29;
     overflow: hidden;
     text-align: center;
-    padding: 10px;
+    padding: 20px;
+    width: 300px;  
+    height: 400px;  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 10px; 
+    flex-shrink: 0;  
 }
 
 /* Skater image */
 .skater-card img {
-    width: 350px;
-    height:350px;
+    width: 100%;  
+    height: 60%;  
     border-radius: 5px;
     object-fit: cover;
 }
 
-/* Skater name */
-.skater-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 10px;
-}
-
-/* Pagination */
+/* Pagination container */
 .pagination {
-    display: flex;
-    justify-content: center;
     margin-top: 30px;
+    text-align: center;
+    background-color: #677484;
+    padding: 20px;
+    border-top: 4px solid #191E29;
+    border-bottom: 4px solid #191E29;
+    /* box-shadow: 8px 8px 0px 0px rgba(25, 30, 41, 1); */
+    padding-bottom: 30px;
+    padding-top: 28px;
 }
 
-.step-links {
-    font-size: 16px;
-}
-
-.step-links a {
+/* Pagination button (normal pages) */
+.pagination-button {
+    background-color: #2A3D45;
+    color: #191E29;
+    font-family: 'Pixelify Sans', sans-serif;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: 4px solid #191E29;
     text-decoration: none;
-    color: #007BFF;
-    margin: 0 5px;
-    padding: 5px 10px;
-    border: 1px solid #007BFF;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    font-size: 1.5em;
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41,1);
+    transition: transform 0.2s, background-color 0.2s;
 }
 
-.step-links a:hover {
-    background-color: #007BFF;
-    color: white;
+/* Hover effect on buttons */
+.pagination-button:hover {
+    background-color: #515d6b;
+    transform: scale(1.1);
 }
 
-.step-links .current {
+/* Current page (different look) */
+.pagination-current {
+    background-color: #191E29;
+    color: #677484;
+    font-family: 'Pixelify Sans', sans-serif;
+    padding: 10px 20px;
     margin: 0 5px;
-    padding: 5px 10px;
-    font-weight: bold;
+    border: 4px solid #2A3D45;
+    font-size: 1.5em;
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41,1);
 }
+
+
+
+/* home styling */
+/* Title style for Featured Skaters */
+.featured-title {
+    text-align: center;
+    font-size: 48px;
+    color: #191E29;
+    background-color: #677484;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 4px solid #191E29;
+    font-family: 'Pixelify Sans', sans-serif;
+    letter-spacing: 4px;
+    box-shadow: 8px 8px 0px 0px rgba(25, 30, 41, 1);
+}
+
+
+/* Carousel wrapper */
+.carousel-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+    max-width: 1200px;
+    overflow: hidden; /* Hide overflow for neatness */
+}
+
+/* Skater Carousel */
+.skater-carousel {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    transition: transform 0.5s ease; /* Smooth transition */
+}
+
+/* Skater Card */
+.skater-card-link {
+    flex: 0 0 auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.skater-card-link .skater-card {
+    width: 250px;
+    height: 350px;
+    background-color: #2A3D45;
+    border: 4px solid #191E29;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
+}
+
+/* Arrow buttons */
+.carousel-arrow {
+    font-size: 40px;
+    background-color: #191E29;
+    color: #677484;
+    border: 4px solid #191E29;
+    padding: 10px 15px;
+    cursor: pointer;
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
+    transition: background-color 0.3s, transform 0.2s;
+    z-index: 2;
+}
+
+.carousel-arrow:hover {
+    background-color: #677484;
+    color: #191E29;
+    transform: scale(1.1);
+}
+
+.left-arrow {
+    margin-right: 10px;
+}
+
+.right-arrow {
+    margin-left: 10px;
+}
+
+
+
+
+/* Recent Competitions Styling */
+.recent-title {
+    text-align: center;
+    font-size: 36px;
+    color: #191E29;
+    margin: 40px 0 20px 0;
+}
+
+.recent-competitions {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.recent-competitions li {
+    background-color: #2A3D45;
+    border: 4px solid #191E29;
+    padding: 20px;
+    margin: 10px auto;
+    max-width: 500px;
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
+}
+
 

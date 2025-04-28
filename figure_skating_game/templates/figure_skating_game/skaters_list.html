@@ -3,16 +3,40 @@
 {% block title %}All Skaters{% endblock %}
 
 {% block content %}
-    <h1 style="text-align:center;">All Skaters</h1>
+<h2 class="featured-title">ALL SKATERS</h2>
+    <!-- Pagination controls -->
+    <div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">← Prev</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+        {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+            {% if num == page_obj.number %}
+                <span class="pagination-current">{{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}" class="pagination-button">{{ num }}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">Next →</a>
+    {% endif %}
+</div>
+
     <div class="grid-container">
         {% for skater in skaters %}
             <a href="{% url 'skater_detail' skater.id %}" class="skater-card-link">
                 <div class="skater-card">
                     <img src="{{ skater.image.url }}" alt="{{ skater.name }}">
                     <div class="skater-name">{{ skater.first_name }} {{ skater.last_name }}</div>
-                    <div>{{ skater.nationality }}</div>
+                    <div class="skater-nationality">{{ skater.nationality }}</div>
                 </div>
             </a>
         {% endfor %}
     </div>
+
+    
+      
 {% endblock %}

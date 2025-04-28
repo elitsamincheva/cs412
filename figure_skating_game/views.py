@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
+from django.db.models import Max, Case, When
 
 from .forms import CompetitionForm
 from .models import *
@@ -13,6 +14,7 @@ class ShowAllSkaters(ListView):
     model = Skater
     template_name = 'figure_skating_game/skaters_list.html' 
     context_object_name = 'skaters'  
+    paginate_by = 9
 
 class ShowAllCompetitions(ListView):
     model = Competition
@@ -98,5 +100,29 @@ class SkaterDetailView(DetailView):
 
         # Get success probabilities
         context['element_probs'] = skater.element_probs.select_related('element')
+
+        return context
+
+class HomeView(ListView):
+    model = Skater
+    template_name = 'figure_skating_game/home.html'
+    context_object_name = 'skaters'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Get the 3 most recent competitions
+        context['competitions'] = Competition.objects.all().order_by('-date')[:3]
+
+        # Get the top 10 skaters with the highest ever scores (no repeats)
+        # Assuming ExecutedProgram is the model where skater scores are stored
+        highest_scores = ExecutedProgram.objects.values('program__skater').annotate(
+            max_score=Max('total_score')
+        ).order_by('-max_score')[:10]
+
+        # Get skaters corresponding to the top 10 highest scores
+        skater_ids = [entry['program__skater'] for entry in highest_scores]
+        preserved_order = Case(*[When(id=pk, then=pos) for pos, pk in enumerate(skater_ids)])
+        context['skaters'] = Skater.objects.filter(id__in=skater_ids).order_by(preserved_order)
 
         return context

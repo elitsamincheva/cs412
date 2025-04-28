@@ -1,0 +1,71 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block content %}
+<section>
+    <h2 class="featured-title">FEATURED SKATERS</h2>
+
+    <div class="carousel-wrapper">
+        <button class="carousel-arrow left-arrow" onclick="scrollCarousel(-1)">&#9664;</button>
+
+        <div class="skater-carousel" id="skater-carousel">
+            {% for skater in skaters %}
+                <a href="{% url 'skater_detail' skater.id %}" class="skater-card-link">
+                    <div class="skater-card">
+                        <img src="{{ skater.image.url }}" alt="{{ skater.name }}">
+                        <div class="skater-name">{{ skater.first_name }} {{ skater.last_name }}</div>
+                        <div class="skater-nationality">{{ skater.nationality }}</div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <button class="carousel-arrow right-arrow" onclick="scrollCarousel(1)">&#9654;</button>
+    </div>
+</section>
+
+<!-- Recent Competitions Section -->
+<section>
+    <h2 class="recent-title">MOST RECENT COMPETITIONS</h2>
+    {% if competitions %}
+        <ul class="recent-competitions">
+            {% for competition in competitions %}
+                <li>
+                    <h3>{{ competition.name }}</h3>
+                    <p>Date: {{ competition.date }}</p>
+                    <p>Location: {{ competition.location }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No competitions available.</p>
+    {% endif %}
+</section>
+
+<script>
+// Function to handle carousel movement (circular)
+function scrollCarousel(direction) {
+    const container = document.getElementById('skater-carousel');
+    const items = container.querySelectorAll('.skater-card-link');
+    const itemWidth = items[0].offsetWidth + 20;  // Adding gap between items
+
+    // Move carousel content to simulate a circular rotation
+    if (direction === 1) {
+        // Move the first item to the end (scroll right)
+        container.appendChild(items[0]);
+    } else if (direction === -1) {
+        // Move the last item to the front (scroll left)
+        container.prepend(items[items.length - 1]);
+    }
+
+    // Smooth scroll by the width of the items
+    container.style.transition = 'transform 0.5s ease';
+    container.style.transform = `translateX(-${itemWidth}px)`;
+
+    // Reset transition after animation to allow smooth scrolling
+    setTimeout(() => {
+        container.style.transition = 'none';
+        container.style.transform = `translateX(0)`;
+    }, 500);
+}
+</script>
+{% endblock %}
