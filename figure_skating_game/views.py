@@ -21,6 +21,7 @@ class ShowAllCompetitions(ListView):
     model = Competition
     template_name = 'figure_skating_game/show_all_comps.html' 
     context_object_name = 'competitions'
+    paginate_by = 9
 
 class CreateCompetitionView(CreateView):
     model = Competition 
@@ -28,50 +29,50 @@ class CreateCompetitionView(CreateView):
     template_name = 'figure_skating_game/create_competition.html'  
 
     def form_valid(self, form):
-        # Save the competition model
+        # save the competition model
         competition = form.save()
 
-        # Loop through the selected skaters from the form
+        # loop through the selected skaters from the form
         for skater in form.cleaned_data['skaters']:
-            # Find a preset program for the skater
+            # find a preset program for the skater
             program = skater.programs.filter(preset=True).first()
             if not program:
-                continue  # Skip if no preset program found
+                continue  # skip if no preset program found
 
-            total_score = 0  # Initialize score
+            total_score = 0  # initialize score
 
-            # Create an ExecutedProgram to track performance at this competition
+            # create an ExecutedProgram to track performance at this competition
             executed_program = ExecutedProgram.objects.create(
                 program=program,
                 competition=competition,
-                total_score=0  # Will be updated after simulating elements
+                total_score=0  # will be updated after simulating elements
             )
 
-            # Get ordered elements in the program
+            # get ordered elements in the program
             elements = ProgramElementOrder.objects.filter(program=program).order_by('order')
 
-            # Simulate execution of each element
+            # simulate execution of each element
             for order, peo in enumerate(elements, start=1):
                 element = peo.element
 
-                # Get success probability for this skater-element combo
+                # get success probability for this skater-element combo
                 prob_obj = skater.element_probs.filter(element=element).first()
                 success_rate = prob_obj.success_rate if prob_obj else 0.5
 
-                # Simulate whether the element is executed successfully
+                # simulate whether the element is executed successfully
                 success = random.random() < success_rate
 
-                # Generate a GOE depending on whether the element was successful
+                # generate a GOE depending on whether the element was successful
                 goe = round(random.uniform(-3, 3), 2) if success else round(random.uniform(-5, 0), 2)
 
                 # GOE contribution: 10% of base value per GOE point
                 base_value = float(element.base_value)
                 score = base_value + (goe * 0.1 * base_value)
 
-                # Add to total score (but don’t allow negative contributions)
+                # add to total score (but don’t allow negative contributions)
                 total_score += max(score, 0)
 
-                # Record the executed element
+                # record the executed element
                 ExecutedElement.objects.create(
                     executed_program=executed_program,
                     element=element,
@@ -79,11 +80,11 @@ class CreateCompetitionView(CreateView):
                     goe=goe
                 )
 
-            # Save the final total score for the executed program
+            # save the final total score for the executed program
             executed_program.total_score = round(total_score, 2)
             executed_program.save()
 
-        # Redirect to the results page with the competition ID
+        # redirect to the results page with the competition ID
         return redirect('competition_results', competition_id=competition.id)
 
 
@@ -140,16 +141,16 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Get the 3 most recent competitions
+        # get the 3 most recent competitions
         context['competitions'] = Competition.objects.all().order_by('-date')[:3]
 
-        # Get the top 10 skaters with the highest ever scores (no repeats)
-        # Assuming ExecutedProgram is the model where skater scores are stored
+        # get the top 10 skaters with the highest ever scores (no repeats)
+        # assuming ExecutedProgram is the model where skater scores are stored
         highest_scores = ExecutedProgram.objects.values('program__skater').annotate(
             max_score=Max('total_score')
         ).order_by('-max_score')[:10]
 
-        # Get skaters corresponding to the top 10 highest scores
+        # get skaters corresponding to the top 10 highest scores
         skater_ids = [entry['program__skater'] for entry in highest_scores]
         preserved_order = Case(*[When(id=pk, then=pos) for pos, pk in enumerate(skater_ids)])
         context['skaters'] = Skater.objects.filter(id__in=skater_ids).order_by(preserved_order)

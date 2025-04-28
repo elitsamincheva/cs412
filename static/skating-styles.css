@@ -292,6 +292,7 @@ header nav a:hover {
     gap: 20px;
     padding: 20px;
     padding-bottom: 30px;
+    
 }
 
 
@@ -525,4 +526,36 @@ h3 {
 
 .competitions {
     background-color: #2A3D45;
+}
+
+
+.skater-recent-competitions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    padding-bottom: 30px;
+    background-color: #2A3D45;
+}
+
+.skater-competition-card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px; 
+    padding: 0 10px; 
+    background-color: #191E29;
+}
+
+.skater-competition-card {
+    background-color: #191E29;
+    border: 4px solid #5A6572;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 5px 5px 0px 0px rgba(90 ,101 ,114, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px; 
+    margin: 0 auto; 
 }

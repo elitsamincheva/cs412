@@ -3,18 +3,60 @@
 {% block title %}All Competitions{% endblock %}
 
 {% block content %}
-    <h2>All Competitions</h2>
-    
-    {% if competitions %}
-        <ul>
+<h2 class="featured-title">ALL COMPETITIONS</h2>
+{% if page_obj.paginator.num_pages > 1 %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">← Prev</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+                {% if num == page_obj.number %}
+                    <span class="pagination-current">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}" class="pagination-button">{{ num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">Next →</a>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if competitions %}
+        <div class="recent-competitions-grid">
             {% for competition in competitions %}
-                <li>
-                    <h3>{{ competition.name }}</h3>
-                    <p>Date: {{ competition.date }}</p>
-                    <p>Location: {{ competition.location }}</p>
-                </li>
+                <div class="competition-card">
+                    <h3 class="competition-name">{{ competition.name }}</h3>
+
+                    <div class="competition-card-body">
+                        <div class="competition-info-left">
+                            <p class="competition-date">🗓️ {{ competition.date }}</p>
+                            <p class="competition-location">📍 {{ competition.location }}</p>
+                        </div>
+
+                        {% with competition.executed_programs.first as winning_execution %}
+                            {% if winning_execution %}
+                                <div class="winner-section">
+                                    <img class="winner-photo" src="{{ winning_execution.program.skater.image.url }}" alt="Winner photo">
+                                    <div class="winner-info">
+                                        <p class="winner-name">🏆 {{ winning_execution.program.skater.first_name }} {{ winning_execution.program.skater.last_name }}</p>
+                                        <p class="winner-score">Score: {{ winning_execution.total_score }}</p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="winner-section">
+                                    <p class="winner-name">🏆 Winner: TBD</p>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>No competitions available.</p>
     {% endif %}
