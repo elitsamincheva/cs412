@@ -7,6 +7,8 @@ from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView
 from django.db.models import Max, Case, When, Prefetch
 
+from django.http import JsonResponse  
+
 from .forms import CompetitionForm, SelectProgramsForm, ProgramForm
 from .models import *
 
@@ -227,6 +229,10 @@ class ProgramDetailView(DetailView):
 
         context['executed_programs'] = program.executions.all() # access the prefetched executions
 
+        # Calculate the total base value of the program's elements
+        total_base_value = sum(element.base_value for element in program.elements.all())
+        context['total_base_value'] = total_base_value
+
         return context
     
 class CreateProgramView(CreateView):
@@ -249,14 +255,11 @@ class CreateProgramView(CreateView):
             )
             order += 1
 
-        return redirect(reverse('program_detail', kwargs={'pk': program.pk}))  # Replace 'program_detail' with your actual detail view name
+        return redirect(reverse('program_detail', kwargs={'pk': program.pk}))  # Adjust as needed
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['skaters'] = Skater.objects.all()
-        context['element_fields'] = []
-        form = self.form_class()  # Instantiate the form
-        for i in range(1, 13):
-            context['element_fields'].append(form[f'element_{i}'])  # Access the field directly
-        context['form'] = form
+        context['form'] = self.form_class()
+        context['elements'] = Element.objects.all()
         return context
+
