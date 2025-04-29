@@ -55,7 +55,94 @@
     </table>
 
     <button type="submit">Create Program</button>
+
 </form>
+
+
+<script>
+    // make a dictionary where each element's id maps to its base value
+    const elementBaseValues = {
+        {% for element in elements %}
+        "{{ element.id }}": {{ element.base_value }},
+        {% endfor %}
+    };
+
+    // this function updates the base values shown in the table
+    function updateBaseValues() {
+        let total = 0;  // keep track of the total base value
+
+        // go through each dropdown in the table
+        document.querySelectorAll('.element-select').forEach(select => {
+            const selectedValue = select.value;  // get the selected element id
+            const row = select.closest('tr');  // find the row it's in
+            const baseCell = row.querySelector('.base-value');  // find the base value cell in that row
+
+            // if an element is selected and we know its base value
+            if (selectedValue && elementBaseValues[selectedValue]) {
+                const base = parseFloat(elementBaseValues[selectedValue]);  // get base value as a number
+                baseCell.textContent = base.toFixed(2);  // show base value in the table with 2 decimals
+                total += base;  // add to the total
+            } else {
+                baseCell.textContent = '';  // clear cell if nothing selected
+            }
+        });
+
+        // update the total base value at the bottom of the table
+        document.getElementById('total-base-value').textContent = total.toFixed(2);
+    }
+
+    // run this when the page finishes loading
+    document.addEventListener('DOMContentLoaded', () => {
+        // set up each dropdown so when it changes, the base values update
+        document.querySelectorAll('.element-select').forEach(select => {
+            select.addEventListener('change', updateBaseValues);
+        });
+    });
+
+    // this function prevents users from selecting the same element in multiple dropdowns
+    // it first gathers all the selected values from the element dropdowns
+    // then it loops through each dropdown and disables any options that are already selected elsewhere
+    // it makes sure the current value stays enabled so the user doesn't lose their selection
+    function preventDuplicates() {
+        const selectedValues = new Set();
+
+        // collect all selected values
+        document.querySelectorAll('.element-select').forEach(select => {
+            if (select.value) {
+                selectedValues.add(select.value);
+            }
+        });
+
+        // for each dropdown, enable all options first
+        document.querySelectorAll('.element-select').forEach(select => {
+            const currentValue = select.value;
+
+            select.querySelectorAll('option').forEach(option => {
+                // always keep the currently selected value enabled
+                if (option.value === currentValue || option.value === "") {
+                    option.disabled = false;
+                } else {
+                    option.disabled = selectedValues.has(option.value);
+                }
+            });
+        });
+    }
+
+    // runs whenever an element is selected or changed...updates the base value display for each row
+    // then it disables already-selected elements in other dropdowns to avoid duplicates
+    function handleElementChange() {
+        updateBaseValues();      // update the base value in table
+        preventDuplicates();     // disable already used elements
+    }
+
+    // hook into change event
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.element-select').forEach(select => {
+            select.addEventListener('change', handleElementChange);
+        });
+    });
+
+</script>
 {% endblock %}
 
 {% block styles %}
