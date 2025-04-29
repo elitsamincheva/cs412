@@ -66,33 +66,21 @@ header nav a:hover {
 /* Active nav button */
 .active-nav {
     background-color: #191E29;
-    /* Darker fill */
     color: #677484;
-    /* Lighter text */
     box-shadow: inset 4px 4px 0px #2A3D45;
-    /* Pixel-style inset look */
 }
 
 /* Regular nav styling stays the same */
-
-
 /* Grid container for skaters */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 3 items per row */
     gap: 20px;
     padding: 20px;
     margin-top: 20px;
-
     justify-items: center;
-    /* Centers grid items horizontally */
     align-items: center;
-    /* Centers grid items vertically */
 }
-
-
-
 
 /* Skater name */
 .skater-name {
@@ -194,8 +182,6 @@ header nav a:hover {
     box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
 }
 
-
-
 /* home styling */
 /* Title style for Featured Skaters */
 .featured-title {
@@ -232,7 +218,6 @@ header nav a:hover {
 .skater-card-link {
     flex: 0 0 auto;
     transition: none;
-    /* Remove transition to make it more retro */
 }
 
 .skater-card-link .skater-card {
@@ -251,8 +236,7 @@ header nav a:hover {
 
 /* Center Card Bigger */
 .skater-card-link.highlighted {
-    transform: scale(1.1);
-    /* Make the middle card bigger */
+    transform: scale(1.1); /* make the middle card bigger */
     filter: brightness(100%);
 }
 
@@ -293,8 +277,6 @@ header nav a:hover {
 }
 
 /* Recent Competitions Styling */
-
-
 /* Competition section grid */
 .recent-competitions-grid {
     display: grid;
@@ -304,8 +286,6 @@ header nav a:hover {
     padding-bottom: 30px;
 
 }
-
-
 
 /* Competition name */
 .competition-name {
@@ -326,12 +306,10 @@ header nav a:hover {
     background-color: #2A3D45;
 }
 
-
 .competition-info-left,
 .winner-section {
     flex: 0 0 auto;
 }
-
 
 .competition-card {
     background-color: #2A3D45;
@@ -346,8 +324,7 @@ header nav a:hover {
     margin: 0 auto;
 }
 
-
-/* Left side: Date + Location */
+/*lLeft side: date + location */
 .competition-info-left {
     text-align: center;
     background-color: #2A3D45;
@@ -361,7 +338,7 @@ header nav a:hover {
     background-color: #2A3D45;
 }
 
-/* Right side: Winner info */
+/* right side: winner info */
 .winner-section {
     display: flex;
     flex-direction: column;
@@ -375,15 +352,10 @@ header nav a:hover {
     height: 80px;
     object-fit: cover;
     border: 4px solid #191E29;
-    /* thick pixelated border */
     background-color: #677484;
-    /* retro background */
     box-shadow: 4px 4px 0px #191E29;
-    /* pixel shadow */
     border-radius: 8px;
-    /* small rounding, or remove if you want sharp pixel corners */
 }
-
 
 /* Winner info text */
 .winner-info {
@@ -405,8 +377,7 @@ header nav a:hover {
     background-color: #2A3D45;
 }
 
-
-/* Create Competition Button Styling */
+/* create Competition Button Styling */
 .create-competition-wrapper {
     text-align: center;
     margin: 30px 0;
@@ -433,16 +404,12 @@ header nav a:hover {
     transform: scale(1.05);
 }
 
-
-
 /* skater detail styling */
-/* Skater detail card */
 .skater-detail-card {
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
     background-color: #2A3D45;
-    /* Match the retro background color */
     border: 4px solid #191E29;
     border-radius: 12px;
     box-shadow: 5px 5px 0px rgba(25, 30, 41, 0.4);
@@ -469,7 +436,6 @@ header nav a:hover {
     border-radius: 5px;
     margin-right: 20px;
     border: 4px solid #191E29;
-    /* Pixelated border around image */
     background-color: #2A3D45;
 }
 
@@ -503,15 +469,12 @@ header nav a:hover {
 /* Info row for left column */
 .info-row-left {
     grid-column: 1;
-    /* This will place the info in the left column */
 }
 
 /* Info row for right column */
 .info-row-right {
     grid-column: 2;
-    /* This will place the info in the right column */
 }
-
 
 .info-row p {
     background-color: #191E29;
@@ -531,7 +494,6 @@ h3 {
 .programs-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* Two programs per row */
     gap: 15px;
     margin-bottom: 20px;
     background-color: #2A3D45;
@@ -545,11 +507,9 @@ h3 {
     border-radius: 5px;
 }
 
-
 .competitions {
     background-color: #2A3D45;
 }
-
 
 .skater-recent-competitions-grid {
     display: grid;
@@ -584,27 +544,20 @@ h3 {
 
 .program-list-container {
     border: 3px solid #5A6572;
-    /* Add a border for the box */
     padding: 10px;
-    /* Add some padding inside the box */
     background-color: #191E29;
 }
 
 .program-list {
     list-style-type: none;
-    /* Remove bullet points */
     padding: 0;
-    /* Remove default padding for the list */
     margin: 0;
-    /* Remove default margin for the list */
     background-color: #191E29;
 }
 
 .program-list li {
     padding: 8px 0;
-    /* Add vertical padding for rows */
     border-bottom: 1px solid #eee;
-    /* Add a subtle line between rows */
     background-color: #191E29;
     color: #677484;
     font-size: 20px;
@@ -612,8 +565,6 @@ h3 {
 
 .program-list li:last-child {
     border-bottom: none;
-    /* Remove the bottom border for the last item */
-
 }
 
 
@@ -621,8 +572,7 @@ h3 {
 /* container for the program cards in a grid layout */
 .program-cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* Explicitly create 3 equal-width columns */
+    grid-template-columns: repeat(3, 1fr); /* explicitly create 3 equal-width columns */
     gap: 20px;
     padding: 20px;
 }
@@ -666,9 +616,7 @@ h3 {
     border: 3px solid #5A6572;
     margin-bottom: 10px;
     background-color: #677484;
-    /* Retro background for image */
     box-shadow: 3px 3px 0px #191E29;
-    /* Pixel shadow for image */
 }
 
 /* Style for the top score */
@@ -681,7 +629,6 @@ h3 {
     border: 2px solid #5A6572;
     box-shadow: 3px 3px 0px #2A3D45;
     margin-top: auto;
-    /* Push the score to the bottom */
 }
 
 .program-card-no-image {
@@ -699,23 +646,15 @@ h3 {
 
 
 /* competition detail styling */
-
-
 .competition-results-card {
     background-color: #2A3D45;
-    /* Dark background */
     border: 4px solid #191E29;
-    /* Dark pixel border */
     border-radius: 10px;
     box-shadow: 8px 8px 0px 0px rgba(25, 30, 41, 1);
-    /* Pixelated shadow */
     padding: 20px;
     margin: 30px auto;
-    /* Center horizontally with top/bottom margin */
     max-width: 90%;
-    /* Adjust as needed */
     overflow-x: auto;
-    /* Allow horizontal scrolling for very wide tables */
 }
 
 /* Style for the results table itself */
@@ -723,31 +662,25 @@ h3 {
     width: 100%;
     border-collapse: collapse;
     color: #B0BEC5;
-    /* Light text color */
     font-size: 1em;
 }
 
 .competition-results-table th,
 .competition-results-table td {
     border: 2px solid #191E29;
-    /* Dark pixel border for cells */
     padding: 8px;
     text-align: left;
 }
 
 .competition-results-table th {
     background-color: #191E29;
-    /* Dark header background */
     color: #677484;
-    /* Lighter header text */
     font-weight: bold;
 }
 
 .executed-elements-details {
     display: none;
-    /* Initially hide the details row */
     background-color: #3B4A5A;
-    /* Slightly lighter background for details */
 }
 
 .expand-control {
@@ -756,12 +689,9 @@ h3 {
     font-size: 1.2em;
     text-align: center;
     color: #677484;
-    /* Lighter text for the expand control */
     background-color: #191E29;
-    /* Match card background */
     padding: 5px;
     border: 2px solid #191E29;
-    /* Pixel border for the control */
     border-radius: 5px;
 }
 
@@ -800,30 +730,20 @@ h3 {
 
 .competition-info-container {
     text-align: center;
-    /* Center the content within the container */
     margin-bottom: 20px;
-    /* Add some space below the date/location info */
     color: #B0BEC5;
-    /* Consistent text color */
-
     padding: 10px 0;
-    /* Add some vertical padding */
 }
 
 .competition-info-container p {
     font-size: 1.3em;
-    /* Slightly larger font for readability */
     background-color: inherit;
-    /* Inherit background from the container */
 }
 
 .results-heading-container {
     text-align: center;
-    /* Center the "Results" heading */
     margin-bottom: 15px;
-    /* Add space below the heading */
     color: #677484;
-    /* Style the heading color */
     background-color: inherit;
     font-size: 1.6em;
 
@@ -851,26 +771,159 @@ h3 {
 
 /* competition form styling */
 .form-label {
-    font-size: 1.2em; /* Adjust the size as needed */
-    text-align: center; /* Center the label text */
-    display: block; /* Make the label take up the full width */
-    margin-bottom: 5px; /* Add a little space below the label */
-  }
+    font-size: 1.2em;
+    text-align: center;
+    display: block;
+    margin-bottom: 5px;
+}
 
-  .form-input {
-    font-size: 1.1em; /* Adjust the input text size as needed */
+.form-input {
+    font-size: 1.1em;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%; /* Make the input take full width to center it visually */
-    box-sizing: border-box; /* Include padding and border in the width */
-    margin-bottom: 10px; /* Add space below the input */
-  }
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
 
-  .errorlist {
-    text-align: center; /* Center the error messages */
+.errorlist {
+    text-align: center;
     color: red;
     font-size: 0.9em;
     list-style-type: none;
     padding: 0;
-  }
+}
+
+/* select programs styling */
+.sp-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.sp-skater-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.sp-skater-card img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+
+    border: 3px solid #191E29;
+    margin-bottom: 10px;
+    background-color: #677484;
+    box-shadow: 3px 3px 0px #191E29;
+}
+
+.sp-skater-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sp-program-select {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.sp-program-select select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.sp-submit {
+    background-color: #191E29;
+    color: #677484;
+    font-size: 20px;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-family: 'Pixelify Sans', sans-serif;
+    letter-spacing: 2px;
+    border: 4px solid #191E29;
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.sp-submit:hover {
+    background-color: #677484;
+    color: #191E29;
+    transform: scale(1.05);
+}
+
+/* program info styles */
+.prog-detail-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #191E29;
+    border: 4px solid #191E29;
+    box-shadow: 5px 5px 0px 0px rgba(90, 101, 114, 1);
+
+    h2 {
+        background-color: #191E29;
+        color: #677484;
+        text-align: center;
+        font-size: 1.7em;
+    }
+}
+
+.prog-detail-box {
+    background-color: #191E29;
+    color: #677484;
+    box-shadow: inset 4px 4px 0px #2A3D45;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.prog-detail-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.prog-detail-box th,
+.prog-detail-box td {
+    text-align: left;
+    border-bottom: 1px solid #2A3D45;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 8px;
+}
+
+.prog-detail-box th {
+    font-weight: bold;
+}
+
+.prog-detail-box tr:last-child td {
+    border-bottom: none;
+}
+
+.detail-button {
+    background-color: #191E29;
+    color: #677484;
+    font-size: 12px;
+    padding: 8px 16px;
+    text-decoration: none;
+    letter-spacing: 2px;
+    border: 2px solid #191E29;
+    box-shadow: 3px 3px 0px 0px rgba(25, 30, 41, 1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-align: center;
+}
+
+.detail-button:hover {
+    background-color: #677484;
+    color: #191E29;
+    transform: scale(1.05);
+}

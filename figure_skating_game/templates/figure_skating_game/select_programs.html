@@ -2,17 +2,35 @@
 
 {% block content %}
 
-<h1>Select Programs</h1>
+<h1 class="featured-title">Select Programs</h1>
 
 <form method="post" action="">
     {% csrf_token %}
-    {% for field in form %}
-        <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-        </p>
-    {% endfor %}
-    <button type="submit">Create Competition</button>
+    <div class="sp-grid-container"> 
+        {% for field in form %}
+      
+        
+        <div class="sp-skater-card"> 
+            <img src="{{ field.field.queryset.first.skater.image.url }}" alt="">
+    
+            
+            {% if field.field.queryset.model == Program %}
+            
+                
+                <div class="sp-skater-name">{{ field.label }}</div>
+                <div class="sp-program-select">
+                    {{ field }}
+                </div>
+            {% else %}
+                <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                </p>
+            {% endif %}
+        </div> 
+        {% endfor %}
+    </div> 
+    <button type="submit" class="sp-submit">Create Competition</button>
 </form>
 
 {% endblock %}

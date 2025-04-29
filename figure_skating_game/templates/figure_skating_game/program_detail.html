@@ -1,0 +1,70 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block content %}
+
+<h1 class="featured-title">{{ program.title }}</h1>
+<div class="skater-detail-card">
+
+    <div class="skater-header">
+        <img src="{{ program.skater.image.url }}" alt="{{ program.skater.first_name }} {{ program.skater.last_name }}"
+            class="skater-detail-photo">
+        <h2 class="skater-detail-name">{{ program.skater.first_name }} {{ program.skater.last_name }}</h2>
+    </div>
+
+    <div class="prog-detail-header">
+        <h2>Program Elements</h2>
+    </div>
+
+    <div class="prog-detail-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Base Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for element in program.elements.all %}
+                <tr>
+                    <td>{{ element.name }} ({{ element.code }})</td>
+                    <td>{{ element.base_value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="prog-detail-header">
+        <h2>Competition Results</h2>
+    </div>
+    {% if executed_programs %}
+
+    <div class="prog-detail-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Competition</th>
+                    <th>Date</th>
+                    <th>Total Score</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ep in executed_programs %}
+                <tr>
+                    <td>{{ ep.competition.name }}</td>
+                    <td>{{ ep.competition.date }}</td>
+                    <td>{{ ep.total_score }}</td>
+                    <td>
+                        <a href="{% url 'competition_detail' ep.competition.id %}" class="detail-button">View Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>This program has not been performed in any competitions yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <h2>Select up to 5 Skaters</h2>
+    <h2>Select up to Five (5) Skaters</h2>
     <div class="grid-container">
         {% for skater_choice in form.fields.skaters.queryset %}
         <div class="skater-card" data-skater-id="{{ skater_choice.id }}">
@@ -37,7 +37,7 @@
         {% endfor %}
     </div>
     <ul class="errorlist">{{ form.skaters.errors }}</ul>
-    <button type="submit">Next</button>
+    <button type="submit" class="sp-submit">Next</button>
 </form>
 
 <!-- styles -->

@@ -2,12 +2,12 @@ import random
 
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, FormView
 from django.views.generic.edit import CreateView
-from django.db.models import Max, Case, When
+from django.db.models import Max, Case, When, Prefetch
 
-from .forms import CompetitionForm, SelectProgramsForm
+from .forms import CompetitionForm, SelectProgramsForm, ProgramForm
 from .models import *
 
 
@@ -114,73 +114,6 @@ class SelectProgramsView(FormView):  # Changed to FormView
     def get_success_url(self):
         return self.success_url
 
-    
-
-# class CreateCompetitionView(CreateView):
-#     model = Competition 
-#     form_class = CompetitionForm  
-#     template_name = 'figure_skating_game/create_competition.html'  
-
-#     def form_valid(self, form):
-#         # save the competition model
-#         competition = form.save()
-
-#         # loop through the selected skaters from the form
-#         for skater in form.cleaned_data['skaters']:
-#             # find a preset program for the skater
-#             program = skater.programs.filter(preset=True).first()
-#             if not program:
-#                 continue  # skip if no preset program found
-
-#             total_score = 0  # initialize score
-
-#             # create an ExecutedProgram to track performance at this competition
-#             executed_program = ExecutedProgram.objects.create(
-#                 program=program,
-#                 competition=competition,
-#                 total_score=0  # will be updated after simulating elements
-#             )
-
-#             # get ordered elements in the program
-#             elements = ProgramElementOrder.objects.filter(program=program).order_by('order')
-
-#             # simulate execution of each element
-#             for order, peo in enumerate(elements, start=1):
-#                 element = peo.element
-
-#                 # get success probability for this skater-element combo
-#                 prob_obj = skater.element_probs.filter(element=element).first()
-#                 success_rate = prob_obj.success_rate if prob_obj else 0.5
-
-#                 # simulate whether the element is executed successfully
-#                 success = random.random() < success_rate
-
-#                 # generate a GOE depending on whether the element was successful
-#                 goe = round(random.uniform(-3, 3), 2) if success else round(random.uniform(-5, 0), 2)
-
-#                 # GOE contribution: 10% of base value per GOE point
-#                 base_value = float(element.base_value)
-#                 score = base_value + (goe * 0.1 * base_value)
-
-#                 # add to total score (but don’t allow negative contributions)
-#                 total_score += max(score, 0)
-
-#                 # record the executed element
-#                 ExecutedElement.objects.create(
-#                     executed_program=executed_program,
-#                     element=element,
-#                     order=order,
-#                     goe=goe
-#                 )
-
-#             # save the final total score for the executed program
-#             executed_program.total_score = round(total_score, 2)
-#             executed_program.save()
-
-#         # redirect to the results page with the competition ID
-#         return redirect('competition_results', competition_id=competition.id)
-
-
 class SkaterDetailView(DetailView):
     model = Skater
     template_name = 'figure_skating_game/skater_detail.html'
@@ -268,4 +201,62 @@ class CompetitionDetailView(DetailView):
         competition = self.object
         executed_programs = ExecutedProgram.objects.filter(competition=competition).order_by('-total_score')
         context['executed_programs'] = executed_programs
+        return context
+    
+class ProgramDetailView(DetailView):
+    model = Program
+    template_name = 'figure_skating_game/program_detail.html'
+    context_object_name = 'program'
+
+    def get_queryset(self):
+        """
+        Prefetch related data for efficiency.
+        """
+        return Program.objects.prefetch_related(
+            'skater',  # prefetch the skater
+            Prefetch(
+                'executions',
+                queryset=ExecutedProgram.objects.select_related('competition').order_by('-competition__date')
+            ), # prefetch executed programs, select competition, and order
+            'elements' # prefetch the elements
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        program = self.get_object()
+
+        context['executed_programs'] = program.executions.all() # access the prefetched executions
+
+        return context
+    
+class CreateProgramView(CreateView):
+    model = Program
+    form_class = ProgramForm
+    template_name = 'figure_skating_game/create_program.html'
+
+    def form_valid(self, form):
+        program = form.save()
+
+        elements_data = [form.cleaned_data.get(f'element_{i}') for i in range(1, 13)]
+        elements_data = [e for e in elements_data if e is not None]
+
+        order = 1
+        for element in elements_data:
+            ProgramElementOrder.objects.create(
+                program=program,
+                element=element,
+                order=order
+            )
+            order += 1
+
+        return redirect(reverse('program_detail', kwargs={'pk': program.pk}))  # Replace 'program_detail' with your actual detail view name
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['skaters'] = Skater.objects.all()
+        context['element_fields'] = []
+        form = self.form_class()  # Instantiate the form
+        for i in range(1, 13):
+            context['element_fields'].append(form[f'element_{i}'])  # Access the field directly
+        context['form'] = form
         return context

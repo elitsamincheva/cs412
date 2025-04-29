@@ -28,7 +28,9 @@
   <div class="program-list-container">
     <ul class="program-list">
       {% for program in programs %}
+      <a href="{% url 'program_detail' program.id %}">
         <li>{{ program.title }}</li>
+      </a>
       {% empty %}
         <li>No programs available.</li>
       {% endfor %}

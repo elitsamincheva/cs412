@@ -13,5 +13,6 @@ urlpatterns = [
     path('programs/', ShowAllPrograms.as_view(), name="show_all_programs"),
     path('competitions/<int:pk>/', CompetitionDetailView.as_view(), name='competition_detail'),
     path('competition/create/select_programs/', SelectProgramsView.as_view(), name='select_programs'),
-  
+    path('program/<int:pk>/', ProgramDetailView.as_view(), name='program_detail'),
+    path('program/create/', CreateProgramView.as_view(), name='create_program'),
 ]

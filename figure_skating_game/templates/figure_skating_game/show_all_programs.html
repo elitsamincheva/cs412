@@ -4,6 +4,13 @@
 
 {% block content %}
 <h2 class="featured-title">ALL PROGRAMS</h2>
+
+<!-- BUTTON TO CREATE NEW PROGRAM -->
+<div class="create-competition-wrapper">
+  <a href="{% url 'create_program' %}" class="create-competition-button">
+      + CREATE NEW PROGRAM
+  </a>
+</div>
 <!-- pagination controls -->
 {% if page_obj.paginator.num_pages > 1 %}
     <div class="pagination">
@@ -30,6 +37,7 @@
 <!-- program cards -->
 <div class="program-cards-grid">
     {% for program in programs %}
+    <a href="{% url 'program_detail' program.id %}">
     <div class="program-card">
       <h3 class="program-card-title">{{ program.title }}</h3>
       <p class="program-card-skater">{{ program.skater.first_name }} {{ program.skater.last_name }}</p>
@@ -46,6 +54,7 @@
         {% endif %}
       </div>
     </div>
+  </a>
     {% empty %}
     <p>No programs available.</p>
     {% endfor %}
