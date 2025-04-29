@@ -2,10 +2,13 @@
 
 {% block content %}
   <h2 class="featured-title">{{ competition.name }}</h2>
-  <p>Date: {{ competition.date }}</p>
-  <p>Location: {{ competition.location }}</p>
-
-  <h2>Results</h2>
+  <div class="competition-info-container">
+    <p>Date: {{ competition.date }}&emsp;&emsp;&emsp;&emsp;&emsp;Location: {{ competition.location }}</p>
+  </div>
+  
+  <div class="results-heading-container">
+    <h2>Results</h2>
+  </div>
   <div class="competition-results-card">
   {% if competition.executed_programs.all %}
     <table class="competition-results-table">
@@ -14,7 +17,6 @@
           <th></th>
           <th>Rank</th>
           <th>Skater</th>
-       
           <th>Total Score</th>
         </tr>
       </thead>
@@ -23,7 +25,11 @@
           <tr class="executed-program-row">
             <td class="expand-control">+</td>
             <td>{{ forloop.counter }}</td>
-            <td>{{ executed_program.program.skater.first_name }} {{ executed_program.program.skater.last_name }}</td>
+            <td>
+                <a href="{% url 'skater_detail' executed_program.program.skater.id %}">
+                  {{ executed_program.program.skater.first_name }} {{ executed_program.program.skater.last_name }}
+                </a>
+              </td>
             
             <td>{{ executed_program.total_score }}</td>
           </tr>
@@ -38,6 +44,7 @@
                         <th>Order</th>
                         <th>Element</th>
                         <th>GOE</th>
+                        
                       </tr>
                     </thead>
                     <tbody>
@@ -46,6 +53,7 @@
                           <td>{{ executed_element.order }}</td>
                           <td>{{ executed_element.element.code }} - {{ executed_element.element.name }}</td>
                           <td>{{ executed_element.goe }}</td>
+                        
                         </tr>
                       {% endfor %}
                     </tbody>

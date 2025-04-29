@@ -1,0 +1,18 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block content %}
+
+<h1>Select Programs</h1>
+
+<form method="post" action="">
+    {% csrf_token %}
+    {% for field in form %}
+        <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+        </p>
+    {% endfor %}
+    <button type="submit">Create Competition</button>
+</form>
+
+{% endblock %}

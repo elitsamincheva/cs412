@@ -3,10 +3,163 @@
 {% block title %}Create Competition{% endblock %}
 
 {% block content %}
-<h1>Create New Competition</h1>
+<h1 class="featured-title">Create New Competition</h1>
+<!-- choose skaters -->
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Simulate Competition</button>
+    <div class="form-container">
+        <div class="form-field">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+            <ul class="errorlist">{{ form.name.errors }}</ul>
+            {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="{{ form.location.id_for_label }}">{{ form.location.label }}:</label>
+            {{ form.location }}
+            {% if form.location.errors %}
+            <ul class="errorlist">{{ form.location.errors }}</ul>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2>Select up to 5 Skaters</h2>
+    <div class="grid-container">
+        {% for skater_choice in form.fields.skaters.queryset %}
+        <div class="skater-card" data-skater-id="{{ skater_choice.id }}">
+            <img src="{{ skater_choice.image.url }}" alt="{{ skater_choice.first_name }} {{ skater_choice.last_name }}">
+            <div class="skater-name">{{ skater_choice.first_name }} {{ skater_choice.last_name }}</div>
+            <div class="skater-nationality">{{ skater_choice.nationality }}</div>
+            <input type="checkbox" name="{{ form.skaters.html_name }}" value="{{ skater_choice.id }}"
+                id="id_skaters_{{ forloop.counter0 }}" style="display: none;">
+        </div>
+        {% endfor %}
+    </div>
+    <ul class="errorlist">{{ form.skaters.errors }}</ul>
+    <button type="submit">Next</button>
 </form>
+
+<!-- styles -->
+<style>
+    .form-container {
+        display: flex;
+        justify-content: center;
+        /* Center the form fields horizontally */
+        align-items: center;
+        /* Vertically align if needed, though less relevant here */
+        margin-bottom: 20px;
+        /* Space below the form fields block */
+    }
+
+    .form-field {
+        display: flex;
+        align-items: center;
+        /* Align label and input vertically */
+        margin-right: 20px;
+        /* Space between the two fields */
+    }
+
+    .form-field:last-child {
+        margin-right: 0;
+        /* Remove right margin from the last field */
+    }
+
+    .form-field label {
+        font-size: 1.1em;
+        margin-right: 5px;
+    }
+
+    .form-field input[type="text"] {
+        padding: 8px;
+        font-size: 1.1em;
+
+    }
+
+    .errorlist {
+        color: red;
+        font-size: 0.9em;
+        list-style-type: none;
+        padding: 0;
+        text-align: center;
+        /* Center error messages */
+    }
+
+    h1,
+    h2 {
+        text-align: center;
+        /* Center the headings */
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .skater-card input[type="checkbox"] {
+        display: none;
+        /* Hide the actual checkboxes */
+    }
+
+    .skater-card.selected {
+
+        border-color: #B0BEC5;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // get all the elements with the class 'skater-card'
+        const skaterCards = document.querySelectorAll('.skater-card');
+        // get all the checkbox inputs with the name for the skaters field
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name="{{ form.skaters.html_name }}"]');
+        // the most skaters they can pick is 5
+        const maxSkaters = 5;
+
+        skaterCards.forEach((card, index) => {
+            // when you click on a card
+            card.addEventListener('click', function () {
+                // find the checkbox that goes with this card
+                const checkbox = checkboxes[index];
+                // see if the checkbox is checked
+                const isChecked = checkbox.checked;
+                // count how many checkboxes are checked right now
+                const checkedCount = document.querySelectorAll('input[type="checkbox"][name="{{ form.skaters.html_name }}"]:checked').length;
+
+                // if it's not checked yet
+                if (!isChecked) {
+                    // and if they haven't picked 5 already
+                    if (checkedCount < maxSkaters) {
+                        // check the box
+                        checkbox.checked = true;
+                        // make the card look selected
+                        this.classList.add('selected');
+                    } else {
+                        // tell user they can't pick more if 5 alr selected
+                        alert(`you can select a maximum of ${maxSkaters} skaters.`);
+                    }
+                } else {
+                    // if it's already checked uncheck it
+                    checkbox.checked = false;
+                    // make the card look unselected
+                    this.classList.remove('selected');
+                }
+            });
+        });
+
+        // when the page loads, make the cards look right based on which checkboxes are already checked
+        checkboxes.forEach((checkbox, index) => {
+            // if the checkbox is checked
+            if (checkbox.checked) {
+                // make the card look selected
+                skaterCards[index].classList.add('selected');
+            } else {
+                // if it's not checked make it look unselected
+                skaterCards[index].classList.remove('selected');
+            }
+        });
+    });
+</script>
 {% endblock %}

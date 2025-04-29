@@ -60,20 +60,25 @@
   {% endif %}
 
   <h3>Competition History</h3>
-  <div class="skater-recent-competitions-grid">
-    {% for ep in executed_programs %}
-      <div class="skater-competition-card">
-        <h3 class="competition-name" style="background-color: #191E29;">{{ ep.competition.name }}</h3>
+<div class="skater-recent-competitions-grid">
+  {% for ep in executed_programs %}
+    <div class="skater-competition-card">
+      <h3 class="competition-name" style="background-color: #191E29;">{{ ep.competition.name }}</h3>
 
-        <div class="skater-competition-card-body">
-          <p class="competition-date" style="background-color: #191E29;">🗓️ {{ ep.competition.date }}</p>
-          <p class="competition-location" style="background-color: #191E29;">📍 {{ ep.competition.location }}</p>
+      <div class="skater-competition-card-body">
+        <p class="competition-date" style="background-color: #191E29;">🗓️ {{ ep.competition.date }}</p>
+        <p class="competition-location" style="background-color: #191E29;">📍 {{ ep.competition.location }}</p>
+        <div class="competition-details-button-container">
+          <a href="{% url 'competition_detail' ep.competition.id %}" class="competition-details-button">
+            See Details
+          </a>
         </div>
       </div>
-    {% empty %}
-      <p>No competitions found.</p>
-    {% endfor %}
-  </div>
+    </div>
+  {% empty %}
+    <p>No competitions found.</p>
+  {% endfor %}
+</div>
 
   {% if executed_programs.has_other_pages %}
     <div class="pagination" style="background-color: #2A3D45;">

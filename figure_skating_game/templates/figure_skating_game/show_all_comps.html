@@ -4,6 +4,12 @@
 
 {% block content %}
 <h2 class="featured-title">ALL COMPETITIONS</h2>
+<!-- BUTTON TO CREATE COMPETITION -->
+<div class="create-competition-wrapper">
+    <a href="{% url 'create_competition' %}" class="create-competition-button">
+        + CREATE NEW COMPETITION
+    </a>
+</div>
 {% if page_obj.paginator.num_pages > 1 %}
     <div class="pagination">
         {% if page_obj.has_previous %}
