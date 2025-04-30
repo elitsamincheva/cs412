@@ -1,53 +1,59 @@
 {% extends 'figure_skating_game/base.html' %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
 
 {% block content %}
-    <h1 class="featured-title">Element Usage Report</h1>
+
+    <h1>Element Usage Report: {{ element_name }}</h1>
+    <div class="skater-detail-card">
 
     {% if element_error %}
-        <p class="error-message">{{ element_error }}</p>
-    {% elif element_name %}
-        <h2>Report for Element: {{ element_name }}</h2>
+        <p>{{ element_error }}</p>
+    {% else %}
+        <label for="skaterSelect">Select Skater:</label>
+        <select id="skaterSelect">
+            <option value="">All Skaters (Average)</option>
+            {% for skater in skaters %}
+                <option value="{{ skater.first_name }} {{ skater.last_name }}">{{ skater.first_name }} {{ skater.last_name }}</option>
+            {% endfor %}
+        </select>
 
-        {% if competitions %}
-            <ul>
+        <h2>Average GOE Over Time</h2>
+        
+
+        <h2>Skater GOE Over Time</h2>
+        <div class="goe-graph">{{ goe_graph_plotly|safe }}</div>
+        
+
+        <h2>Competition History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Competition</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Element Count</th>
+                    <th>Average GOE</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for competition in competitions %}
-                    <li>
-                        <h3>{{ competition.name }}</h3>
-                        <p>Date: {{ competition.date }}</p>
-                        <p>Location: {{ competition.location }}</p>
-                        <p>Element Count: {{ competition.element_count }}</p>
-                        <p>Average GOE: {{ competition.avg_goe|floatformat:2 }}</p>
-
-                        <h4>Skaters who performed this element:</h4>
-                        {% if competition.executed_programs.all %}
-                        
-                            <ul>
-                                {% for executed_program in competition.executed_programs.all %}
-                                
-                                    {% for executed_element in executed_program.executed_elements.all %}
-                                   
-                                        {% if executed_element.element == element %}
-                                            <li>
-                                                {{ executed_program.program.skater.first_name }} {{ executed_program.program.skater.last_name }}
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p>No skaters performed this element in this competition.</p>
-                        {% endif %}
-                    </li>
+                <p>{{competition.element_count}}</p>
+                    <tr>
+                        <td>{{ competition.name }}</td>
+                        <td>{{ competition.date }}</td>
+                        <td>{{ competition.location }}</td>
+                        <td>{{ competition.element_count }}</td>
+                        <td>{{ competition.avg_goe|default_if_none:"N/A" }}</td>
+                    </tr>
                 {% endfor %}
-            </ul>
-        {% else %}
-            <p>No competitions found where this element was performed.</p>
-        {% endif %}
+            </tbody>
+        </table>
     {% endif %}
-<style>
-    .error-message {
-        color: red;
-        margin-bottom: 1rem;
-    }
-</style>
+
+</div>
 {% endblock %}

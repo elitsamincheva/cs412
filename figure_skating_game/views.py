@@ -7,9 +7,9 @@ from django.views.generic import ListView, DetailView, FormView, UpdateView, Del
 from django.views.generic.edit import CreateView
 from django.db.models import Max, Case, When, Prefetch, Count, Avg, Q
 
-
-from django.http import JsonResponse  
-from django.http import HttpResponseRedirect
+import plotly.express as px
+import plotly.graph_objects as go
+import pandas as pd
 
 from .forms import CompetitionForm, SelectProgramsForm, ProgramForm, SkaterForm
 from .models import *
@@ -409,6 +409,53 @@ class ElementListView(ListView):
     template_name = 'figure_skating_game/element_list.html'
     context_object_name = 'elements'
 
+# class ElementUsageView(ListView):
+#     model = Competition
+#     template_name = 'figure_skating_game/element_usage_report.html'
+#     context_object_name = 'competitions'
+
+#     def get_queryset(self):
+#         pk = self.kwargs.get('pk')
+#         if not pk:
+#             return Competition.objects.none()
+
+#         try:
+#             element = Element.objects.get(pk=pk)
+#         except Element.DoesNotExist:
+#             return Competition.objects.none()
+
+#         competitions = Competition.objects.filter(
+#             executed_programs__executed_elements__element=element
+#         ).prefetch_related(
+#             'executed_programs',
+#             'executed_programs__program__skater',
+#             'executed_programs__executed_elements',
+#             'executed_programs__executed_elements__element' # Access the element
+#         ).annotate(
+#             element_count=Count('executed_programs__executed_elements', filter=Q(executed_programs__executed_elements__element=element)),
+#             avg_goe=Avg('executed_programs__executed_elements__goe', filter=Q(executed_programs__executed_elements__element=element))
+#         ).distinct()
+#         return competitions
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         pk = self.kwargs.get('pk')
+#         if pk:
+#             try:
+#                 element = Element.objects.get(pk=pk)
+#                 context['element'] = element
+#                 context['element_name'] = element.name
+#             except Element.DoesNotExist:
+#                 context['element_error'] = "Element not found"
+#         return context
+    
+import json
+from django.db.models import F, Func, DateField, Count, Avg
+from django.db.models.functions import TruncDate
+from django.core.serializers.json import DjangoJSONEncoder
+from datetime import date
+from django.db import connection
+
 class ElementUsageView(ListView):
     model = Competition
     template_name = 'figure_skating_game/element_usage_report.html'
@@ -430,7 +477,7 @@ class ElementUsageView(ListView):
             'executed_programs',
             'executed_programs__program__skater',
             'executed_programs__executed_elements',
-            'executed_programs__executed_elements__element' # Access the element
+            'executed_programs__executed_elements__element' 
         ).annotate(
             element_count=Count('executed_programs__executed_elements', filter=Q(executed_programs__executed_elements__element=element)),
             avg_goe=Avg('executed_programs__executed_elements__goe', filter=Q(executed_programs__executed_elements__element=element))
@@ -445,6 +492,48 @@ class ElementUsageView(ListView):
                 element = Element.objects.get(pk=pk)
                 context['element'] = element
                 context['element_name'] = element.name
+                selected_skater = 1
+
+                competitions = Competition.objects.filter(
+                    executed_programs__executed_elements__element=element,
+                    executed_programs__program__skater=selected_skater
+                ).prefetch_related(
+                    'executed_programs',
+                    'executed_programs__program__skater',
+                    'executed_programs__executed_elements'
+                ).distinct()
+
+                # make dataframe of comp date and goes
+                # make into line graph and add to context
+                data = []
+                for comp in competitions:
+                    for ep in comp.executed_programs.all():
+                        for ee in ep.executed_elements.filter(element=element):
+                            data.append({
+                                'date': comp.date,
+                                'goe': ee.goe
+                            })
+
+                if data:
+                    df = pd.DataFrame(data)
+                    df['date'] = pd.to_datetime(df['date'])
+                    df = df.sort_values(by='date')
+
+                    fig = go.Figure(data=[go.Scatter(x=df['date'], y=df['goe'],
+                                                     mode='markers+lines',
+                                                     name='GOE')])
+
+                    fig.update_layout(title=f'GOE Trend for {element.name}',
+                                      xaxis_title='Competition Date',
+                                      yaxis_title='Grade of Execution (GOE)')
+
+                    context['goe_graph_plotly'] = fig.to_html(full_html=False)
+                else:
+                    context['goe_graph_error'] = "No GOE data available for this element and skater."
+
+
+    
+
             except Element.DoesNotExist:
                 context['element_error'] = "Element not found"
         return context

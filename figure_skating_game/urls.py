@@ -45,4 +45,5 @@ urlpatterns = [
 
     path('elements/', views.ElementListView.as_view(), name='element_list'),
     path('elements/<int:pk>/', views.ElementUsageView.as_view(), name='element_usage_report'),
+
 ]
