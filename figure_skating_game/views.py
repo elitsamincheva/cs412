@@ -449,12 +449,7 @@ class ElementListView(ListView):
 #                 context['element_error'] = "Element not found"
 #         return context
     
-import json
-from django.db.models import F, Func, DateField, Count, Avg
-from django.db.models.functions import TruncDate
-from django.core.serializers.json import DjangoJSONEncoder
-from datetime import date
-from django.db import connection
+from django.db.models import Count, Avg
 
 class ElementUsageView(ListView):
     model = Competition
@@ -477,7 +472,7 @@ class ElementUsageView(ListView):
             'executed_programs',
             'executed_programs__program__skater',
             'executed_programs__executed_elements',
-            'executed_programs__executed_elements__element' 
+            'executed_programs__executed_elements__element'
         ).annotate(
             element_count=Count('executed_programs__executed_elements', filter=Q(executed_programs__executed_elements__element=element)),
             avg_goe=Avg('executed_programs__executed_elements__goe', filter=Q(executed_programs__executed_elements__element=element))
@@ -492,27 +487,58 @@ class ElementUsageView(ListView):
                 element = Element.objects.get(pk=pk)
                 context['element'] = element
                 context['element_name'] = element.name
-                selected_skater = 1
 
-                competitions = Competition.objects.filter(
-                    executed_programs__executed_elements__element=element,
-                    executed_programs__program__skater=selected_skater
-                ).prefetch_related(
-                    'executed_programs',
-                    'executed_programs__program__skater',
-                    'executed_programs__executed_elements'
+                # Get skaters who have performed this element
+                skaters_with_element = Skater.objects.filter(
+                    programs__executions__executed_elements__element=element
                 ).distinct()
+                context['skaters'] = skaters_with_element
 
-                # make dataframe of comp date and goes
-                # make into line graph and add to context
-                data = []
-                for comp in competitions:
-                    for ep in comp.executed_programs.all():
-                        for ee in ep.executed_elements.filter(element=element):
-                            data.append({
-                                'date': comp.date,
-                                'goe': ee.goe
-                            })
+                selected_skater_name = self.request.GET.get('skaterSelect')
+                print(f"Selected Skater Name: {selected_skater_name}")
+                if selected_skater_name and selected_skater_name != "":
+                    print(f"Selected Skater Name: {selected_skater_name}")
+                    first_name, last_name = selected_skater_name.split(' ', 1)
+                    try:
+                        selected_skater = Skater.objects.get(first_name=first_name.strip(), last_name=last_name.strip())
+                        print(f"Found Skater: {selected_skater}")
+                        competitions_goe = Competition.objects.filter(
+                            executed_programs__executed_elements__element=element,
+                            executed_programs__program__skater=selected_skater
+                        ).prefetch_related(
+                            'executed_programs',
+                            'executed_programs__program__skater',
+                        ).distinct()
+                        print(f"Competitions for selected skater: {competitions_goe.count()}")
+
+                        data = []
+                        for comp in competitions_goe:
+                            print(f"Competition: {comp.name} - {comp.date}")
+                            for ep in comp.executed_programs.filter(program__skater=selected_skater):
+                                print(f"  Executed Program (for selected skater): {ep.program.title}")
+                                executed_element = ep.executed_elements.filter(element=element).first()
+                                if executed_element:
+                                    print(f"    Executed Element: {executed_element.element.name}, GOE: {executed_element.goe}")
+                                    data.append({
+                                        'date': comp.date,
+                                        'goe': executed_element.goe
+                                    })
+
+                    except Skater.DoesNotExist:
+                        print(f"Skater not found: {selected_skater_name}")
+                        data = [] # No data for this skater
+                else:
+                    # Default: Average GOE per competition (grouping by Competition object)
+                    competitions_avg_goe = Competition.objects.filter(
+                        executed_programs__executed_elements__element=element
+                    ).prefetch_related(
+                        'executed_programs__executed_elements'
+                    ).annotate(
+                        avg_comp_goe=Avg('executed_programs__executed_elements__goe', filter=Q(executed_programs__executed_elements__element=element))
+                    ).values('name', 'date', 'avg_comp_goe').order_by('date')
+
+                    data = [{'date': item['date'], 'goe': float(item['avg_comp_goe'])} for item in competitions_avg_goe if item['avg_comp_goe'] is not None]
+
 
                 if data:
                     df = pd.DataFrame(data)
@@ -523,16 +549,19 @@ class ElementUsageView(ListView):
                                                      mode='markers+lines',
                                                      name='GOE')])
 
-                    fig.update_layout(title=f'GOE Trend for {element.name}',
+                    title_text = f'GOE Trend for {element.name}'
+                    if selected_skater_name and selected_skater_name != "":
+                        title_text += f' - {selected_skater_name}'
+                    else:
+                        title_text += ' (Average per Competition)'
+
+                    fig.update_layout(title=title_text,
                                       xaxis_title='Competition Date',
                                       yaxis_title='Grade of Execution (GOE)')
 
                     context['goe_graph_plotly'] = fig.to_html(full_html=False)
                 else:
-                    context['goe_graph_error'] = "No GOE data available for this element and skater."
-
-
-    
+                    context['goe_graph_plotly'] = "<p>No GOE data available for the selected skater and element.</p>" if selected_skater_name else "<p>No GOE data available for this element across all competitions.</p>"
 
             except Element.DoesNotExist:
                 context['element_error'] = "Element not found"
