@@ -39,4 +39,7 @@ urlpatterns = [
 
     path('skater/<int:pk>/update/', UpdateSkaterView.as_view(), name='update_skater'),
     # modify existing skater data
+
+    path('competition/<int:pk>/delete/', CompetitionDeleteView.as_view(), name='delete_competition'),
+    # delete a competition
 ]

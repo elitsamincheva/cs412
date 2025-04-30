@@ -425,12 +425,13 @@ header nav a:hover {
     align-items: center;
     margin-bottom: 20px;
     background-color: #2A3D45;
-    flex-direction: row; 
+    flex-direction: row;
 }
+
 .skater-name-and-button {
     display: flex;
-    flex-direction: column; 
-    align-items: flex-start; 
+    flex-direction: column;
+    align-items: flex-start;
     background-color: #2A3D45;
 }
 
@@ -1059,7 +1060,7 @@ h3 {
 .update-skater-link {
     display: inline-block;
     font-size: 12px;
-    color: #191E29;  
+    color: #191E29;
     background-color: #677484;
     padding: 0.5rem 1rem;
     text-decoration: none;
@@ -1077,4 +1078,30 @@ h3 {
     border-color: #191E29;
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0px 0px 0px #191E29;
+}
+
+.back-button {
+    background-color: #191E29;
+    color: #677484;
+    font-size: 20px;
+    padding: 12px 30px;
+    text-decoration: none;
+    letter-spacing: 2px;
+    border: 4px solid #191E29;
+    box-shadow: 5px 5px 0px 0px rgba(25, 30, 41, 1);
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+    text-align: center;
+}
+
+.back-button:hover {
+    background-color: #677484;
+    color: #191E29;
+    transform: scale(1.05);
+}
+
+.back-container {
+    margin-bottom: 20px;
+    padding-left: 50px;
+    display: inline-block;
 }

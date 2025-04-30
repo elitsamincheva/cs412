@@ -3,11 +3,12 @@ import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, UpdateView
+from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
 from django.db.models import Max, Case, When, Prefetch
 
 from django.http import JsonResponse  
+from django.http import HttpResponseRedirect
 
 from .forms import CompetitionForm, SelectProgramsForm, ProgramForm, SkaterForm
 from .models import *
@@ -369,3 +370,24 @@ class UpdateSkaterView(UpdateView):
 
     def get_success_url(self):
         return reverse('skater_detail', kwargs={'pk': self.object.pk})
+    
+
+class CompetitionDeleteView(DeleteView):
+    model = Competition
+    template_name = 'figure_skating_game/competition_detail.html' 
+    success_url = reverse_lazy('show_all_comps') 
+
+    def post(self, request, *args, **kwargs):
+        if "delete" in request.POST: #check if the delete button was pressed
+            self.object = self.get_object()
+            self.object.delete()
+            return redirect(self.success_url) #redirects to competition list
+        elif "cancel" in request.POST:
+            return redirect(reverse('competition_detail', kwargs={'pk': self.kwargs['pk']})) # Redirect back to the detail view
+        else:
+            return super().post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['competition'] = self.get_object() #makes competition object available in the template
+        return context

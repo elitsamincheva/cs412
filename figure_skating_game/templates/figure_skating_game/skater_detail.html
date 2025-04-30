@@ -3,6 +3,9 @@
 {% block title %}{{ skater.first_name }} {{ skater.last_name }}{% endblock %}
 
 {% block content %}
+<div class="back-container">
+  <a href="javascript:history.back()" class="back-button">Back</a>
+</div>
 <div class="skater-detail-card">
   <div class="skater-header">
     <img src="{{ skater.image.url }}" alt="{{ skater.name }}" class="skater-detail-photo">
