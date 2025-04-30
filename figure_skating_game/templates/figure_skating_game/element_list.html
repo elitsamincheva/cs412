@@ -1,10 +1,85 @@
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
-    <h1 class="featured-title">Elements</h1>
-    <ul>
-        {% for element in elements %}
-            <li><a href="{% url 'element_usage_report' pk=element.pk %}">{{ element.name }}</a></li>
+    <h1 class="featured-title">ALL ELEMENTS</h1>
+
+    <div class="search-container">
+        <form method="get" action="{% url 'element_list' %}">
+            <input type="text" name="q" placeholder="Search elements..." value="{{ search_term }}">
+            <label for="type">Filter by Type:</label>
+            <select name="type" id="type">
+                <option value="">All Types</option>
+                {% for type_code, type_name in element_types %}
+                    <option value="{{ type_code }}" {% if current_type == type_code %}selected{% endif %}>
+                        {{ type_name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="sp-submit">Search/Filter</button>
+        </form>
+    </div>
+    
+    <div class="elem-search-container">
+    <div class="prog-detail-box">
+    <table>
+        <thead style="font-size: 1.3em;">
+            <tr>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Type</th>
+                <th>Base Value</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for element in elements %}
+                <tr style="font-size: 1.3em;">
+                    <td>{{ element.name }}</td>
+                    <td>{{ element.code }}</td>
+                    <td>{{ element.get_element_type_display }}</td>
+                    <td>{{ element.base_value }}</td>
+                    <td>
+                        <div class="stat-button-container">
+                            <a href="{% url 'element_usage_report' pk=element.pk %}" class="sp-submit">View Stats</a>
+                        </div>
+                    </td>
+                    
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">No elements found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if search_term %}&q={{ search_term }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="pagination-button">← Prev</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+                {% if num == page_obj.number %}
+                    <span class="pagination-current">{{ num }}</span>
+                {% else %}
+                    <a href="?page={{ num }}{% if search_term %}&q={{ search_term }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="pagination-button">{{ num }}</a>
+                {% endif %}
+            {% endif %}
         {% endfor %}
-    </ul>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if search_term %}&q={{ search_term }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="pagination-button">Next →</a>
+        {% endif %}
+    </div>
+
+    <style>
+        .elem-search-container {
+            padding-left: 50px; 
+            padding-right: 50px; 
+            margin-bottom: 1em; 
+        }
+
+        
+    </style>
 {% endblock %}

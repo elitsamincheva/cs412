@@ -39,6 +39,10 @@
                         <a href="{% url 'show_all_programs' %}"
                             class="{% if request.resolver_match.url_name == 'show_all_programs' %}active-nav{% endif %}">PROGRAMS</a>
                     </li>
+                    <li>
+                        <a href="{% url 'element_list' %}"
+                            class="{% if request.resolver_match.url_name == 'element_list' %}active-nav{% endif %}">ELEMENTS</a>
+                    </li>
                 </ul>
             </nav>
         </header>

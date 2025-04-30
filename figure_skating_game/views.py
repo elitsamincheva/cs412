@@ -408,6 +408,29 @@ class ElementListView(ListView):
     model = Element
     template_name = 'figure_skating_game/element_list.html'
     context_object_name = 'elements'
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Element.objects.all()
+        search_term = self.request.GET.get('q')
+        element_type = self.request.GET.get('type')
+
+        if search_term:
+            queryset = queryset.filter(
+                Q(name__icontains=search_term) | Q(code__icontains=search_term)
+            )
+
+        if element_type:
+            queryset = queryset.filter(element_type=element_type)
+
+        return queryset.order_by('name')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['element_types'] = Element.ELEMENT_TYPES
+        context['current_type'] = self.request.GET.get('type', '')
+        context['search_term'] = self.request.GET.get('q', '')
+        return context
 
 # class ElementUsageView(ListView):
 #     model = Competition

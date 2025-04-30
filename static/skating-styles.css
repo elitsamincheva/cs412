@@ -1115,6 +1115,73 @@ h3 {
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
-    position: relative; /* Or absolute, or fixed */
+    position: relative;
     z-index: 1000; 
+}
+
+label[for="skaterSelect"] {
+    font-size: 1.1em;
+    margin-right: 0.5em;
+}
+
+#skaterSelect {
+    font-size: 1.1em;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    background-color: #677484;
+    border-top: 2px solid #212121;
+    border-left: 2px solid #212121;
+    border-bottom: 2px solid #767676;
+    border-right: 2px solid #767676;
+}
+
+.competition-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+}
+
+.competition-history-table th, .competition-history-table td {
+    border: 2px solid #191E29;;
+    padding: 0.8em;
+    text-align: center; 
+}
+
+.competition-history-table thead th {
+    background-color: #191E29; 
+    color: #B0BEC5;
+}
+
+.competition-history-table tbody {
+    background-color: rgb(81, 93, 107);
+}
+
+.stat-button-container {
+    text-align: center; 
+    padding: 20px; 
+}
+
+.search-container {
+    margin-bottom: 1em;
+    display: grid;
+    place-items: center;
+    font-size: 1.3em;
+
+}
+
+.search-container input[type="text"],
+.search-container select {
+    font-size: 0.9em;
+    background-color: #5A6572;
+}
+
+.search-container input::placeholder {
+    color: #191E29; /* Replace with your preferred color value (e.g., red, #333, rgba(0, 0, 0, 0.5)) */
+}
+
+.search-container select {
+    border-top: 2px solid #212121;
+    border-left: 2px solid #212121;
+    border-bottom: 2px solid #767676;
+    border-right: 2px solid #767676;
 }

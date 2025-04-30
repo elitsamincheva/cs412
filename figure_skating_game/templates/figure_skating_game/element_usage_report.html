@@ -8,72 +8,69 @@
 
 {% block content %}
 
-    <h1 class="featured-title">{{ element_name }}</h1>
-    <div class="skater-detail-card">
+<h1 class="featured-title">{{ element_name }}</h1>
+<div class="back-container">
+    <a href="{% url 'element_list' %}" class="back-button">Back</a>
+  </div>
+<div class="skater-detail-card">
 
-    {% if element_error %}
-        <p>{{ element_error }}</p>
-    {% else %}
-    <form method="get">
-        <label for="skaterSelect">Select Skater:</label>
-        <select id="skaterSelect" name="skaterSelect" onchange="this.form.submit()">
-            <option value="">All Skaters (Average)</option>
-            {% for skater in skaters %}
-                <option value="{{ skater.first_name }} {{ skater.last_name }}"
-                        {% if request.GET.skaterSelect == skater.first_name|add:" "|add:skater.last_name %}selected{% endif %}>
-                    {{ skater.first_name }} {{ skater.last_name }}
-                </option>
-            {% endfor %}
-        </select>
-        <div class="goe-graph">{{ goe_graph_plotly|safe }}</div>
-    </form>
+{% if element_error %}
+    <p>{{ element_error }}</p>
+{% else %}
+<form method="get">
+    <label for="skaterSelect">Select Skater:</label>
+    <select id="skaterSelect" name="skaterSelect" onchange="this.form.submit()">
+        <option value="">All Skaters (Average)</option>
+        {% for skater in skaters %}
+            <option value="{{ skater.first_name }} {{ skater.last_name }}"
+                    {% if request.GET.skaterSelect == skater.first_name|add:" "|add:skater.last_name %}selected{% endif %}>
+                {{ skater.first_name }} {{ skater.last_name }}
+            </option>
+        {% endfor %}
+    </select>
+    <div class="goe-graph">{{ goe_graph_plotly|safe }}</div>
+</form>
 
-        <h2>Average GOE Over Time</h2>
-
-
-        <h2>Skater GOE Over Time</h2>
-        <form method="get">
-            <div class="goe-graph">{{ goe_graph_plotly|safe }}</div>
-        </form>
-
-
-        <h2>Competition History</h2>
-        <table>
-            <thead>
+    <h2>Competition History</h2>
+    <table class="competition-history-table">
+        <thead>
+            <tr>
+                <th>Competition</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Element Count</th>
+                <th>Average GOE</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for competition in competitions %}
                 <tr>
-                    <th>Competition</th>
-                    <th>Date</th>
-                    <th>Location</th>
-                    <th>Element Count</th>
-                    <th>Average GOE</th>
+                    <td>{{ competition.name }}</td>
+                    <td>{{ competition.date|date:"Y-m-d" }}</td>
+                    <td>{{ competition.location }}</td>
+                    <td>{{ competition.element_count }}</td>
+                    <td>{{ competition.avg_goe|default_if_none:"N/A"|floatformat:2 }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for competition in competitions %}
-                <p>{{competition.element_count}}</p>
-                    <tr>
-                        <td>{{ competition.name }}</td>
-                        <td>{{ competition.date }}</td>
-                        <td>{{ competition.location }}</td>
-                        <td>{{ competition.element_count }}</td>
-                        <td>{{ competition.avg_goe|default_if_none:"N/A" }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
 
 </div>
 
 <script>
-    // Optional: Keep the dropdown value selected after page load
+    // wait until the full html document has been loaded and parsed
     document.addEventListener('DOMContentLoaded', function() {
+        // get the <select> element for skater selection by its ID
         const selectElement = document.getElementById('skaterSelect');
+        // retrieve the currently selected skater value from the GET request if any
         const selectedValue = "{{ request.GET.skaterSelect }}";
+        // if a skater was selected in the GET request set the dropdown to that value
         if (selectedValue) {
             selectElement.value = selectedValue;
         }
     });
 </script>
+
 
 {% endblock %}
