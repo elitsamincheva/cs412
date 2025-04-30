@@ -425,6 +425,13 @@ header nav a:hover {
     align-items: center;
     margin-bottom: 20px;
     background-color: #2A3D45;
+    flex-direction: row; 
+}
+.skater-name-and-button {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start; 
+    background-color: #2A3D45;
 }
 
 .skater-detail-photo {

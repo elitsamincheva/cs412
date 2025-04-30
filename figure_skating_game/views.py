@@ -1,6 +1,6 @@
 import random
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, FormView
@@ -315,28 +315,32 @@ class ProgramDetailView(DetailView):
         return context
     
 class CreateProgramView(CreateView):
-    """
-    view for creating a new figure skating program
-    lets user select 12 unique elements (7 jumps, 3 spins, 1 step, 1 choreo),
-    then saves them in order and redirects to the program detail page
-    """
     model = Program
     form_class = ProgramForm
     template_name = 'figure_skating_game/create_program.html'
 
+    def get_initial(self):
+        initial = super().get_initial()
+        skater_pk = self.kwargs.get('pk')  # Get skater pk from URL
+        if skater_pk:
+            skater = get_object_or_404(Skater, pk=skater_pk)
+            initial['skater'] = skater  # Set initial value for skater field
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = self.form_class(initial=self.get_initial()) # Pass initial data to form
+        context['elements'] = Element.objects.all()
+        context['slots'] = range(1, 13)
+        context['skater_pk'] = self.kwargs.get('pk') #Pass the skater pk to the template
+        return context
+
     def form_valid(self, form):
-        """
-        handles saving the program and its ordered elements if the form is valid
-        """
-        program = form.save()  # save the main program (title and skater)
+        program = form.save()
 
-        # grab each element from the form data
         elements_data = [form.cleaned_data.get(f'element_{i}') for i in range(1, 13)]
-
-        # remove any empty fields just in case
         elements_data = [e for e in elements_data if e is not None]
 
-        # save each element to the ProgramElementOrder model in the chosen order
         order = 1
         for element in elements_data:
             ProgramElementOrder.objects.create(
@@ -344,18 +348,9 @@ class CreateProgramView(CreateView):
                 element=element,
                 order=order
             )
-            order += 1
+        return redirect(reverse('program_detail', kwargs={'pk': program.pk})) # Changed this
 
-        # after saving everything, go to the program detail page
-        return redirect(reverse('program_detail', kwargs={'pk': program.pk}))
-
-    def get_context_data(self, **kwargs):
-        """
-        adds extra data to the template context like the form, all elements,
-        and the numbers 1 to 12 to use in the table loop
-        """
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form_class()  # pass the blank or bound form
-        context['elements'] = Element.objects.all()  # pass all elements to use in dropdowns
-        context['slots'] = range(1, 13)  # numbers 1 to 12, used for the 12 element slots
-        return context
+    def form_invalid(self, form):
+        context = self.get_context_data()
+        context['form'] = form
+        return self.render_to_response(context) #added this

@@ -37,7 +37,10 @@
             {{ form.skater.label_tag }}
             {{ form.skater }}
             {{ form.skater.errors }}
-        </div>
+            {% if skater_pk %}
+                <input type="hidden" name="skater" value="{{ skater_pk }}">
+            {% endif %}
+       </div>
     </div>
 
     <table class="elements-table">

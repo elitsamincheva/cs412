@@ -6,8 +6,12 @@
 <div class="skater-detail-card">
   <div class="skater-header">
     <img src="{{ skater.image.url }}" alt="{{ skater.name }}" class="skater-detail-photo">
-    <h2 class="skater-detail-name">{{ skater.first_name }} {{ skater.last_name }}</h2>
+    <div class="skater-name-and-button">
+        <h2 class="skater-detail-name">{{ skater.first_name }} {{ skater.last_name }}</h2>
+        <a href="{{ create_program_url }}" class="sp-submit create-program-button">Create Program for {{ skater.first_name }}</a>
+    </div>
   </div>
+  
 
   <div class="skater-detail-info">
     <div class="info-row">
