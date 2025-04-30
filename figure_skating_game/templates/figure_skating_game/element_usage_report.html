@@ -1,0 +1,53 @@
+{% extends 'figure_skating_game/base.html' %}
+
+{% block content %}
+    <h1 class="featured-title">Element Usage Report</h1>
+
+    {% if element_error %}
+        <p class="error-message">{{ element_error }}</p>
+    {% elif element_name %}
+        <h2>Report for Element: {{ element_name }}</h2>
+
+        {% if competitions %}
+            <ul>
+                {% for competition in competitions %}
+                    <li>
+                        <h3>{{ competition.name }}</h3>
+                        <p>Date: {{ competition.date }}</p>
+                        <p>Location: {{ competition.location }}</p>
+                        <p>Element Count: {{ competition.element_count }}</p>
+                        <p>Average GOE: {{ competition.avg_goe|floatformat:2 }}</p>
+
+                        <h4>Skaters who performed this element:</h4>
+                        {% if competition.executed_programs.all %}
+                        
+                            <ul>
+                                {% for executed_program in competition.executed_programs.all %}
+                                
+                                    {% for executed_element in executed_program.executed_elements.all %}
+                                   
+                                        {% if executed_element.element == element %}
+                                            <li>
+                                                {{ executed_program.program.skater.first_name }} {{ executed_program.program.skater.last_name }}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>No skaters performed this element in this competition.</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No competitions found where this element was performed.</p>
+        {% endif %}
+    {% endif %}
+<style>
+    .error-message {
+        color: red;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

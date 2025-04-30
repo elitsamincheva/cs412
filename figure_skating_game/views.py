@@ -5,7 +5,8 @@ from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
-from django.db.models import Max, Case, When, Prefetch
+from django.db.models import Max, Case, When, Prefetch, Count, Avg, Q
+
 
 from django.http import JsonResponse  
 from django.http import HttpResponseRedirect
@@ -373,21 +374,77 @@ class UpdateSkaterView(UpdateView):
     
 
 class CompetitionDeleteView(DeleteView):
+    """
+    view for handling deletion of a competition object
+    shows the detail template but adds delete/cancel handling via post
+    """
     model = Competition
     template_name = 'figure_skating_game/competition_detail.html' 
-    success_url = reverse_lazy('show_all_comps') 
+    success_url = reverse_lazy('show_all_comps')  # after successful deletion go to see all competitions
 
     def post(self, request, *args, **kwargs):
-        if "delete" in request.POST: #check if the delete button was pressed
-            self.object = self.get_object()
-            self.object.delete()
-            return redirect(self.success_url) #redirects to competition list
+        """
+        handles post request to either delete the competition or cancel the action
+        """
+        if "delete" in request.POST:  # check if the delete button was pressed
+            self.object = self.get_object()  # get the competition instance
+            self.object.delete()  # delete the competition
+            return redirect(self.success_url)  # redirect to competition list
         elif "cancel" in request.POST:
-            return redirect(reverse('competition_detail', kwargs={'pk': self.kwargs['pk']})) # Redirect back to the detail view
+            return redirect(reverse('competition_detail', kwargs={'pk': self.kwargs['pk']}))  # go back to detail view
         else:
-            return super().post(request, *args, **kwargs)
+            return super().post(request, *args, **kwargs)  # fallback to default behavior
+
+    def get_context_data(self, **kwargs):
+        """
+        adds the competition object to the context for template access
+        """
+        context = super().get_context_data(**kwargs)
+        context['competition'] = self.get_object()  # makes competition available in the template
+        return context
+
+
+class ElementListView(ListView):
+    model = Element
+    template_name = 'figure_skating_game/element_list.html'
+    context_object_name = 'elements'
+
+class ElementUsageView(ListView):
+    model = Competition
+    template_name = 'figure_skating_game/element_usage_report.html'
+    context_object_name = 'competitions'
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        if not pk:
+            return Competition.objects.none()
+
+        try:
+            element = Element.objects.get(pk=pk)
+        except Element.DoesNotExist:
+            return Competition.objects.none()
+
+        competitions = Competition.objects.filter(
+            executed_programs__executed_elements__element=element
+        ).prefetch_related(
+            'executed_programs',
+            'executed_programs__program__skater',
+            'executed_programs__executed_elements',
+            'executed_programs__executed_elements__element' # Access the element
+        ).annotate(
+            element_count=Count('executed_programs__executed_elements', filter=Q(executed_programs__executed_elements__element=element)),
+            avg_goe=Avg('executed_programs__executed_elements__goe', filter=Q(executed_programs__executed_elements__element=element))
+        ).distinct()
+        return competitions
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['competition'] = self.get_object() #makes competition object available in the template
+        pk = self.kwargs.get('pk')
+        if pk:
+            try:
+                element = Element.objects.get(pk=pk)
+                context['element'] = element
+                context['element_name'] = element.name
+            except Element.DoesNotExist:
+                context['element_error'] = "Element not found"
         return context

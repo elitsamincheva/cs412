@@ -42,4 +42,7 @@ urlpatterns = [
 
     path('competition/<int:pk>/delete/', CompetitionDeleteView.as_view(), name='delete_competition'),
     # delete a competition
+
+    path('elements/', views.ElementListView.as_view(), name='element_list'),
+    path('elements/<int:pk>/', views.ElementUsageView.as_view(), name='element_usage_report'),
 ]
