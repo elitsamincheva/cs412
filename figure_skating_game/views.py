@@ -3,13 +3,13 @@ import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, UpdateView
 from django.views.generic.edit import CreateView
 from django.db.models import Max, Case, When, Prefetch
 
 from django.http import JsonResponse  
 
-from .forms import CompetitionForm, SelectProgramsForm, ProgramForm
+from .forms import CompetitionForm, SelectProgramsForm, ProgramForm, SkaterForm
 from .models import *
 
 class ShowAllSkaters(ListView):
@@ -199,6 +199,11 @@ class SkaterDetailView(DetailView):
             # show all if 6 or fewer
             context['executed_programs'] = executed_programs
 
+        # creates the URL for the "Create Program" button, passing the skater's PK
+        context['create_program_url'] = reverse(
+            'create_program_for_skater', kwargs={'pk': skater.pk}
+        )  
+        
         return context
 
 class HomeView(ListView):
@@ -354,3 +359,13 @@ class CreateProgramView(CreateView):
         context = self.get_context_data()
         context['form'] = form
         return self.render_to_response(context) #added this
+    
+
+class UpdateSkaterView(UpdateView):
+    model = Skater
+    form_class = SkaterForm  # Use a form to handle updates
+    template_name = 'figure_skating_game/update_skater.html'
+    pk_url_kwarg = 'pk'
+
+    def get_success_url(self):
+        return reverse('skater_detail', kwargs={'pk': self.object.pk})

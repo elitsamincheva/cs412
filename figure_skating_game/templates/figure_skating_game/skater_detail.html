@@ -8,10 +8,10 @@
     <img src="{{ skater.image.url }}" alt="{{ skater.name }}" class="skater-detail-photo">
     <div class="skater-name-and-button">
         <h2 class="skater-detail-name">{{ skater.first_name }} {{ skater.last_name }}</h2>
-        <a href="{{ create_program_url }}" class="sp-submit create-program-button">Create Program for {{ skater.first_name }}</a>
+        <a href="{{ create_program_url }}" class="sp-submit">Create Program for {{ skater.first_name }}</a>
+        <a href="{% url 'update_skater' skater.pk %}" class="update-skater-link">Update Skater</a>
     </div>
   </div>
-  
 
   <div class="skater-detail-info">
     <div class="info-row">
@@ -22,7 +22,7 @@
     </div>
     <div class="info-row">
       <p>Skating Club: {{ skater.skating_club }}</p>
-    </div>
+    </div> 
     <div class="info-row">
       <p>Hometown: {{ skater.hometown }}</p>
     </div>

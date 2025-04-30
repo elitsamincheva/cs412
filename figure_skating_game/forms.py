@@ -82,3 +82,9 @@ class ProgramForm(forms.ModelForm):
             raise forms.ValidationError("There must be exactly 1 choreo sequence.")
 
         return cleaned_data
+    
+
+class SkaterForm(forms.ModelForm):
+    class Meta:
+        model = Skater
+        fields = ['first_name', 'last_name', 'nationality', 'birth_date', 'skating_club', 'hometown', 'image']

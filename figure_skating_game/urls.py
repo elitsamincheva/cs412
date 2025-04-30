@@ -36,4 +36,7 @@ urlpatterns = [
 
     path('skater/<int:pk>/program/create/', views.CreateProgramView.as_view(), name='create_program_for_skater'),
     # form to create a new program already linked to a specific skater
+
+    path('skater/<int:pk>/update/', UpdateSkaterView.as_view(), name='update_skater'),
+    # modify existing skater data
 ]
