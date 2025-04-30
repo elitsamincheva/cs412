@@ -236,16 +236,28 @@ class ProgramDetailView(DetailView):
         return context
     
 class CreateProgramView(CreateView):
+    """
+    view for creating a new figure skating program.
+    lets user select 12 unique elements (7 jumps, 3 spins, 1 step, 1 choreo),
+    then saves them in order and redirects to the program detail page.
+    """
     model = Program
     form_class = ProgramForm
     template_name = 'figure_skating_game/create_program.html'
 
     def form_valid(self, form):
-        program = form.save()
+        """
+        handles saving the program and its ordered elements if the form is valid.
+        """
+        program = form.save()  # save the main program (title and skater)
 
+        # grab each element from the form data
         elements_data = [form.cleaned_data.get(f'element_{i}') for i in range(1, 13)]
+
+        # remove any empty fields just in case
         elements_data = [e for e in elements_data if e is not None]
 
+        # save each element to the ProgramElementOrder model in the chosen order
         order = 1
         for element in elements_data:
             ProgramElementOrder.objects.create(
@@ -255,11 +267,16 @@ class CreateProgramView(CreateView):
             )
             order += 1
 
-        return redirect(reverse('program_detail', kwargs={'pk': program.pk}))  # Adjust as needed
+        # after saving everything, go to the program detail page
+        return redirect(reverse('program_detail', kwargs={'pk': program.pk}))
 
     def get_context_data(self, **kwargs):
+        """
+        adds extra data to the template context like the form, all elements,
+        and the numbers 1 to 12 to use in the table loop.
+        """
         context = super().get_context_data(**kwargs)
-        context['form'] = self.form_class()
-        context['elements'] = Element.objects.all()
+        context['form'] = self.form_class()  # pass the blank or bound form
+        context['elements'] = Element.objects.all()  # pass all elements to use in dropdowns
+        context['slots'] = range(1, 13)  # numbers 1 to 12, used for the 12 element slots
         return context
-

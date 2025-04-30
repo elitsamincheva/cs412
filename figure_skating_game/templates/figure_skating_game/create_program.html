@@ -2,6 +2,26 @@
 
 {% block content %}
 <h1 class="featured-title">Create Program</h1>
+
+
+<div class="skater-detail-card">
+    <div class="program-requirements">
+        <p><strong>Program Requirements:</strong></p>
+        <ul>
+            <li>Select 12 unique elements for your program.</li>
+            <li>You must include:
+                <ul>
+                    <li>1 Choreographic Sequence (ChSq)</li>
+                    <li>1 Step Sequence (StSq)</li>
+                    <li>3 Spins</li>
+                    <li>7 Jumps</li>
+                </ul>
+            </li>
+            <li>Avoid selecting the same element in multiple slots.</li>
+            <li>The base value for each selected element will be displayed.</li>
+            <li>The total base value of your selected elements will be calculated at the bottom.</li>
+        </ul>
+    </div>
 <form method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
@@ -20,7 +40,7 @@
         </div>
     </div>
 
-    <table id="elements-table">
+    <table class="elements-table">
         <thead>
             <tr>
                 <th>Order</th>
@@ -29,12 +49,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in '123456789ABC' %}
+            {% for i in slots %}
             <tr>
                 <td>{{ i }}</td>
                 <td>
-                    <select name="element_{{ forloop.counter }}" class="element-select"
-                        data-order="{{ forloop.counter }}">
+                    <select name="element_{{ i }}" class="element-select"
+                        data-order="{{ i }}">
                         <option value="">Select Element</option>
                         {% for element in elements %}
                         <option value="{{ element.id }}">{{ element.code }} - {{ element.name }}</option>
@@ -46,6 +66,7 @@
             </tr>
             {% endfor %}
         </tbody>
+        
         <tfoot>
             <tr>
                 <td colspan="2" style="text-align: right;">Total Base Value:</td>
@@ -54,9 +75,12 @@
         </tfoot>
     </table>
 
-    <button type="submit">Create Program</button>
+    <button type="submit" class="sp-submit">Create Program</button>
 
 </form>
+</div>
+
+
 
 
 <script>
@@ -145,60 +169,3 @@
 </script>
 {% endblock %}
 
-{% block styles %}
-<style>
-    .form-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .form-field {
-        display: flex;
-        align-items: center;
-        margin-right: 20px;
-    }
-
-    .form-field:last-child {
-        margin-right: 0;
-    }
-
-    .form-field label {
-        font-size: 1.1em;
-        margin-right: 5px;
-    }
-
-    .form-field input[type="text"],
-    .form-field select {
-        padding: 8px;
-        font-size: 1.1em;
-        width: 200px;
-    }
-
-    .errorlist {
-        color: red;
-        font-size: 0.9em;
-        list-style-type: none;
-        padding: 0;
-        text-align: center;
-    }
-
-    #elements-table {
-        width: 80%;
-        margin: 20px auto;
-        border-collapse: collapse;
-    }
-
-    #elements-table th,
-    #elements-table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: center;
-    }
-
-    #elements-table th {
-        background-color: #f2f2f2;
-    }
-</style>
-{% endblock %}

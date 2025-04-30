@@ -104,18 +104,16 @@ header nav a:hover {
     padding-bottom: 30px;
 }
 
-
-/* Skater Carousel */
+/* skater Carousel */
 .skater-carousel {
     display: flex;
     overflow-x: auto;
-    /* horizontal scrolling */
     gap: 20px;
     padding: 20px;
     justify-content: center;
 }
 
-/* Skater Card */
+/* skater Card */
 .skater-card {
     background-color: #2A3D45;
     border-style: solid;
@@ -133,7 +131,7 @@ header nav a:hover {
     flex-shrink: 0;
 }
 
-/* Skater image */
+/* skater image */
 .skater-card img {
     width: 100%;
     height: 60%;
@@ -150,7 +148,7 @@ header nav a:hover {
     padding-top: 28px;
 }
 
-/* Pagination button (normal pages) */
+/* pagination button */
 .pagination-button {
     background-color: #2A3D45;
     color: #191E29;
@@ -164,13 +162,12 @@ header nav a:hover {
     transition: transform 0.2s, background-color 0.2s;
 }
 
-/* Hover effect on buttons */
+/* hover effect on buttons */
 .pagination-button:hover {
     background-color: #515d6b;
     transform: scale(1.1);
 }
 
-/* Current page (different look) */
 .pagination-current {
     background-color: #191E29;
     color: #677484;
@@ -183,7 +180,7 @@ header nav a:hover {
 }
 
 /* home styling */
-/* Title style for Featured Skaters */
+/* title style for featured skaters */
 .featured-title {
     text-align: center;
     font-size: 48px;
@@ -236,7 +233,8 @@ header nav a:hover {
 
 /* Center Card Bigger */
 .skater-card-link.highlighted {
-    transform: scale(1.1); /* make the middle card bigger */
+    transform: scale(1.1);
+    /* make the middle card bigger */
     filter: brightness(100%);
 }
 
@@ -572,7 +570,8 @@ h3 {
 /* container for the program cards in a grid layout */
 .program-cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* explicitly create 3 equal-width columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* explicitly create 3 equal-width columns */
     gap: 20px;
     padding: 20px;
 }
@@ -928,4 +927,124 @@ h3 {
     transform: scale(1.05);
 }
 
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #2A3D45;
+}
 
+.form-field {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    background-color: #2A3D45;
+
+}
+
+.form-field:last-child {
+    margin-right: 0;
+}
+
+.form-field label {
+    font-size: 1.1em;
+    margin-right: 5px;
+    background-color: #2A3D45;
+}
+
+.form-field input[type="text"],
+.form-field select {
+    padding: 8px;
+    font-size: 1.1em;
+
+    background-color: #2A3D45;
+    color: #677484;
+}
+
+.errorlist {
+    color: red;
+    font-size: 0.9em;
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+.elements-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #2A3D45;
+    margin-bottom: 50px;
+}
+
+.elements-table th,
+.elements-table td {
+    border: 3px solid #191E29;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.elements-table th {
+    background-color: #191E29;
+    color: #5A6572;
+}
+
+.elements-table td select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    background-color: transparent;
+    color: #191E29;
+}
+
+.elements-table td {
+    position: relative;
+    padding: 5px;
+}
+
+.skater-detail-card>form {
+    background-color: #2A3D45;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.form-container>.form-field:nth-child(2) select {
+    border-width: 2px;
+    border-style: solid;
+    border-color: #212121 #767676 #767676 #212121;
+}
+
+.program-requirements {
+    background-color: #191E29;
+    padding: 15px;
+    margin-bottom: 20px;
+
+    box-shadow: inset 2px 2px 0px rgba(33, 33, 33, 1),
+        inset -2px -2px 0px rgba(118, 118, 118, 1);
+
+}
+
+.program-requirements p strong {
+    font-size: 1.1em;
+    display: block;
+    margin-bottom: 5px;
+    background-color: #191E29;
+    color: #5A6572;
+}
+
+.program-requirements ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    background-color: #191E29;
+}
+
+.program-requirements li {
+    margin-bottom: 5px;
+    background-color: #191E29;
+    color: #5A6572;
+}
