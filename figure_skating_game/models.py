@@ -1,5 +1,5 @@
 from django.db import models
-from django.db import models
+from django.utils.timezone import now
 
 class Skater(models.Model):
     first_name = models.CharField(max_length=50)
@@ -68,12 +68,14 @@ class ProgramElementOrder(models.Model):
 
 class Competition(models.Model):
     name = models.CharField(max_length=100)
-    date = models.DateField(auto_now_add=True)
+    # date = models.DateField(auto_now_add=True)
+    date = models.DateField(default=now)
     location = models.CharField(max_length=100)
     skaters = models.ManyToManyField(Skater, related_name='competitions')
 
     def __str__(self):
         return f"{self.name} ({self.date})"
+
 
 
 class ExecutedProgram(models.Model):

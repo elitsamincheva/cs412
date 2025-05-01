@@ -1,17 +1,21 @@
+# Standard library
 import random
 
-from django.shortcuts import render, redirect, get_object_or_404
+# Django core
 from django.core.paginator import Paginator
+from django.db.models import Avg, Case, Count, Max, Prefetch, Q, When
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, UpdateView, DeleteView
+from django.views.generic import DetailView, FormView, ListView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
-from django.db.models import Max, Case, When, Prefetch, Count, Avg, Q
 
+# Third-party libraries
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
 
-from .forms import CompetitionForm, SelectProgramsForm, ProgramForm, SkaterForm
+# Local application
+from .forms import CompetitionForm, ProgramForm, SelectProgramsForm, SkaterForm
 from .models import *
 
 class ShowAllSkaters(ListView):
@@ -431,48 +435,6 @@ class ElementListView(ListView):
         context['current_type'] = self.request.GET.get('type', '')
         context['search_term'] = self.request.GET.get('q', '')
         return context
-
-# class ElementUsageView(ListView):
-#     model = Competition
-#     template_name = 'figure_skating_game/element_usage_report.html'
-#     context_object_name = 'competitions'
-
-#     def get_queryset(self):
-#         pk = self.kwargs.get('pk')
-#         if not pk:
-#             return Competition.objects.none()
-
-#         try:
-#             element = Element.objects.get(pk=pk)
-#         except Element.DoesNotExist:
-#             return Competition.objects.none()
-
-#         competitions = Competition.objects.filter(
-#             executed_programs__executed_elements__element=element
-#         ).prefetch_related(
-#             'executed_programs',
-#             'executed_programs__program__skater',
-#             'executed_programs__executed_elements',
-#             'executed_programs__executed_elements__element' # Access the element
-#         ).annotate(
-#             element_count=Count('executed_programs__executed_elements', filter=Q(executed_programs__executed_elements__element=element)),
-#             avg_goe=Avg('executed_programs__executed_elements__goe', filter=Q(executed_programs__executed_elements__element=element))
-#         ).distinct()
-#         return competitions
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         pk = self.kwargs.get('pk')
-#         if pk:
-#             try:
-#                 element = Element.objects.get(pk=pk)
-#                 context['element'] = element
-#                 context['element_name'] = element.name
-#             except Element.DoesNotExist:
-#                 context['element_error'] = "Element not found"
-#         return context
-    
-from django.db.models import Count, Avg
 
 class ElementUsageView(ListView):
     model = Competition

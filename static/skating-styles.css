@@ -838,6 +838,7 @@ h3 {
 .sp-program-select {
     margin-top: 10px;
     width: 100%;
+    background-color: #515d6b;
 }
 
 .sp-program-select select {
@@ -846,6 +847,7 @@ h3 {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
+    background-color: #515d6b;
 }
 
 .sp-submit {
