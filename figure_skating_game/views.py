@@ -364,6 +364,7 @@ class CreateProgramView(CreateView):
                 element=element,
                 order=order
             )
+            order += 1
         # redirect to program detail page after saving
         return redirect(reverse('program_detail', kwargs={'pk': program.pk})) 
 
@@ -375,16 +376,56 @@ class CreateProgramView(CreateView):
     
 
 class UpdateSkaterView(UpdateView):
-    """update an existing skater's information"""
+    """
+    Update an existing skater's information.
+    """
+
     model = Skater
-    form_class = SkaterForm  # use the skater form to handle updates
+    form_class = SkaterForm  # Use the SkaterForm to handle updates
     template_name = 'figure_skating_game/update_skater.html'
-    pk_url_kwarg = 'pk'  # primary key will be retrieved from the url
+    pk_url_kwarg = 'pk'  # Primary key will be retrieved from the URL
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Override dispatch to print request method and data.
+        """
+        print(f"Request Method: {request.method}")
+        if request.method == "POST":
+            print(f"POST Data: {request.POST}")
+            print(f"FILES Data: {request.FILES}")  # Print uploaded files
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        """
+        Override form_valid to print form data and saved object.
+        """
+        print("Form is valid!")
+        print(f"Cleaned Data: {form.cleaned_data}")
+        response = super().form_valid(form)
+        print(f"Saved Skater Object: {self.object.__dict__}")
+        return response
+
+    def form_invalid(self, form):
+        """
+        Override form_invalid to print form errors.
+        """
+        print("Form is invalid!")
+        print(f"Form Errors: {form.errors}")
+        return super().form_invalid(form)
 
     def get_success_url(self):
-        """redirect to the skater detail page after a successful update"""
+        """
+        Redirect to the skater detail page after a successful update.
+        """
         return reverse('skater_detail', kwargs={'pk': self.object.pk})
 
+    def get_context_data(self, **kwargs):
+        """
+        Override get_context_data to pass the skater object to the template.
+        """
+        context = super().get_context_data(**kwargs)
+        context['skater'] = self.object  # Make sure 'skater' is in context
+        return context
 class CompetitionDeleteView(DeleteView):
     """
     view for handling deletion of a competition object

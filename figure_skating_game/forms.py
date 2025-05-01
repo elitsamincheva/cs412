@@ -110,4 +110,4 @@ class SkaterForm(forms.ModelForm):
     """
     class Meta:
         model = Skater
-        fields = ['first_name', 'last_name', 'nationality', 'birth_date', 'skating_club', 'hometown', 'image']
+        fields = [ 'nationality', 'skating_club',  'image']
