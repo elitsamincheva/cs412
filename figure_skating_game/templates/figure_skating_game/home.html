@@ -1,12 +1,19 @@
+<!-- home.html
+   This is the homepage for SkateStars
+   It features a carousel of highlighted skaters and a section displaying recent competitions
+ -->
+
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
+<!-- Featured Skaters Carousel -->
 <section>
     <h2 class="featured-title">FEATURED SKATERS</h2>
 
     <div class="carousel-wrapper">
+        <!-- Left arrow for carousel navigation -->
         <button class="carousel-arrow left-arrow" onclick="scrollCarousel(-1)">&#9664;</button>
-
+        <!-- Carousel container displaying skater cards -->
         <div class="skater-carousel" id="skater-carousel">
             {% for skater in skaters %}
                 <a href="{% url 'skater_detail' skater.id %}" class="skater-card-link">
@@ -18,7 +25,7 @@
                 </a>
             {% endfor %}
         </div>
-
+        <!-- Right arrow for carousel navigation -->
         <button class="carousel-arrow right-arrow" onclick="scrollCarousel(1)">&#9654;</button>
     </div>
     <!-- BUTTON TO CREATE COMPETITION -->
@@ -44,7 +51,7 @@
                             <p class="competition-date">🗓️ {{ competition.date }}</p>
                             <p class="competition-location">📍 {{ competition.location }}</p>
                         </div>
-
+                        <!-- Display winning skater if available -->
                         {% with competition.executed_programs.first as winning_execution %}
                             {% if winning_execution %}
                                 <div class="winner-section">
@@ -70,7 +77,7 @@
     {% endif %}
 </section>
 
-
+<!-- JavaScript for Skater Carousel -->
 <script>
     let currentIndex = 0; // Keeps track of the index of the first skater in the visible group of 3
     
@@ -110,13 +117,5 @@
     document.addEventListener('DOMContentLoaded', function() {
         scrollCarousel(0); // Display the first 3 skaters
     });
-    </script>
-    
-    
-    
-    
-    
-    
-    
-    
+</script>
 {% endblock %}

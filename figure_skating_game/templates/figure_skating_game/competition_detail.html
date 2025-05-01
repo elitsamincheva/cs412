@@ -1,15 +1,20 @@
+<!-- competition_detail.html
+   Displays the details of a specific competition, including its date, location,
+   full results (with executed elements), and a button to delete the competition -->
+
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
+<!-- competition name & back button -->
   <h2 class="featured-title">{{ competition.name }}</h2>
   <div class="back-container">
     <a href="javascript:history.back()" class="back-button">Back</a>
   </div>
-  
+  <!-- competition info (date & location) -->
   <div class="competition-info-container">
     <p>Date: {{ competition.date }}&emsp;&emsp;&emsp;&emsp;&emsp;Location: {{ competition.location }}</p>
   </div>
-  
+  <!-- results table section -->
   <div class="results-heading-container">
     <h2>Results</h2>
   </div>
@@ -26,6 +31,7 @@
       </thead>
       <tbody>
         {% for executed_program in competition.executed_programs.all %}
+        <!-- Summary row for each skater/program -->
           <tr class="executed-program-row">
             <td class="expand-control">+</td>
             <td>{{ forloop.counter }}</td>
@@ -37,6 +43,7 @@
             
             <td>{{ executed_program.total_score }}</td>
           </tr>
+          <!-- Hidden row for executed elements details -->
           <tr class="executed-elements-details" data-program-id="{{ executed_program.id }}">
             <td colspan="5">
               <div class="element-details-container">
@@ -75,12 +82,12 @@
     <p>No results available for this competition yet.</p>
   {% endif %}
 </div>
+<!-- delete button -->
 <div style="text-align: center; margin-top: 20px; padding-bottom: 20px;">
   <button id="delete-competition-button" class="sp-submit" style="margin: 0 auto;">Delete Competition</button>
 </div>
 
-  
-
+<!-- javascript for expandable results & delete confirmation -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
       const expandControls = document.querySelectorAll('.expand-control');
@@ -102,6 +109,7 @@
           control.dataset.listenerAttached = true;
         }
       });
+      // Handle delete competition
       const deleteButton = document.getElementById('delete-competition-button');
         if (deleteButton) {
             deleteButton.addEventListener('click', function(event) {
@@ -113,12 +121,14 @@
                     const form = document.createElement('form');
                     form.method = 'post';
                     form.action = "{% url 'delete_competition' competition.pk %}"; // Use the URL for your delete view
-
+                  
+                    // CSRF token
                     const csrfTokenInput = document.createElement('input');
                     csrfTokenInput.type = 'hidden';
                     csrfTokenInput.name = 'csrfmiddlewaretoken';
                     csrfTokenInput.value = '{{ csrf_token }}';  // Include the CSRF token
 
+                    // Hidden input to confirm deletion
                     const deleteInput = document.createElement('input');
                     deleteInput.type = 'hidden';
                     deleteInput.name = 'delete';
@@ -127,7 +137,6 @@
                     form.appendChild(csrfTokenInput);
                     form.appendChild(deleteInput);
 
-
                     document.body.appendChild(form); // Append the form to the body
                     form.submit(); // Submit the form
                 }
@@ -135,5 +144,4 @@
         }
     });
   </script>
-
 {% endblock %}

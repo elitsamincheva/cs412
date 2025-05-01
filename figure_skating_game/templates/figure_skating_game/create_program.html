@@ -1,8 +1,12 @@
+<!-- create_program.html
+    page for creating a figure skating program with 12 elements
+    users select a skater and elements (including jumps, spins, etc.), 
+    with base values calculated dynamically
+  -->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
 <h1 class="featured-title">Create Program</h1>
-
 
 <div class="skater-detail-card">
     <div class="program-requirements">
@@ -82,8 +86,6 @@
         <button type="submit" class="sp-submit">Create Program</button>
     </div>
 
-    
-
 </form>
 </div>
 <style>
@@ -95,9 +97,7 @@
 }   
 </style>
 
-
-
-
+<!-- javascript for base value updates and preventing duplicate elements -->
 <script>
     // make a dictionary where each element's id maps to its base value
     const elementBaseValues = {

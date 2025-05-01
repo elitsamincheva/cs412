@@ -1,7 +1,7 @@
-# Standard library
+# standard library
 import random
 
-# Django core
+# django core
 from django.core.paginator import Paginator
 from django.db.models import Avg, Case, Count, Max, Prefetch, Q, When
 from django.shortcuts import get_object_or_404, redirect, render
@@ -9,12 +9,12 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView, FormView, ListView, UpdateView, DeleteView
 from django.views.generic.edit import CreateView
 
-# Third-party libraries
+# third-party libraries
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-# Local application
+# local application
 from .forms import CompetitionForm, ProgramForm, SelectProgramsForm, SkaterForm
 from .models import *
 
@@ -209,7 +209,6 @@ class SkaterDetailView(DetailView):
         context['create_program_url'] = reverse(
             'create_program_for_skater', kwargs={'pk': skater.pk}
         )  
-        
         return context
 
 class HomeView(ListView):
@@ -326,56 +325,65 @@ class ProgramDetailView(DetailView):
         return context
     
 class CreateProgramView(CreateView):
+    """create a new program for a skater with 12 elements"""
     model = Program
     form_class = ProgramForm
     template_name = 'figure_skating_game/create_program.html'
 
     def get_initial(self):
+        """set initial data for the form, including the skater if provided via url"""
         initial = super().get_initial()
         skater_pk = self.kwargs.get('pk')  # Get skater pk from URL
         if skater_pk:
             skater = get_object_or_404(Skater, pk=skater_pk)
-            initial['skater'] = skater  # Set initial value for skater field
+            initial['skater'] = skater  # pre fill skater field in form
         return initial
 
     def get_context_data(self, **kwargs):
+        """add extra context: form with initial data, all elements, 12 slots, and skater pk"""
         context = super().get_context_data(**kwargs)
-        context['form'] = self.form_class(initial=self.get_initial()) # Pass initial data to form
-        context['elements'] = Element.objects.all()
-        context['slots'] = range(1, 13)
-        context['skater_pk'] = self.kwargs.get('pk') #Pass the skater pk to the template
+        context['form'] = self.form_class(initial=self.get_initial())  # pass initial skater to form
+        context['elements'] = Element.objects.all() # pass al available elements
+        context['slots'] = range(1, 13) # 12 slots for elements
+        context['skater_pk'] = self.kwargs.get('pk') # pass the skater pk to the template
         return context
 
     def form_valid(self, form):
+        """handle valid form submission, create element orderings, and redirect to program detail"""
         program = form.save()
 
+        # get selected elements from cleaned_data
         elements_data = [form.cleaned_data.get(f'element_{i}') for i in range(1, 13)]
-        elements_data = [e for e in elements_data if e is not None]
+        elements_data = [e for e in elements_data if e is not None] # filter out empty slots
 
         order = 1
         for element in elements_data:
+            # create ordering relationship for each selected element
             ProgramElementOrder.objects.create(
                 program=program,
                 element=element,
                 order=order
             )
-        return redirect(reverse('program_detail', kwargs={'pk': program.pk})) # Changed this
+        # redirect to program detail page after saving
+        return redirect(reverse('program_detail', kwargs={'pk': program.pk})) 
 
     def form_invalid(self, form):
+        """handle invalid form submission and return the form with errors"""
         context = self.get_context_data()
         context['form'] = form
-        return self.render_to_response(context) #added this
+        return self.render_to_response(context) 
     
 
 class UpdateSkaterView(UpdateView):
+    """update an existing skater's information"""
     model = Skater
-    form_class = SkaterForm  # Use a form to handle updates
+    form_class = SkaterForm  # use the skater form to handle updates
     template_name = 'figure_skating_game/update_skater.html'
-    pk_url_kwarg = 'pk'
+    pk_url_kwarg = 'pk'  # primary key will be retrieved from the url
 
     def get_success_url(self):
+        """redirect to the skater detail page after a successful update"""
         return reverse('skater_detail', kwargs={'pk': self.object.pk})
-    
 
 class CompetitionDeleteView(DeleteView):
     """
@@ -409,39 +417,47 @@ class CompetitionDeleteView(DeleteView):
 
 
 class ElementListView(ListView):
+    """display a paginated list of elements with optional search and filter functionality"""
     model = Element
     template_name = 'figure_skating_game/element_list.html'
     context_object_name = 'elements'
-    paginate_by = 10
+    paginate_by = 10    # show 10 elements per page
 
     def get_queryset(self):
+        """filter the element list based on search term and type"""
         queryset = Element.objects.all()
         search_term = self.request.GET.get('q')
         element_type = self.request.GET.get('type')
 
+        # filter by search term (name or code)
         if search_term:
             queryset = queryset.filter(
                 Q(name__icontains=search_term) | Q(code__icontains=search_term)
             )
 
+        # filter by element type
         if element_type:
             queryset = queryset.filter(element_type=element_type)
 
+        # sort alphabetically by name
         return queryset.order_by('name')
 
     def get_context_data(self, **kwargs):
+        """add filter data and search term to context"""
         context = super().get_context_data(**kwargs)
-        context['element_types'] = Element.ELEMENT_TYPES
-        context['current_type'] = self.request.GET.get('type', '')
-        context['search_term'] = self.request.GET.get('q', '')
+        context['element_types'] = Element.ELEMENT_TYPES    # for filter dropdown   
+        context['current_type'] = self.request.GET.get('type', '')  # preserve selected type
+        context['search_term'] = self.request.GET.get('q', '')  # preserve search query
         return context
 
 class ElementUsageView(ListView):
+    """display competitions where a specific element was used, with GOE trend graph"""
     model = Competition
     template_name = 'figure_skating_game/element_usage_report.html'
     context_object_name = 'competitions'
 
     def get_queryset(self):
+        """filter competitions that include the given element and annotate with GOE stats"""
         pk = self.kwargs.get('pk')
         if not pk:
             return Competition.objects.none()
@@ -465,28 +481,30 @@ class ElementUsageView(ListView):
         return competitions
 
     def get_context_data(self, **kwargs):
+        """build context with skater options, selected skater data, and GOE plot"""
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get('pk')
         if pk:
             try:
+                # get the selected element
                 element = Element.objects.get(pk=pk)
                 context['element'] = element
                 context['element_name'] = element.name
 
-                # Get skaters who have performed this element
+                # get skaters who have performed this element
                 skaters_with_element = Skater.objects.filter(
                     programs__executions__executed_elements__element=element
                 ).distinct()
                 context['skaters'] = skaters_with_element
 
+                # check if a skater was selected from the dropdown
                 selected_skater_name = self.request.GET.get('skaterSelect')
-                print(f"Selected Skater Name: {selected_skater_name}")
                 if selected_skater_name and selected_skater_name != "":
-                    print(f"Selected Skater Name: {selected_skater_name}")
+                    # extract skater name and try to get skater object
                     first_name, last_name = selected_skater_name.split(' ', 1)
                     try:
                         selected_skater = Skater.objects.get(first_name=first_name.strip(), last_name=last_name.strip())
-                        print(f"Found Skater: {selected_skater}")
+                        # get competitions where the skater performed the selected element
                         competitions_goe = Competition.objects.filter(
                             executed_programs__executed_elements__element=element,
                             executed_programs__program__skater=selected_skater
@@ -494,26 +512,23 @@ class ElementUsageView(ListView):
                             'executed_programs',
                             'executed_programs__program__skater',
                         ).distinct()
-                        print(f"Competitions for selected skater: {competitions_goe.count()}")
 
+                        # build data for GOE over time for this skater
                         data = []
                         for comp in competitions_goe:
-                            print(f"Competition: {comp.name} - {comp.date}")
                             for ep in comp.executed_programs.filter(program__skater=selected_skater):
-                                print(f"  Executed Program (for selected skater): {ep.program.title}")
                                 executed_element = ep.executed_elements.filter(element=element).first()
                                 if executed_element:
-                                    print(f"    Executed Element: {executed_element.element.name}, GOE: {executed_element.goe}")
                                     data.append({
                                         'date': comp.date,
                                         'goe': executed_element.goe
                                     })
 
                     except Skater.DoesNotExist:
-                        print(f"Skater not found: {selected_skater_name}")
-                        data = [] # No data for this skater
+                        # no skater found with that name
+                        data = [] 
                 else:
-                    # Default: Average GOE per competition (grouping by Competition object)
+                    # default: average GOE per competition (not skater-specific)
                     competitions_avg_goe = Competition.objects.filter(
                         executed_programs__executed_elements__element=element
                     ).prefetch_related(
@@ -522,9 +537,10 @@ class ElementUsageView(ListView):
                         avg_comp_goe=Avg('executed_programs__executed_elements__goe', filter=Q(executed_programs__executed_elements__element=element))
                     ).values('name', 'date', 'avg_comp_goe').order_by('date')
 
+                    # build data from average GOEs
                     data = [{'date': item['date'], 'goe': float(item['avg_comp_goe'])} for item in competitions_avg_goe if item['avg_comp_goe'] is not None]
 
-
+                # create a Plotly GOE graph if data exists
                 if data:
                     df = pd.DataFrame(data)
                     df['date'] = pd.to_datetime(df['date'])
@@ -546,6 +562,7 @@ class ElementUsageView(ListView):
 
                     context['goe_graph_plotly'] = fig.to_html(full_html=False)
                 else:
+                    # show fallback message when no data is available
                     context['goe_graph_plotly'] = "<p>No GOE data available for the selected skater and element.</p>" if selected_skater_name else "<p>No GOE data available for this element across all competitions.</p>"
 
             except Element.DoesNotExist:

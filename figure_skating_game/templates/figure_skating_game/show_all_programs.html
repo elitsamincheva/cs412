@@ -1,3 +1,8 @@
+<!--
+    this page displays all available figure skating programs
+    users can create new programs, view details of each program, 
+    and check the top score for each program (if available)
+-->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block title %}All Programs{% endblock %}
@@ -11,13 +16,13 @@
       + CREATE NEW PROGRAM
   </a>
 </div>
-<!-- pagination controls -->
+<!-- pagination controls for navigating between pages of programs -->
 {% if page_obj.paginator.num_pages > 1 %}
     <div class="pagination">
         {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">← Prev</a>
         {% endif %}
-
+        <!-- loop through pages and display pagination buttons -->
         {% for num in page_obj.paginator.page_range %}
             {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
                 {% if num == page_obj.number %}
@@ -27,25 +32,28 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
-
+        <!-- next page button -->
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">Next →</a>
         {% endif %}
     </div>
 {% endif %}
 
-<!-- program cards -->
+<!-- display program cards -->
 <div class="program-cards-grid">
+    <!-- loop through each program and display its details -->
     {% for program in programs %}
     <a href="{% url 'program_detail' program.id %}">
     <div class="program-card">
       <h3 class="program-card-title">{{ program.title }}</h3>
       <p class="program-card-skater">{{ program.skater.first_name }} {{ program.skater.last_name }}</p>
+      <!-- check if the skater has an image, and display it if available -->
       {% if program.skater.image %}
       <img src="{{ program.skater.image.url }}" alt="{{ program.skater.first_name }} {{ program.skater.last_name }}" class="program-card-photo">
       {% else %}
       <div class="program-card-no-image">No Image</div>
       {% endif %}
+      <!-- display the top score for the program (if available) -->
       <div class="program-card-score">
         {% if program.top_score is not None %}
           Top Score: {{ program.top_score|floatformat:2 }}
@@ -56,6 +64,7 @@
     </div>
   </a>
     {% empty %}
+    <!-- message when no programs are available -->
     <p>No programs available.</p>
     {% endfor %}
   </div>

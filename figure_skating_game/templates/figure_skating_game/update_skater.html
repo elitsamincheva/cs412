@@ -1,3 +1,10 @@
+<!-- 
+    This page allows the user to update a skater's profile information
+    It includes fields for the skater's name, nationality, date of birth, skating club, hometown, and profile image
+    The form also provides an option to update the skater's image, with a preview of the current image and a file input for uploading a new image
+    If the user chooses not to update the image, the current image will remain unchanged
+    The page includes buttons to either cancel the changes (which takes the user back to the skater's detail page) or to submit the updated information
+    -->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
@@ -175,6 +182,7 @@ input[type="file"] {
     margin-left: 10px;
 }
 </style>
+
 <!-- script to preview new image before submitting -->
 <script>
     // get the file input element by its id

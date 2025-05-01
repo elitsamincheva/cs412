@@ -1,21 +1,31 @@
+<!--
+    this page displays the detailed information about a specific skater, 
+    including their personal details, a list of programs they have performed, 
+    and their competition history
+    users can create new programs for the skater or update their details
+-->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block title %}{{ skater.first_name }} {{ skater.last_name }}{% endblock %}
 
 {% block content %}
+<!-- back button to navigate to the previous page -->
 <div class="back-container">
   <a href="javascript:history.back()" class="back-button">Back</a>
 </div>
+<!-- skater detail card displaying skater's photo and name -->
 <div class="skater-detail-card">
   <div class="skater-header">
     <img src="{{ skater.image.url }}" alt="{{ skater.name }}" class="skater-detail-photo">
     <div class="skater-name-and-button">
         <h2 class="skater-detail-name">{{ skater.first_name }} {{ skater.last_name }}</h2>
+        <!-- link to create a new program for the skater -->
         <a href="{{ create_program_url }}" class="sp-submit">Create Program for {{ skater.first_name }}</a>
+        <!-- link to update skater's details -->
         <a href="{% url 'update_skater' skater.pk %}" class="update-skater-link">Update Skater</a>
     </div>
   </div>
-
+  <!-- skater personal details section -->
   <div class="skater-detail-info">
     <div class="info-row">
       <p>Nationality: {{ skater.nationality }}</p>
@@ -30,7 +40,7 @@
       <p>Hometown: {{ skater.hometown }}</p>
     </div>
   </div>
-
+  <!-- programs performed by the skater -->
   <h3>Programs</h3>
   <div class="program-list-container">
     <ul class="program-list">
@@ -43,14 +53,14 @@
       {% endfor %}
     </ul>
   </div>
-
+  <!-- pagination for program list -->
   {% if programs.has_other_pages %}
     <div class="pagination" style="background-color: #2A3D45;">
       {% if programs.has_previous %}
         <a href="?page_program=1" class="pagination-button">« First</a>
         <a href="?page_program={{ programs.previous_page_number }}" class="pagination-button">← Prev</a>
       {% endif %}
-
+      <!-- loop through program pages for pagination -->
       {% for num in programs.paginator.page_range %}
         {% if num >= programs.number|add:'-1' and num <= programs.number|add:'1' %}
           {% if num == programs.number %}
@@ -67,7 +77,7 @@
       {% endif %}
     </div>
   {% endif %}
-
+  <!-- competition history of the skater -->
   <h3>Competition History</h3>
 <div class="skater-recent-competitions-grid">
   {% for ep in executed_programs %}
@@ -78,6 +88,7 @@
         <p class="competition-date" style="background-color: #191E29;">🗓️ {{ ep.competition.date }}</p>
         <p class="competition-location" style="background-color: #191E29;">📍 {{ ep.competition.location }}</p>
         <div class="competition-details-button-container">
+          <!-- link to view detailed competition information -->
           <a href="{% url 'competition_detail' ep.competition.id %}" class="competition-details-button">
             See Details
           </a>
@@ -88,14 +99,14 @@
     <p>No competitions found.</p>
   {% endfor %}
 </div>
-
+  <!-- pagination for executed programs (competitions) -->
   {% if executed_programs.has_other_pages %}
     <div class="pagination" style="background-color: #2A3D45;">
       {% if executed_programs.has_previous %}
         <a href="?page_competition=1" class="pagination-button">« First</a>
         <a href="?page_competition={{ executed_programs.previous_page_number }}" class="pagination-button">← Prev</a>
       {% endif %}
-
+      <!-- loop through competition pages for pagination -->
       {% for num in executed_programs.paginator.page_range %}
         {% if num >= executed_programs.number|add:'-1' and num <= executed_programs.number|add:'1' %}
           {% if num == executed_programs.number %}

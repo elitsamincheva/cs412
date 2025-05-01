@@ -1,23 +1,31 @@
+<!--
+    this page displays the details of a specific figure skating program, including the program title, 
+    skater information, the elements in the program, and the competition results where the program has been performed. 
+    it provides a breakdown of the base values for each element in the program and the total base value, 
+    as well as a table showing the competition results with the total score for each performance.
+-->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
-
+<!-- header displaying the tite of the program -->
 <h1 class="featured-title">{{ program.title }}</h1>
+<!-- back button to return to the previous page -->
 <div class="back-container">
     <a href="javascript:history.back()" class="back-button">Back</a>
   </div>
 <div class="skater-detail-card">
-
+    <!-- section displaying the skater's photo and name -->
     <div class="skater-header">
         <img src="{{ program.skater.image.url }}" alt="{{ program.skater.first_name }} {{ program.skater.last_name }}"
             class="skater-detail-photo">
         <h2 class="skater-detail-name">{{ program.skater.first_name }} {{ program.skater.last_name }}</h2>
     </div>
 
+    <!-- section header for program elements -->
     <div class="prog-detail-header">
         <h2>Program Elements</h2>
     </div>
-
+    <!-- table displaying the elements in the program with their base values -->
     <div class="prog-detail-box">
         <table>
             <thead>
@@ -27,6 +35,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- loop through each element in the program and display its details -->
                 {% for element in program.elements.all %}
                 <tr>
                     <td>{{ element.name }} ({{ element.code }})</td>
@@ -42,12 +51,13 @@
             </tfoot>
         </table>
     </div>
-
+    <!-- section header for competition results -->
     <div class="prog-detail-header">
         <h2>Competition Results</h2>
     </div>
+    <!-- check if the program has been executed in any competitions -->
     {% if executed_programs %}
-
+    <!-- table displaying the competition results for the program -->
     <div class="prog-detail-box">
         <table>
             <thead>
@@ -59,6 +69,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- loop through the executed programs and display their details -->
                 {% for ep in executed_programs %}
                 <tr>
                     <td>{{ ep.competition.name }}</td>
@@ -73,6 +84,7 @@
         </table>
     </div>
     {% else %}
+    <!-- message indicating that the program has not been performed in any competitions yet -->
     <p>This program has not been performed in any competitions yet.</p>
     {% endif %}
 </div>

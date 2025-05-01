@@ -1,3 +1,11 @@
+<!--
+    This page generates an element usage report that displays the history of a specific 
+    skating element, including its usage in various competitions. The user can select a skater 
+    to view their specific performance stats for the chosen element or view averages across all skaters. 
+    The report includes a Plotly graph showing the GOE (Grade of Execution) trends for the selected element, 
+    as well as a table with competition history data, such as competition name, date, location, element count, 
+    and average GOE for each competition.
+-->
 {% extends 'figure_skating_game/base.html' %}
 {% load static %}
 
@@ -9,18 +17,22 @@
 {% block content %}
 
 <h1 class="featured-title">{{ element_name }}</h1>
+<!-- back button to the element list page -->
 <div class="back-container">
     <a href="{% url 'element_list' %}" class="back-button">Back</a>
   </div>
 <div class="skater-detail-card">
 
+<!-- check if there's an error related to the element -->
 {% if element_error %}
     <p>{{ element_error }}</p>
 {% else %}
+<!-- form for selecting a skater to view their stats -->
 <form method="get">
     <label for="skaterSelect">Select Skater:</label>
     <select id="skaterSelect" name="skaterSelect" onchange="this.form.submit()">
         <option value="">All Skaters (Average)</option>
+        <!-- loop through the skaters and create an option for each -->
         {% for skater in skaters %}
             <option value="{{ skater.first_name }} {{ skater.last_name }}"
                     {% if request.GET.skaterSelect == skater.first_name|add:" "|add:skater.last_name %}selected{% endif %}>
@@ -28,10 +40,12 @@
             </option>
         {% endfor %}
     </select>
+    <!-- display the GOE graph for the selected skater or all skaters -->
     <div class="goe-graph">{{ goe_graph_plotly|safe }}</div>
 </form>
 
     <h2>Competition History</h2>
+    <!-- table displaying competition history with stats for the selected element -->
     <table class="competition-history-table">
         <thead>
             <tr>
@@ -43,6 +57,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- loop through the competition data to display each competition's details -->
             {% for competition in competitions %}
                 <tr>
                     <td>{{ competition.name }}</td>
@@ -58,6 +73,8 @@
 
 </div>
 
+<!-- javascript to retrieve the skater value from the GET request (if any) 
+    and ensures the dropdown reflects the selected skater when the page reloads -->
 <script>
     // wait until the full html document has been loaded and parsed
     document.addEventListener('DOMContentLoaded', function() {
@@ -71,6 +88,4 @@
         }
     });
 </script>
-
-
 {% endblock %}

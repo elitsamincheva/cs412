@@ -1,8 +1,12 @@
+<!-- element_list.html
+    page to list all elements with options to search, filter by type, and view stats for each element
+    elements are displayed in a paginated table with search and filter functionality -->
+
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
     <h1 class="featured-title">ALL ELEMENTS</h1>
-
+    <!-- search and filter form for elements -->
     <div class="search-container">
         <form method="get" action="{% url 'element_list' %}">
             <input type="text" name="q" placeholder="Search elements..." value="{{ search_term }}">
@@ -18,7 +22,7 @@
             <button type="submit" class="sp-submit">Search/Filter</button>
         </form>
     </div>
-    
+    <!-- table to display all elements based on search and filter -->
     <div class="elem-search-container">
     <div class="prog-detail-box">
     <table>
@@ -39,6 +43,7 @@
                     <td>{{ element.get_element_type_display }}</td>
                     <td>{{ element.base_value }}</td>
                     <td>
+                        <!-- link to view stats for the selected element -->
                         <div class="stat-button-container">
                             <a href="{% url 'element_usage_report' pk=element.pk %}" class="sp-submit">View Stats</a>
                         </div>
@@ -53,11 +58,13 @@
     </div>
     </div>
 
+    <!-- pagination controls for navigating through the list of elements -->
     <div class="pagination">
         {% if page_obj.has_previous %}
+        <!-- link to previous page, keeping search and filter parameters -->
             <a href="?page={{ page_obj.previous_page_number }}{% if search_term %}&q={{ search_term }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="pagination-button">← Prev</a>
         {% endif %}
-
+        <!-- loop to display page numbers, highlight current page -->
         {% for num in page_obj.paginator.page_range %}
             {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
                 {% if num == page_obj.number %}
@@ -69,17 +76,16 @@
         {% endfor %}
 
         {% if page_obj.has_next %}
+        <!-- link to next page, keeping search and filter parameters -->
             <a href="?page={{ page_obj.next_page_number }}{% if search_term %}&q={{ search_term }}{% endif %}{% if current_type %}&type={{ current_type }}{% endif %}" class="pagination-button">Next →</a>
         {% endif %}
     </div>
-
+    <!-- inline styles for search container and other elements -->
     <style>
         .elem-search-container {
             padding-left: 50px; 
             padding-right: 50px; 
             margin-bottom: 1em; 
         }
-
-        
     </style>
 {% endblock %}

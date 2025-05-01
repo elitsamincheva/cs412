@@ -1,15 +1,20 @@
+<!--
+    this page displays a list of all skaters with pagination controls
+    each skater's card shows their photo, name, and nationality
+    clicking on a skater's card navigates to their detailed profile page
+-->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block title %}All Skaters{% endblock %}
 
 {% block content %}
 <h2 class="featured-title">ALL SKATERS</h2>
-    <!-- Pagination controls -->
+    <!-- pagination controls to navigate through pages of skaters -->
     <div class="pagination">
     {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">← Prev</a>
     {% endif %}
-
+    <!-- loop through skater pages for pagination -->
     {% for num in page_obj.paginator.page_range %}
         {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
             {% if num == page_obj.number %}
@@ -24,12 +29,14 @@
         <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">Next →</a>
     {% endif %}
 </div>
-
+    <!-- grid layout for displaying skater cards -->
     <div class="grid-container">
         {% for skater in skaters %}
             <a href="{% url 'skater_detail' skater.id %}" >
                 <div class="skater-card">
+                    <!-- skater photo -->
                     <img src="{{ skater.image.url }}" alt="{{ skater.name }}">
+                    <!-- skater name and nationality -->
                     <div class="skater-name">{{ skater.first_name }} {{ skater.last_name }}</div>
                     <div class="skater-nationality">{{ skater.nationality }}</div>
                 </div>
@@ -37,6 +44,4 @@
         {% endfor %}
     </div>
 
-    
-      
 {% endblock %}

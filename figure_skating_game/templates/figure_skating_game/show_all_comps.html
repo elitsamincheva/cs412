@@ -1,3 +1,8 @@
+<!--
+    this page displays all available figure skating competitions
+    it allows users to create a new competition and view details of each competition, 
+    including the winner (if available) and other competition details like date and location
+-->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block title %}All Competitions{% endblock %}
@@ -10,12 +15,13 @@
         + CREATE NEW COMPETITION
     </a>
 </div>
+<!-- pagination for navigating through multiple competition pages -->
 {% if page_obj.paginator.num_pages > 1 %}
     <div class="pagination">
         {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">← Prev</a>
         {% endif %}
-
+        <!-- loop through the pages and display pagination buttons -->
         {% for num in page_obj.paginator.page_range %}
             {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
                 {% if num == page_obj.number %}
@@ -25,15 +31,16 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
-
+        <!-- next page button -->
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">Next →</a>
         {% endif %}
     </div>
 {% endif %}
-
+<!-- check if there are any competitions to display -->
 {% if competitions %}
         <div class="recent-competitions-grid">
+            <!-- loop through each competition and display its details -->
             {% for competition in competitions %}
             <a href="{% url 'competition_detail' competition.id %}">
                 <div class="competition-card">
@@ -41,10 +48,11 @@
 
                     <div class="competition-card-body">
                         <div class="competition-info-left">
+                            <!-- display the date and location of the competition -->
                             <p class="competition-date">🗓️ {{ competition.date }}</p>
                             <p class="competition-location">📍 {{ competition.location }}</p>
                         </div>
-
+                        <!-- display the winner of the competition (if available) -->
                         {% with competition.executed_programs.first as winning_execution %}
                             {% if winning_execution %}
                                 <div class="winner-section">
@@ -66,6 +74,7 @@
             {% endfor %}
         </div>
     {% else %}
+        <!-- message when no competitions are available -->
         <p>No competitions available.</p>
     {% endif %}
 {% endblock %}

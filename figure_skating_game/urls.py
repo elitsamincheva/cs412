@@ -1,3 +1,7 @@
+# urls.py
+# defines all URL routes for the figure skating app, linking views to pages like skater detail,
+# competition creation, program management, and element usage analysis
+
 from django.urls import path
 from django.conf import settings
 from . import views
@@ -5,45 +9,47 @@ from .views import *
 
 urlpatterns = [
     path(r'', HomeView.as_view(), name='home'),  
-    # home page showing recent comps and top skaters
+    # home page showing recent competitions and top skaters
 
     path('skaters/', ShowAllSkaters.as_view(), name='skaters_list'),
-    # page showing all skaters (paginated)
+    # view all skaters (paginated)
 
     path('competition/create/', CreateCompetitionView.as_view(), name='create_competition'),
-    # form to create a new competition
+    # create a new competition (step 1)
 
     path('skater/<int:pk>/', SkaterDetailView.as_view(), name='skater_detail'),
-    # page showing details about one skater
+    # view a specific skater's profile and programs
 
     path('competitions', ShowAllCompetitions.as_view(), name="show_all_comps"),
-    # page showing all competitions (paginated)
+    # view all competitions
 
     path('programs/', ShowAllPrograms.as_view(), name="show_all_programs"),
-    # page showing all programs (paginated)
+    # view all competitions
 
     path('competitions/<int:pk>/', CompetitionDetailView.as_view(), name='competition_detail'),
-    # detail page for one competition with its results
+    # competition results and breakdown
 
     path('competition/create/select_programs/', SelectProgramsView.as_view(), name='select_programs'),
-    # view to pick programs for each skater after creating a comp
+    # assign programs to skaters for a competition (step 2)
 
     path('program/<int:pk>/', ProgramDetailView.as_view(), name='program_detail'),
-    # detail page for a program, showing its elements and executions
+    # view program details, including elements, base values, and comp history for that program
 
     path('program/create/', CreateProgramView.as_view(), name='create_program'),
-    # form to create a new program (skater is selected in form)
+    # create a new program (skater selected from form)
 
     path('skater/<int:pk>/program/create/', views.CreateProgramView.as_view(), name='create_program_for_skater'),
-    # form to create a new program already linked to a specific skater
+    # create a program for a specific skater (ID from URL)
 
     path('skater/<int:pk>/update/', UpdateSkaterView.as_view(), name='update_skater'),
-    # modify existing skater data
+    # update skater info (nationality, skating club, and image)
 
     path('competition/<int:pk>/delete/', CompetitionDeleteView.as_view(), name='delete_competition'),
     # delete a competition
 
     path('elements/', views.ElementListView.as_view(), name='element_list'),
-    path('elements/<int:pk>/', views.ElementUsageView.as_view(), name='element_usage_report'),
+    # list of all elements with search/filter
 
+    path('elements/<int:pk>/', views.ElementUsageView.as_view(), name='element_usage_report'),
+    # report showing where and how an element has been used
 ]

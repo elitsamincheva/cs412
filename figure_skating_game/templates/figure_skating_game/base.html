@@ -1,3 +1,7 @@
+<!-- base.html
+    This is the base layout template for all pages in the SkateStars app.
+    It defines the global structure including the navigation bar, CSS, and content block.
+ -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,14 +17,10 @@
 </head>
 <div class="everything">
 
-
     <body>
-
-
-
-
         <header>
             <h1>SKATESTARS</h1>
+            <!-- Navigation bar with active link highlighting -->
             <nav>
                 <ul>
                     <li>
@@ -47,14 +47,12 @@
             </nav>
         </header>
 
-
+        <!-- Main content block for child templates to override -->
         <div class="content">
             {% block content %}
             {% endblock %}
         </div>
 
-
     </body>
 </div>
-
 </html>

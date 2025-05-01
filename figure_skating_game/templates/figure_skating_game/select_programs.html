@@ -1,27 +1,32 @@
+<!--
+    this page allows users to select figure skating programs for a competition.
+    the page displays a list of programs along with their associated skater images
+    users can select a program to include it in a competition, and after submitting, 
+    the selected programs will be used to create the competition
+-->
 {% extends 'figure_skating_game/base.html' %}
 
 {% block content %}
-
+<!-- header displaying the title of the page -->
 <h1 class="featured-title">Select Programs</h1>
-
+<!-- form for selecting programs to include in the competition -->
 <form method="post" action="">
     {% csrf_token %}
     <div class="sp-grid-container"> 
+        <!-- loop through the form fields to display each program selection field -->
         {% for field in form %}
-      
-        
         <div class="sp-skater-card"> 
+            <!-- display the skater's image for the program -->
             <img src="{{ field.field.queryset.first.skater.image.url }}" alt="">
-    
-            
+            <!-- check if the field is for selecting a program -->
             {% if field.field.queryset.model == Program %}
-            
-                
+                <!-- display the program name and selection dropdown -->
                 <div class="sp-skater-name">{{ field.label }}</div>
                 <div class="sp-program-select">
                     {{ field }}
                 </div>
             {% else %}
+            <!-- for non-program fields, display the label and input -->
                 <p>
                     {{ field.label_tag }}<br>
                     {{ field }}
@@ -30,6 +35,7 @@
         </div> 
         {% endfor %}
     </div> 
+    <!-- submit button for creating the competition with selected programs -->
     <button type="submit" class="sp-submit">Create Competition</button>
 </form>
 
